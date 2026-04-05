@@ -1,0 +1,16 @@
+.git
+.github
+**/node_modules
+**/dist
+**/build
+**/coverage
+**/__pycache__
+**/.pytest_cache
+**/.venv
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.production.example
+**/*.log
+apps/api/storage
+services/ml-training/artifacts

@@ -1,0 +1,8 @@
+﻿name: cd-staging
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Implement staging deploy steps"

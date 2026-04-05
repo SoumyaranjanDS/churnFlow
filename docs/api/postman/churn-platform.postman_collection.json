@@ -1,0 +1,194 @@
+{
+    "info":  {
+                 "name":  "Churn Platform API",
+                 "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+             },
+    "variable":  [
+                     {
+                         "key":  "baseUrl",
+                         "value":  "http://localhost:8000/api/v1"
+                     },
+                     {
+                         "key":  "datasetPath",
+                         "value":  "C:/Users/soumy/Downloads/archive (2)/Telco_customer_churn.xlsx"
+                     },
+                     {
+                         "key":  "adminEmail",
+                         "value":  "admin@churn.com"
+                     },
+                     {
+                         "key":  "adminPassword",
+                         "value":  "StrongPass123!"
+                     },
+                     {
+                         "key":  "token",
+                         "value":  ""
+                     },
+                     {
+                         "key":  "customerId",
+                         "value":  "7590-VHVEG"
+                     },
+                     {
+                         "key":  "actionId",
+                         "value":  ""
+                     }
+                 ],
+    "item":  [
+                 {
+                     "name":  "Health",
+                     "request":  {
+                                     "method":  "GET",
+                                     "url":  "{{baseUrl}}/health"
+                                 }
+                 },
+                 {
+                     "name":  "Auth - Register First User",
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "{\n  \"name\": \"Admin User\",\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+                                              },
+                                     "url":  "{{baseUrl}}/auth/register"
+                                 }
+                 },
+                 {
+                     "name":  "Auth - Login",
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+                                              },
+                                     "url":  "{{baseUrl}}/auth/login"
+                                 }
+                 },
+                 {
+                     "name":  "Auth - Me",
+                     "request":  {
+                                     "method":  "GET",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Authorization",
+                                                        "value":  "Bearer {{token}}"
+                                                    }
+                                                ],
+                                     "url":  "{{baseUrl}}/auth/me"
+                                 }
+                 },
+                 {
+                     "name":  "Import Telco By Path",
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Authorization",
+                                                        "value":  "Bearer {{token}}"
+                                                    },
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "{\n  \"filePath\": \"{{datasetPath}}\"\n}"
+                                              },
+                                     "url":  "{{baseUrl}}/import/telco/path"
+                                 }
+                 },
+                 {
+                     "name":  "Score Customer",
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Authorization",
+                                                        "value":  "Bearer {{token}}"
+                                                    },
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "{\n  \"customerId\": \"{{customerId}}\",\n  \"threshold\": 0.5\n}"
+                                              },
+                                     "url":  "{{baseUrl}}/scoring/predict"
+                                 }
+                 },
+                 {
+                     "name":  "List Customers",
+                     "request":  {
+                                     "method":  "GET",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Authorization",
+                                                        "value":  "Bearer {{token}}"
+                                                    }
+                                                ],
+                                     "url":  "{{baseUrl}}/customers?page=1\u0026limit=10"
+                                 }
+                 },
+                 {
+                     "name":  "List Actions",
+                     "request":  {
+                                     "method":  "GET",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Authorization",
+                                                        "value":  "Bearer {{token}}"
+                                                    }
+                                                ],
+                                     "url":  "{{baseUrl}}/actions?page=1\u0026limit=10"
+                                 }
+                 },
+                 {
+                     "name":  "Record Outcome",
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Authorization",
+                                                        "value":  "Bearer {{token}}"
+                                                    },
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "application/json"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "{\n  \"customerId\": \"{{customerId}}\",\n  \"actualChurned\": false,\n  \"retentionSuccessful\": true,\n  \"notes\": \"Retained after intervention\"\n}"
+                                              },
+                                     "url":  "{{baseUrl}}/outcomes"
+                                 }
+                 },
+                 {
+                     "name":  "Dashboard Summary",
+                     "request":  {
+                                     "method":  "GET",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Authorization",
+                                                        "value":  "Bearer {{token}}"
+                                                    }
+                                                ],
+                                     "url":  "{{baseUrl}}/dashboard/summary?days=30"
+                                 }
+                 }
+             ]
+}

@@ -1,0 +1,67 @@
+services:
+  web:
+    build:
+      context: ./apps/web
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL}
+    image: churn/web:latest
+    ports:
+      - "${WEB_PORT:-4173}:4173"
+
+  api:
+    build: ./apps/api
+    image: churn/api:latest
+    environment:
+      NODE_ENV: production
+      PORT: 8000
+      MONGO_URI: ${MONGO_URI}
+      ML_API_URL: ${ML_API_URL}
+      ML_API_TIMEOUT_MS: ${ML_API_TIMEOUT_MS:-12000}
+      FRONTEND_BASE_URL: ${FRONTEND_BASE_URL}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      JWT_ISSUER: ${JWT_ISSUER:-churn-platform-api}
+      AUTH_REQUIRE_EMAIL_VERIFICATION: ${AUTH_REQUIRE_EMAIL_VERIFICATION:-true}
+      EMAIL_VERIFICATION_TOKEN_TTL_MINUTES: ${EMAIL_VERIFICATION_TOKEN_TTL_MINUTES:-60}
+      EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS: ${EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS:-60}
+      PASSWORD_RESET_TOKEN_TTL_MINUTES: ${PASSWORD_RESET_TOKEN_TTL_MINUTES:-30}
+      PASSWORD_RESET_RESEND_COOLDOWN_SECONDS: ${PASSWORD_RESET_RESEND_COOLDOWN_SECONDS:-60}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      SMTP_FROM: ${SMTP_FROM}
+      CONTACT_INBOX_EMAIL: ${CONTACT_INBOX_EMAIL}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash}
+      ML_TRAINING_PYTHON_CMD: ${ML_TRAINING_PYTHON_CMD:-python}
+      ML_TRAINING_SERVICE_DIR: ${ML_TRAINING_SERVICE_DIR}
+      ML_TRAINING_SCRIPT_PATH: ${ML_TRAINING_SCRIPT_PATH}
+      ML_TRAINING_ARTIFACTS_DIR: ${ML_TRAINING_ARTIFACTS_DIR}
+      ML_TRAINING_TIMEOUT_MS: ${ML_TRAINING_TIMEOUT_MS:-1200000}
+      ONBOARDING_UPLOADS_DIR: ${ONBOARDING_UPLOADS_DIR}
+    volumes:
+      - onboarding_storage:/srv/churn-platform/storage/onboarding
+      - training_artifacts:/srv/churn-platform/storage/training-artifacts
+      - ./services/ml-training:/srv/churn-platform/services/ml-training:ro
+      - ./ibm:/srv/churn-platform/ibm:ro
+    ports:
+      - "${API_PORT:-8000}:8000"
+
+  ml-api:
+    build: ./services/ml-api
+    image: churn/ml-api:latest
+    environment:
+      APP_ENV: production
+      ML_API_REQUIRE_RELOAD_API_KEY: ${ML_API_REQUIRE_RELOAD_API_KEY:-true}
+      ML_API_RELOAD_API_KEY: ${ML_API_RELOAD_API_KEY}
+    volumes:
+      - training_artifacts:/srv/churn-platform/storage/training-artifacts
+    ports:
+      - "${ML_API_PORT:-8001}:8001"
+
+volumes:
+  onboarding_storage:
+  training_artifacts:

@@ -1,0 +1,46 @@
+﻿# Node
+node_modules/
+dist/
+build/
+coverage/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Env
+.env
+.env.*
+!.env.example
+!**/.env.example
+!.env.production.example
+!**/.env.production.example
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Data/artifacts
+data/raw/*
+data/staged/*
+data/curated/*
+services/ml-training/artifacts/*
+services/ml-api/models/production/*
+apps/api/storage/*
+apps/api/storage/onboarding/*
+!data/raw/.gitkeep
+!data/staged/.gitkeep
+!data/curated/.gitkeep
+!services/ml-training/artifacts/.gitkeep
+!services/ml-api/models/production/.gitkeep
+!apps/api/storage/.gitkeep
+!apps/api/storage/onboarding/.gitkeep
