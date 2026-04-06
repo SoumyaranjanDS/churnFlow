@@ -36,7 +36,7 @@ const env = {
   port: toNumber(process.env.PORT, 8000),
   mongoUri: process.env.MONGO_URI || "mongodb://localhost:27017/churn_platform",
   mlApiUrl: process.env.ML_API_URL || "http://localhost:8001",
-  mlApiTimeoutMs: toNumber(process.env.ML_API_TIMEOUT_MS, 8000),
+  mlApiTimeoutMs: toNumber(process.env.ML_API_TIMEOUT_MS, 75000),
   onboardingUploadsDir:
     process.env.ONBOARDING_UPLOADS_DIR || path.resolve(__dirname, "../../storage/onboarding"),
   mlTrainingPythonCmd: process.env.ML_TRAINING_PYTHON_CMD || process.env.PYTHON_CMD || "python",

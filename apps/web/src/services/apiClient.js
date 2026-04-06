@@ -2,10 +2,11 @@
 import { clearAuth, getToken } from "./authStorage"
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1"
+const API_TIMEOUT_MS = Number(import.meta.env.VITE_API_TIMEOUT_MS || 75000)
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 15000
+  timeout: Number.isFinite(API_TIMEOUT_MS) ? API_TIMEOUT_MS : 75000
 })
 
 apiClient.interceptors.request.use((config) => {
