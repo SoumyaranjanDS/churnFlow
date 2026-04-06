@@ -8,14 +8,14 @@ For the current repo, the cleanest deployment is:
 
 - `web` behind your public app domain
 - `api` behind your public API domain
-- `ml-api` private inside Docker Compose
+- `ml-api` as a separate service
 - MongoDB external or managed
 
 That means:
 
-- browser -> `https://app.your-domain.com`
-- frontend calls -> `https://api.your-domain.com/api/v1`
-- API calls ML API internally -> `http://ml-api:8001`
+- browser -> `https://churnflow.netlify.app`
+- frontend calls -> `https://churnflow-1.onrender.com/api/v1`
+- API calls ML API -> `https://churnflow.onrender.com`
 
 ## Replace these values
 
@@ -24,13 +24,7 @@ That means:
 Replace:
 
 ```text
-https://app.your-domain.com
-```
-
-With your real frontend domain, for example:
-
-```text
-https://app.churnflow.ai
+https://churnflow.netlify.app
 ```
 
 Use it for:
@@ -41,28 +35,22 @@ Use it for:
 Replace:
 
 ```text
-https://api.your-domain.com
-```
-
-With your real API domain, for example:
-
-```text
-https://api.churnflow.ai
+https://churnflow-1.onrender.com
 ```
 
 Use it for:
-- `VITE_API_BASE_URL=https://api.your-domain.com/api/v1`
-- `CORS_ORIGINS=https://app.your-domain.com,https://www.your-domain.com`
+- `VITE_API_BASE_URL=https://churnflow-1.onrender.com/api/v1`
+- `CORS_ORIGINS=https://churnflow.netlify.app`
 
-### Internal ML API URL
+### ML API URL
 
-If you use the provided Docker Compose production setup, keep:
+For your current Render deployment, use:
 
 ```text
-ML_API_URL=http://ml-api:8001
+ML_API_URL=https://churnflow.onrender.com
 ```
 
-Do not replace that with a public domain unless you are hosting `ml-api` separately.
+Do not use `http://ml-api:8001` for Render because your Node API and ML API are deployed as separate services.
 
 ### Mongo URI
 
@@ -116,14 +104,14 @@ If email verification is disabled:
 
 ## Single-server Docker Compose example
 
-These are the values I recommend if all app containers run together on one server:
+These are the values I recommend for your current Netlify + Render deployment:
 
 ```env
-VITE_API_BASE_URL=https://api.your-domain.com/api/v1
+VITE_API_BASE_URL=https://churnflow-1.onrender.com/api/v1
 MONGO_URI=mongodb+srv://username:password@cluster.example.mongodb.net/churn_platform
-ML_API_URL=http://ml-api:8001
-FRONTEND_BASE_URL=https://app.your-domain.com
-CORS_ORIGINS=https://app.your-domain.com,https://www.your-domain.com
+ML_API_URL=https://churnflow.onrender.com
+FRONTEND_BASE_URL=https://churnflow.netlify.app
+CORS_ORIGINS=https://churnflow.netlify.app
 JWT_SECRET=replace_with_a_long_random_secret
 GEMINI_API_KEY=replace_me
 ```
@@ -134,7 +122,7 @@ GEMINI_API_KEY=replace_me
 | --- | --- |
 | `VITE_API_BASE_URL` | Public API URL used by the browser |
 | `FRONTEND_BASE_URL` | Public frontend URL used in emails |
-| `ML_API_URL` | Internal ML API URL used by Node API |
+| `ML_API_URL` | Public ML API URL used by Node API |
 | `CORS_ORIGINS` | Public frontend origins allowed to call API |
 | `MONGO_URI` | Your database |
 | `JWT_SECRET` | Private signing secret |
@@ -144,7 +132,8 @@ GEMINI_API_KEY=replace_me
 
 For your current setup, use:
 
-- public domains for `web` and `api`
-- internal service URL for `ml-api`
+- public Netlify URL for `web`
+- public Render URL for `api`
+- public Render URL for `ml-api`
 
-That is the least confusing and best matches the current repo.
+That is the least confusing and best matches your current deployment.

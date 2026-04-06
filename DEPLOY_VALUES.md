@@ -2,21 +2,17 @@
 
 Use this sheet before your first real deployment. Copy the values into your real `.env.production` and service-level env files.
 
-## Recommended single-host Docker Compose setup
+## Current Netlify + Render setup
 
-If you are deploying the current stack with `docker-compose.prod.yml` on one server, use these patterns.
+For your current deployment, use these live public URLs.
 
 ### Public URLs
 
-- Frontend app: `https://app.your-domain.com`
-- Marketing/public site: `https://www.your-domain.com`
-- API public base: `https://api.your-domain.com`
+- Frontend app: `https://churnflow.netlify.app`
+- API public base: `https://churnflow-1.onrender.com`
+- ML API public base: `https://churnflow.onrender.com`
 
-### Internal service URLs
-
-- API -> ML API: `http://ml-api:8001`
-
-Do not use the public ML API URL inside the API container when both services run in the same Docker Compose stack. Use the internal Docker service name instead.
+Because `api` and `ml-api` are deployed as separate Render services, the Node API should use the public ML API URL.
 
 ## Root `.env.production` values
 
@@ -24,16 +20,16 @@ Replace every placeholder below before deploy.
 
 ```env
 # Web
-VITE_API_BASE_URL=https://api.your-domain.com/api/v1
+VITE_API_BASE_URL=https://churnflow-1.onrender.com/api/v1
 WEB_PORT=4173
 
 # API
 API_PORT=8000
 MONGO_URI=mongodb+srv://username:password@cluster.example.mongodb.net/churn_platform
-ML_API_URL=http://ml-api:8001
+ML_API_URL=https://churnflow.onrender.com
 ML_API_TIMEOUT_MS=12000
-FRONTEND_BASE_URL=https://app.your-domain.com
-CORS_ORIGINS=https://app.your-domain.com,https://www.your-domain.com
+FRONTEND_BASE_URL=https://churnflow.netlify.app
+CORS_ORIGINS=https://churnflow.netlify.app
 JWT_SECRET=replace_with_a_long_random_secret
 JWT_EXPIRES_IN=7d
 JWT_ISSUER=churn-platform-api
@@ -80,15 +76,15 @@ ML_API_RELOAD_API_KEY=replace_me
 12. `CORS_ORIGINS`
 13. `ML_API_RELOAD_API_KEY`
 
-## If you deploy services separately
+## If you move services later
 
-If `api` and `ml-api` are not on the same Docker network, then `ML_API_URL` should point to the reachable internal or public URL for the ML API, for example:
+If you later move `api` and `ml-api` to the same Docker network, then `ML_API_URL` could switch to an internal service name like:
 
 ```env
-ML_API_URL=https://ml-api.your-domain.com
+ML_API_URL=http://ml-api:8001
 ```
 
-Only use that version when the API container cannot resolve `http://ml-api:8001`.
+But for your current deployment, keep `https://churnflow.onrender.com`.
 
 ## Final sanity checks
 
