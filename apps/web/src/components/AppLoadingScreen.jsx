@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import BrandLockup from "./BrandLockup";
 
 const AppLoadingScreen = ({
   title = "Preparing your workspace",
@@ -15,19 +16,21 @@ const AppLoadingScreen = ({
         <div className="pointer-events-none absolute -left-8 top-0 h-28 w-28 rounded-full bg-fuchsia-500/15 blur-3xl" />
         <div className="pointer-events-none absolute -right-8 bottom-0 h-28 w-28 rounded-full bg-indigo-500/15 blur-3xl" />
 
-        <div className="relative z-10 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06]">
-            <motion.div
-              className="h-5 w-5 rounded-full border-2 border-white/20 border-t-white"
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, ease: "linear", duration: 1 }}
-            />
-          </div>
-          <div>
-            <p className="workspace-kicker">ChurnFlow</p>
-            <h2 className="mt-1 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-              {title}
-            </h2>
+        <div className="relative z-10 space-y-4">
+          <BrandLockup size="md" />
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06]">
+              <motion.div
+                className="h-5 w-5 rounded-full border-2 border-white/20 border-t-white"
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, ease: "linear", duration: 1 }}
+              />
+            </div>
+            <div>
+              <h2 className="text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+                {title}
+              </h2>
+            </div>
           </div>
         </div>
 

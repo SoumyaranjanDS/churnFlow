@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import BrandLockup from "./BrandLockup";
 
 const menuItemVariants = {
   hidden: { opacity: 0, x: 24 },
@@ -106,14 +107,8 @@ const PublicNavbar = ({ onOpenAuth, navItems = [] }) => {
         transition={{ duration: 0.35, ease: "easeOut" }}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5 sm:px-8">
-          <Link to="/" className="group flex items-center gap-2 no-underline" onClick={closeMenu}>
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-500/90">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2 10L6 2l4 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M3.5 7h5" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </span>
-            <span className="text-[13px] font-medium tracking-[0.14em] text-[#fafafa]">CHURNFLOW</span>
+          <Link to="/" className="group no-underline" onClick={closeMenu}>
+            <BrandLockup size="sm" showSubtitle={false} titleClassName="tracking-[0.14em]" />
           </Link>
 
           <nav className="hidden items-center gap-0.5 lg:flex">
@@ -207,14 +202,8 @@ const PublicNavbar = ({ onOpenAuth, navItems = [] }) => {
               aria-hidden={!menuOpen}
             >
               <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-                <Link to="/" className="flex items-center gap-2 no-underline" onClick={closeMenu}>
-                  <span className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-500/90">
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                      <path d="M2 10L6 2l4 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M3.5 7h5" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-                    </svg>
-                  </span>
-                  <span className="text-[12px] font-medium tracking-[0.14em] text-[#fafafa]">CHURNFLOW</span>
+                <Link to="/" className="no-underline" onClick={closeMenu}>
+                  <BrandLockup size="sm" showSubtitle={false} titleClassName="tracking-[0.14em]" />
                 </Link>
 
                 <button

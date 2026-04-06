@@ -6,6 +6,7 @@ import { getPlanById } from "../content/pricing";
 import { useAuth } from "../context/AuthContext";
 import { useToast } from "../context/ToastContext";
 import { trackProductEvent } from "../services/analytics";
+import BrandLockup from "./BrandLockup";
 
 const MODES = {
   LOGIN: "login",
@@ -477,7 +478,7 @@ const AuthModal = ({
                 <div className="pointer-events-none absolute -left-6 top-8 h-32 w-32 rounded-full bg-fuchsia-500/18 blur-3xl" />
                 <div className="pointer-events-none absolute -right-6 bottom-0 h-32 w-32 rounded-full bg-indigo-500/14 blur-3xl" />
                 <div className="relative z-10">
-                  <p className="text-[10px] uppercase tracking-[0.16em] text-white/35">ChurnFlow Access</p>
+                  <BrandLockup size="md" subtitle="Secure workspace access" />
                   <h2 className="mt-4 text-4xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
                     {getModeTitle(mode)}
                   </h2>
