@@ -50,7 +50,7 @@ const DashboardPage = () => {
   }, [user?.role]);
 
   if (state.loading) {
-    return <p className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600">Loading dashboard...</p>;
+    return <p className="rounded-xl border border-blue-200 bg-white px-4 py-3 text-sm font-bold text-black italic">Loading dashboard...</p>;
   }
 
   if (state.error) {
@@ -59,31 +59,31 @@ const DashboardPage = () => {
 
   return (
     <section className="space-y-4">
-      <h2 className="text-2xl font-bold tracking-tight text-slate-900">Dashboard</h2>
+      <h2 className="text-2xl font-bold tracking-tight text-black">Dashboard</h2>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">API Status</h3>
-          <p className="mt-2 text-2xl font-bold text-slate-900">{state.metrics.health}</p>
-          <p className="mt-1 text-sm text-slate-600">Environment: {state.metrics.env}</p>
+        <div className="rounded-2xl border border-blue-200 bg-white p-5 shadow-sm">
+          <p className="workspace-kicker">API Status</p>
+          <p className="mt-2 text-2xl font-bold text-black">{state.metrics.health}</p>
+          <p className="mt-1 text-xs font-bold text-blue-600 italic">Environment: {state.metrics.env}</p>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Customers</h3>
-          <p className="mt-2 text-3xl font-bold text-brand-700">{state.metrics.customerTotal}</p>
-          <p className="mt-1 text-sm text-slate-600">Records available for scoring</p>
+        <div className="rounded-2xl border border-blue-200 bg-white p-5 shadow-sm">
+          <p className="workspace-kicker">Customers</p>
+          <p className="mt-2 text-3xl font-black text-black">{state.metrics.customerTotal}</p>
+          <p className="mt-1 text-xs font-bold text-blue-600 italic">Records available for scoring</p>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Retention Actions</h3>
-          <p className="mt-2 text-3xl font-bold text-brand-700">{state.metrics.actionTotal}</p>
-          <p className="mt-1 text-sm text-slate-600">Open + historical interventions</p>
+        <div className="rounded-2xl border border-blue-200 bg-white p-5 shadow-sm">
+          <p className="workspace-kicker">Retention Actions</p>
+          <p className="mt-2 text-3xl font-black text-black">{state.metrics.actionTotal}</p>
+          <p className="mt-1 text-xs font-bold text-blue-600 italic">Open + historical interventions</p>
         </div>
 
         {user?.role === "admin" && (
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">Users</h3>
-            <p className="mt-2 text-3xl font-bold text-brand-700">{state.metrics.userTotal}</p>
-            <p className="mt-1 text-sm text-slate-600">Authorized platform users</p>
+          <div className="rounded-2xl border border-blue-200 bg-white p-5 shadow-sm">
+            <p className="workspace-kicker">Users</p>
+            <p className="mt-2 text-3xl font-black text-black">{state.metrics.userTotal}</p>
+            <p className="mt-1 text-xs font-bold text-blue-600 italic">Authorized platform users</p>
           </div>
         )}
       </div>

@@ -227,10 +227,10 @@ const CustomersPage = () => {
     <section className="space-y-5">
       <RevealSection className="workspace-hero">
         <p className="workspace-kicker">Customer Database</p>
-        <h2 className="mt-3 text-3xl text-white sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+        <h2 className="mt-3 text-3xl text-black sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
           Search, review, and maintain saved customer records.
         </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300/80">
+        <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-black">
           This page is your workspace customer view. Find a record quickly, update the core telecom inputs, and move straight into scoring or follow-up without leaving the app.
         </p>
       </RevealSection>
@@ -269,23 +269,23 @@ const CustomersPage = () => {
             </button>
           </div>
           <div className="md:col-span-3">
-            <p className="text-xs leading-6 text-slate-400">
+            <p className="text-xs font-bold leading-6 text-black italic">
               Direct customer search checks the whole workspace, so an old source filter will not hide a matching customer ID.
             </p>
           </div>
         </form>
       </RevealSection>
 
-      {state.error && <p className="rounded-2xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{state.error}</p>}
-      {state.message && <p className="rounded-2xl border border-emerald-300/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">{state.message}</p>}
+      {state.error && <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{state.error}</p>}
+      {state.message && <p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{state.message}</p>}
 
       <RevealSection className="grid gap-4 xl:grid-cols-[1.02fr_0.98fr]">
         <div className="table-shell">
-          <div className="border-b border-white/10 px-5 py-4">
+          <div className="border-b border-blue-200 px-5 py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="workspace-kicker">Workspace records</p>
-                <h3 className="text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+                <h3 className="text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
                   Saved customers
                 </h3>
               </div>
@@ -308,47 +308,47 @@ const CustomersPage = () => {
                     onClick={() => onSelectCustomer(item)}
                     className={[
                       "mobile-data-card text-left transition",
-                      active ? "border-fuchsia-300/35 bg-white/[0.07]" : "hover:bg-white/[0.05]"
+                      active ? "border-blue-200 bg-blue-50" : "hover:bg-blue-50/50"
                     ].join(" ")}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="workspace-kicker">Customer</p>
-                        <p className="mt-2 text-lg text-white">{item.customerId}</p>
+                        <p className="mt-2 text-lg text-black">{item.customerId}</p>
                       </div>
-                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-300">
+                      <span className="rounded-full border border-blue-200 bg-blue-100 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-black font-black">
                         {item.source || "manual"}
                       </span>
                     </div>
                     <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                       <div>
                         <p className="workspace-kicker">Location</p>
-                        <p className="mt-1 text-slate-200">{item.profile?.city || item.profile?.state || "-"}</p>
+                        <p className="mt-1 text-black font-bold">{item.profile?.city || item.profile?.state || "-"}</p>
                       </div>
                       <div>
                         <p className="workspace-kicker">Tenure</p>
-                        <p className="mt-1 text-slate-200">{item.subscription?.tenureMonths ?? "-"} months</p>
+                        <p className="mt-1 text-black font-bold">{item.subscription?.tenureMonths ?? "-"} months</p>
                       </div>
                       <div>
                         <p className="workspace-kicker">Monthly</p>
-                        <p className="mt-1 text-slate-200">{item.billing?.monthlyCharges ?? "-"}</p>
+                        <p className="mt-1 text-black font-bold">{item.billing?.monthlyCharges ?? "-"}</p>
                       </div>
                       <div>
                         <p className="workspace-kicker">Contract</p>
-                        <p className="mt-1 text-slate-200">{item.billing?.contract || "-"}</p>
+                        <p className="mt-1 text-black font-bold">{item.billing?.contract || "-"}</p>
                       </div>
                     </div>
                   </button>
                 );
               })
             ) : (
-              <p className="soft-panel text-sm text-slate-400">No customers match these filters yet.</p>
+              <p className="soft-panel text-sm text-black font-black italic">No customers match these filters yet.</p>
             )}
           </div>
 
           <div className="hidden overflow-x-auto md:block">
             <table className="min-w-full text-sm">
-              <thead className="bg-white/5 text-left text-[11px] uppercase tracking-[0.14em] text-slate-400">
+              <thead className="bg-blue-50 text-left text-[11px] uppercase tracking-[0.2em] text-black font-black">
                 <tr>
                   <th className="px-4 py-3">Customer</th>
                   <th className="px-4 py-3">Source</th>
@@ -358,7 +358,7 @@ const CustomersPage = () => {
                   <th className="px-4 py-3">Contract</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/10">
+              <tbody className="divide-y divide-blue-100">
                 {state.loading ? (
                   <tr>
                     <td className="px-4 py-6" colSpan={6}>
@@ -379,23 +379,23 @@ const CustomersPage = () => {
                     return (
                       <tr
                         key={item._id}
-                        className={active ? "bg-white/[0.04]" : "transition hover:bg-white/[0.025]"}
+                        className={active ? "bg-blue-50" : "transition hover:bg-blue-50/50"}
                         onClick={() => onSelectCustomer(item)}
                       >
-                        <td className="cursor-pointer px-4 py-3 font-medium text-white">{item.customerId}</td>
-                        <td className="px-4 py-3 text-slate-300">{item.source || "-"}</td>
-                        <td className="px-4 py-3 text-slate-300">
+                        <td className="cursor-pointer px-4 py-3 font-bold text-black">{item.customerId}</td>
+                        <td className="px-4 py-3 text-black font-bold">{item.source || "-"}</td>
+                        <td className="px-4 py-3 text-black font-medium">
                           {[item.profile?.city, item.profile?.state].filter(Boolean).join(", ") || "-"}
                         </td>
-                        <td className="px-4 py-3 text-slate-300">{item.subscription?.tenureMonths ?? "-"}</td>
-                        <td className="px-4 py-3 text-slate-300">{item.billing?.monthlyCharges ?? "-"}</td>
-                        <td className="px-4 py-3 text-slate-300">{item.billing?.contract || "-"}</td>
+                        <td className="px-4 py-3 text-black font-extrabold">{item.subscription?.tenureMonths ?? "-"}</td>
+                        <td className="px-4 py-3 text-black font-extrabold">{item.billing?.monthlyCharges ?? "-"}</td>
+                        <td className="px-4 py-3 text-black font-bold italic">{item.billing?.contract || "-"}</td>
                       </tr>
                     );
                   })
                 ) : (
                   <tr>
-                    <td className="px-4 py-6 text-slate-400" colSpan={6}>No customers match these filters yet.</td>
+                    <td className="px-4 py-6 text-black font-black italic opacity-60" colSpan={6}>No customers match these filters yet.</td>
                   </tr>
                 )}
               </tbody>
@@ -403,7 +403,7 @@ const CustomersPage = () => {
           </div>
 
           {state.pagination && state.pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between border-t border-white/10 px-5 py-4 text-xs text-slate-400">
+            <div className="flex items-center justify-between border-t border-blue-100 px-5 py-4 text-xs text-black font-black uppercase tracking-widest shadow-premium">
               <p>
                 Page {state.pagination.page} of {state.pagination.totalPages} | {state.pagination.total} customers
               </p>
@@ -436,30 +436,30 @@ const CustomersPage = () => {
           ) : selectedCustomer ? (
             <>
               <div className="mt-2 flex flex-wrap items-center gap-3">
-                <h3 className="text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+                <h3 className="text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
                   {selectedCustomer.customerId}
                 </h3>
-                <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-300">
+                <span className="rounded-full border border-blue-200 bg-blue-100 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-black font-black">
                   {selectedCustomer.source || "manual"}
                 </span>
               </div>
 
-              <p className="mt-2 text-sm leading-6 text-slate-400">
+              <p className="mt-2 text-sm font-bold leading-6 text-black italic">
                 Review the record details below, update the telecom inputs if needed, and jump into scoring or retention follow-up from the same customer context.
               </p>
 
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
                 <div className="workspace-stat">
                   <p className="workspace-kicker">Tenure</p>
-                  <p className="mt-2 text-sm text-white">{selectedCustomer.subscription?.tenureMonths ?? "-"} months</p>
+                  <p className="mt-2 text-sm text-black font-bold">{selectedCustomer.subscription?.tenureMonths ?? "-"} months</p>
                 </div>
                 <div className="workspace-stat">
                   <p className="workspace-kicker">Monthly charges</p>
-                  <p className="mt-2 text-sm text-white">{selectedCustomer.billing?.monthlyCharges ?? "-"}</p>
+                  <p className="mt-2 text-sm text-black font-bold">{selectedCustomer.billing?.monthlyCharges ?? "-"}</p>
                 </div>
                 <div className="workspace-stat">
                   <p className="workspace-kicker">Location</p>
-                  <p className="mt-2 text-sm text-white">
+                  <p className="mt-2 text-sm text-black font-bold">
                     {[selectedCustomer.profile?.city, selectedCustomer.profile?.state].filter(Boolean).join(", ") || "Not set"}
                   </p>
                 </div>
@@ -575,8 +575,8 @@ const CustomersPage = () => {
               </form>
             </>
           ) : (
-            <div className="mt-4 rounded-[1.5rem] border border-dashed border-white/12 bg-white/[0.03] p-5">
-              <p className="text-sm leading-6 text-slate-400">
+            <div className="mt-4 rounded-[1.5rem] border border-dashed border-blue-200 bg-blue-50/30 p-5">
+              <p className="text-sm font-bold leading-6 text-black italic">
                 No customer is selected yet. Pick a record from the list on the left to inspect and update it.
               </p>
             </div>

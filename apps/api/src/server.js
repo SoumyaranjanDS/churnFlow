@@ -5,7 +5,13 @@ const { connectDatabase, disconnectDatabase } = require("./config/db");
 let server;
 
 const startServer = async () => {
-  await connectDatabase(env.mongoUri);
+  try {
+    await connectDatabase(env.mongoUri);
+    console.log("Connected to database");
+  } catch (error) {
+    console.error("Failed to connect to database:", error);
+    process.exit(1);
+  }
 
   server = app.listen(env.port, () => {
     console.log(`API listening on :${env.port}`);

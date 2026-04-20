@@ -51,78 +51,78 @@ const ImportDataPage = () => {
   }
 
   return (
-    <section className="space-y-4">
-      <h2 className="text-2xl font-bold tracking-tight text-slate-900">Data Import</h2>
+    <section className="space-y-6">
+      <h2 className="text-2xl font-bold tracking-tight text-black">Data Import</h2>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <form className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" onSubmit={handlePathImport}>
-          <h3 className="text-lg font-semibold text-slate-900">Import by File Path</h3>
-          <label className="block space-y-1 text-sm font-medium text-slate-700">
+      <div className="grid gap-6 lg:grid-cols-2">
+        <form className="grid gap-4 rounded-[2rem] border border-blue-200 bg-white p-6 shadow-premium" onSubmit={handlePathImport}>
+          <h3 className="text-lg font-bold text-black">Import by File Path</h3>
+          <label className="block space-y-1.5 text-sm font-bold text-black">
             <span>File Path (.xlsx)</span>
             <input
               type="text"
               value={pathForm.filePath}
               onChange={(event) => setPathForm((prev) => ({ ...prev, filePath: event.target.value }))}
               placeholder="C:/Users/.../Telco_customer_churn.xlsx"
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none ring-brand-400 transition focus:ring-2"
+              className="w-full rounded-xl border border-blue-200 bg-blue-50/30 px-3 py-2 outline-none ring-blue-400/20 transition focus:ring-4"
             />
           </label>
 
-          <label className="block space-y-1 text-sm font-medium text-slate-700">
+          <label className="block space-y-1.5 text-sm font-bold text-black">
             <span>Sheet Name (optional)</span>
             <input
               type="text"
               value={pathForm.sheetName}
               onChange={(event) => setPathForm((prev) => ({ ...prev, sheetName: event.target.value }))}
               placeholder="Telco_Churn"
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none ring-brand-400 transition focus:ring-2"
+              className="w-full rounded-xl border border-blue-200 bg-blue-50/30 px-3 py-2 outline-none ring-blue-400/20 transition focus:ring-4"
             />
           </label>
 
           <button
             type="submit"
             disabled={state.loading}
-            className="rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-primary py-3 text-sm"
           >
             {state.loading ? "Importing..." : "Import by Path"}
           </button>
         </form>
 
-        <form className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" onSubmit={handleUploadImport}>
-          <h3 className="text-lg font-semibold text-slate-900">Import by Upload</h3>
-          <label className="block space-y-1 text-sm font-medium text-slate-700">
+        <form className="grid gap-4 rounded-[2rem] border border-blue-200 bg-white p-6 shadow-premium" onSubmit={handleUploadImport}>
+          <h3 className="text-lg font-bold text-black">Import by Upload</h3>
+          <label className="block space-y-1.5 text-sm font-bold text-black">
             <span>Excel File</span>
             <input
               type="file"
               accept=".xlsx"
               onChange={(event) => setUploadForm((prev) => ({ ...prev, file: event.target.files?.[0] || null }))}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 file:mr-4 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium hover:file:bg-slate-200"
+              className="w-full rounded-xl border border-blue-200 bg-blue-50/30 px-3 py-2 file:mr-4 file:rounded-lg file:border-0 file:bg-white file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-blue-600 file:shadow-sm"
             />
           </label>
 
-          <label className="block space-y-1 text-sm font-medium text-slate-700">
+          <label className="block space-y-1.5 text-sm font-bold text-black">
             <span>Sheet Name (optional)</span>
             <input
               type="text"
               value={uploadForm.sheetName}
               onChange={(event) => setUploadForm((prev) => ({ ...prev, sheetName: event.target.value }))}
               placeholder="Telco_Churn"
-              className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none ring-brand-400 transition focus:ring-2"
+              className="w-full rounded-xl border border-blue-200 bg-blue-50/30 px-3 py-2 outline-none ring-blue-400/20 transition focus:ring-4"
             />
           </label>
 
           <button
             type="submit"
             disabled={state.loading}
-            className="rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-primary py-3 text-sm"
           >
             {state.loading ? "Importing..." : "Import by Upload"}
           </button>
         </form>
       </div>
 
-      {state.error && <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">{state.error}</p>}
-      {state.message && <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">{state.message}</p>}
+      {state.error && <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-bold text-black">{state.error}</p>}
+      {state.message && <p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs font-bold text-black">{state.message}</p>}
     </section>
   );
 }

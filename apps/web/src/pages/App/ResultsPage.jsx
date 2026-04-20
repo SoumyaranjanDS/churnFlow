@@ -9,9 +9,9 @@ const RESULTS_STORAGE_KEY = "churnflow.phase1.results";
 const LATEST_CUSTOMER_ID_KEY = "churnflow.phase1.latestCustomerId";
 
 const riskTone = (riskBand) => {
-  if (riskBand === "High") return "border-red-300/25 bg-red-500/10 text-red-100";
-  if (riskBand === "Medium") return "border-amber-300/25 bg-amber-500/10 text-amber-100";
-  return "border-emerald-300/25 bg-emerald-500/10 text-emerald-100";
+  if (riskBand === "High") return "border-red-200 bg-red-50 text-red-700 font-bold";
+  if (riskBand === "Medium") return "border-amber-200 bg-amber-50 text-amber-700 font-bold";
+  return "border-emerald-200 bg-emerald-50 text-emerald-700 font-bold";
 }
 
 const readStoredResultsState = () => {
@@ -188,10 +188,10 @@ const ResultsPage = () => {
     <section className="space-y-5">
       <RevealSection className="workspace-hero">
         <p className="workspace-kicker">Step 5</p>
-        <h2 className="mt-3 text-3xl text-white sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+        <h2 className="mt-3 text-3xl text-black sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
           Results, then verified outcomes.
         </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300/80">
+        <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-black">
           This page now shows both parts of the workflow: the scored churn results coming from the model, and the real outcomes your team records later after outreach.
         </p>
       </RevealSection>
@@ -227,32 +227,32 @@ const ResultsPage = () => {
         </form>
       </RevealSection>
 
-      {state.error && <p className="rounded-2xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{state.error}</p>}
-      {state.message && <p className="rounded-2xl border border-emerald-300/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">{state.message}</p>}
+      {state.error && <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{state.error}</p>}
+      {state.message && <p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{state.message}</p>}
 
       <RevealSection className="soft-panel">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="workspace-kicker">Model output</p>
-            <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+            <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
               Recent scored results
             </h3>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <p className="mt-2 text-sm font-bold leading-6 text-slate-900">
               These are the actual churn predictions already saved in the database. If you scored customers in the Analyze tab, they should appear here immediately.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <div className="workspace-stat min-w-[110px]">
               <p className="workspace-kicker">High</p>
-              <p className="mt-2 text-xl text-white">{predictionSummary.high}</p>
+              <p className="mt-2 text-xl text-black font-bold">{predictionSummary.high}</p>
             </div>
             <div className="workspace-stat min-w-[110px]">
               <p className="workspace-kicker">Medium</p>
-              <p className="mt-2 text-xl text-white">{predictionSummary.medium}</p>
+              <p className="mt-2 text-xl text-black font-bold">{predictionSummary.medium}</p>
             </div>
             <div className="workspace-stat min-w-[110px]">
               <p className="workspace-kicker">Low</p>
-              <p className="mt-2 text-xl text-white">{predictionSummary.low}</p>
+              <p className="mt-2 text-xl text-black font-bold">{predictionSummary.low}</p>
             </div>
           </div>
         </div>
@@ -270,7 +270,7 @@ const ResultsPage = () => {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="workspace-kicker">Customer</p>
-                        <p className="mt-2 text-lg text-white">{item.customerId}</p>
+                        <p className="mt-2 text-lg text-black font-bold">{item.customerId}</p>
                       </div>
                       <span className={`rounded-full border px-3 py-1 text-xs uppercase tracking-[0.14em] ${riskTone(item.riskBand)}`}>
                         {item.riskBand}
@@ -279,15 +279,15 @@ const ResultsPage = () => {
                     <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                       <div>
                         <p className="workspace-kicker">Probability</p>
-                        <p className="mt-1 text-slate-200">{Number(item.churnProbability ?? 0).toFixed(4)}</p>
+                        <p className="mt-1 text-slate-900 font-medium">{Number(item.churnProbability ?? 0).toFixed(4)}</p>
                       </div>
                       <div>
                         <p className="workspace-kicker">Decision</p>
-                        <p className="mt-1 text-slate-200">{item.decision?.predictedLabel === "Yes" ? "Likely churn" : "Looks stable"}</p>
+                        <p className="mt-1 text-slate-900 font-medium">{item.decision?.predictedLabel === "Yes" ? "Likely churn" : "Looks stable"}</p>
                       </div>
                     </div>
                     {item.explanation?.summary && (
-                      <p className="mt-3 text-sm leading-6 text-slate-300">{item.explanation.summary}</p>
+                      <p className="mt-3 text-sm leading-6 text-slate-900 font-medium">{item.explanation.summary}</p>
                     )}
                     <div className="mt-4 flex gap-2">
                       <button type="button" className="btn-secondary flex-1" onClick={() => useCustomer(item.customerId)}>
@@ -300,39 +300,39 @@ const ResultsPage = () => {
                   </article>
                 ))
               ) : (
-                <div className="mobile-data-card text-center">
+                <div className="mobile-data-card text-center bg-blue-50 border border-dashed border-blue-200 p-8 rounded-[2rem]">
                   <p className="workspace-kicker">No scored results yet</p>
-                  <p className="mt-2 text-sm text-slate-300">Run single or batch scoring from the Analyze tab and the saved results will appear here.</p>
-                  <Link to="/app/analyze" className="btn-primary mt-4">Open Analyze</Link>
+                  <p className="mt-2 text-sm font-bold text-black">Run single or batch scoring from the Analyze tab and the saved results will appear here.</p>
+                  <Link to="/app/analyze" className="btn-primary mt-6">Open Analyze</Link>
                 </div>
               )}
             </div>
 
             <div className="mt-5 hidden overflow-x-auto md:block">
               <table className="min-w-full text-sm">
-                <thead className="bg-white/5 text-left text-[11px] uppercase tracking-[0.14em] text-slate-400">
+                <thead className="bg-blue-50 text-left text-[11px] uppercase tracking-[0.14em] text-black font-extrabold">
                   <tr>
-                    <th className="px-4 py-3">Customer</th>
-                    <th className="px-4 py-3">Risk</th>
-                    <th className="px-4 py-3">Probability</th>
-                    <th className="px-4 py-3">Decision</th>
-                    <th className="px-4 py-3">Summary</th>
-                    <th className="px-4 py-3">Next</th>
+                    <th className="px-4 py-4">Customer</th>
+                    <th className="px-4 py-4">Risk</th>
+                    <th className="px-4 py-4">Probability</th>
+                    <th className="px-4 py-4">Decision</th>
+                    <th className="px-4 py-4">Summary</th>
+                    <th className="px-4 py-4">Next</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/10">
+                <tbody className="divide-y divide-blue-100">
                   {state.predictions.length ? (
                     state.predictions.map((item) => (
-                      <tr key={item._id}>
-                        <td className="px-4 py-3 font-medium text-white">{item.customerId}</td>
+                      <tr key={item._id} className="hover:bg-blue-50 transition-colors">
+                        <td className="px-4 py-3 font-bold text-black">{item.customerId}</td>
                         <td className="px-4 py-3">
                           <span className={`rounded-full border px-3 py-1 text-xs uppercase tracking-[0.14em] ${riskTone(item.riskBand)}`}>
                             {item.riskBand}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-slate-300">{Number(item.churnProbability ?? 0).toFixed(4)}</td>
-                        <td className="px-4 py-3 text-slate-300">{item.decision?.predictedLabel === "Yes" ? "Likely churn" : "Looks stable"}</td>
-                        <td className="px-4 py-3 text-slate-400">{item.explanation?.summary || "-"}</td>
+                        <td className="px-4 py-3 text-slate-900 font-medium">{Number(item.churnProbability ?? 0).toFixed(4)}</td>
+                        <td className="px-4 py-3 text-slate-900 font-medium">{item.decision?.predictedLabel === "Yes" ? "Likely churn" : "Looks stable"}</td>
+                        <td className="px-4 py-3 text-slate-900">{item.explanation?.summary || "-"}</td>
                         <td className="px-4 py-3">
                           <div className="flex gap-2">
                             <button type="button" className="btn-secondary !py-1.5" onClick={() => useCustomer(item.customerId)}>
@@ -347,7 +347,7 @@ const ResultsPage = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={6} className="px-4 py-6 text-center text-sm text-slate-400">
+                      <td colSpan={6} className="px-4 py-10 text-center text-sm font-extrabold text-black">
                         No scored results found yet. Run analysis first and the saved predictions will appear here.
                       </td>
                     </tr>
@@ -363,10 +363,10 @@ const ResultsPage = () => {
         <form className="soft-panel grid gap-3 md:grid-cols-2" onSubmit={handleSubmit}>
           <div className="md:col-span-2">
             <p className="workspace-kicker">Verified outcome</p>
-            <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+            <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
               Record what actually happened
             </h3>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <p className="mt-2 text-sm font-bold leading-6 text-slate-900">
               Once outreach or time has passed, save the real result here. The platform attaches the latest related prediction and action automatically when they exist.
             </p>
           </div>
@@ -420,9 +420,9 @@ const ResultsPage = () => {
           </div>
         </form>
 
-        <div className="table-shell">
-          <div className="border-b border-white/10 px-5 py-4">
-            <h3 className="text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+        <div className="rounded-[2.5rem] border border-blue-200 bg-white shadow-premium overflow-hidden">
+          <div className="border-b border-blue-100 bg-blue-50/30 px-6 py-5">
+            <h3 className="text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
               Recent verified outcomes
             </h3>
           </div>
@@ -436,36 +436,36 @@ const ResultsPage = () => {
               <div className="grid gap-3 p-4 md:hidden">
                 {state.outcomes.length ? (
                   state.outcomes.map((item) => (
-                    <article key={item._id} className="mobile-data-card">
+                    <article key={item._id} className="rounded-3xl border border-blue-100 bg-blue-50/20 p-6">
                       <p className="workspace-kicker">Customer</p>
-                      <p className="mt-2 text-lg text-white">{item.customerId}</p>
-                      <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                      <p className="mt-2 text-lg text-black font-extrabold">{item.customerId}</p>
+                      <div className="mt-4 grid grid-cols-2 gap-4 text-[13px]">
                         <div>
                           <p className="workspace-kicker">Churned</p>
-                          <p className="mt-1 text-slate-200">{item.actualChurned ? "Yes" : "No"}</p>
+                          <p className="mt-1 text-black font-bold">{item.actualChurned ? "Yes" : "No"}</p>
                         </div>
                         <div>
                           <p className="workspace-kicker">Retained</p>
-                          <p className="mt-1 text-slate-200">{item.retentionSuccessful ? "Yes" : "No"}</p>
+                          <p className="mt-1 text-black font-bold">{item.retentionSuccessful ? "Yes" : "No"}</p>
                         </div>
                       </div>
-                      <div className="mt-3">
+                      <div className="mt-4 border-t border-blue-100 pt-4">
                         <p className="workspace-kicker">Observed</p>
-                        <p className="mt-1 text-slate-200">{new Date(item.observedAt).toLocaleDateString()}</p>
+                        <p className="mt-1 text-black font-bold">{new Date(item.observedAt).toLocaleDateString()}</p>
                       </div>
                     </article>
                   ))
                 ) : (
-                  <div className="mobile-data-card text-center">
+                  <div className="mobile-data-card text-center bg-blue-50/30 border border-dashed border-blue-200">
                     <p className="workspace-kicker">No outcomes yet</p>
-                    <p className="mt-2 text-sm text-slate-300">This section fills in after the team records what really happened to a customer.</p>
+                    <p className="mt-2 text-sm text-slate-900 font-medium">This section fills in after the team records what really happened to a customer.</p>
                   </div>
                 )}
               </div>
 
               <div className="hidden overflow-x-auto md:block">
                 <table className="min-w-full text-sm">
-                  <thead className="bg-white/5 text-left text-[11px] uppercase tracking-[0.14em] text-slate-400">
+                  <thead className="bg-blue-50 text-left text-[11px] uppercase tracking-[0.14em] text-slate-900 font-bold">
                     <tr>
                       <th className="px-4 py-3">Customer</th>
                       <th className="px-4 py-3">Churned</th>
@@ -476,18 +476,18 @@ const ResultsPage = () => {
                   <tbody className="divide-y divide-white/10">
                     {state.outcomes.length ? (
                       state.outcomes.map((item) => (
-                        <tr key={item._id}>
-                          <td className="px-4 py-3 font-medium text-white">{item.customerId}</td>
-                          <td className="px-4 py-3 text-slate-300">{item.actualChurned ? "Yes" : "No"}</td>
-                          <td className="px-4 py-3 text-slate-300">{item.retentionSuccessful ? "Yes" : "No"}</td>
-                          <td className="px-4 py-3 text-slate-300">{new Date(item.observedAt).toLocaleDateString()}</td>
+                        <tr key={item._id} className="hover:bg-blue-50 transition-colors">
+                          <td className="px-4 py-3 font-bold text-black">{item.customerId}</td>
+                          <td className="px-4 py-3 text-slate-900 font-medium">{item.actualChurned ? "Yes" : "No"}</td>
+                          <td className="px-4 py-3 text-slate-900 font-medium">{item.retentionSuccessful ? "Yes" : "No"}</td>
+                          <td className="px-4 py-3 text-slate-900">{new Date(item.observedAt).toLocaleDateString()}</td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan={4} className="px-4 py-6 text-center text-sm text-slate-400">
-                          No verified outcomes recorded yet.
-                        </td>
+                      <td colSpan={4} className="px-4 py-8 text-center text-sm font-extrabold text-black">
+                        No verified outcomes recorded yet.
+                      </td>
                       </tr>
                     )}
                   </tbody>

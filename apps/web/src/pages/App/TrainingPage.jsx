@@ -15,11 +15,11 @@ import {
 } from "../../services/churnApi"
 
 const JOB_STATUS_STYLE = {
-  queued: "border-amber-300/30 bg-amber-500/10 text-amber-100",
-  running: "border-sky-300/30 bg-sky-500/10 text-sky-100",
-  completed: "border-emerald-300/30 bg-emerald-500/10 text-emerald-100",
-  failed: "border-red-300/30 bg-red-500/10 text-red-100",
-  deployed: "border-violet-300/30 bg-violet-500/10 text-violet-100"
+  queued: "border-amber-200 bg-amber-50 text-black font-bold",
+  running: "border-sky-200 bg-sky-50 text-black font-bold",
+  completed: "border-emerald-200 bg-emerald-50 text-black font-bold",
+  failed: "border-red-200 bg-red-50 text-black font-bold",
+  deployed: "border-violet-200 bg-violet-50 text-black font-bold"
 }
 
 const formatDate = (value) => (value ? new Date(value).toLocaleString() : "-")
@@ -125,7 +125,7 @@ const TrainingPage = () => {
   }
 
   const readiness = view.readiness?.readiness || {}
-  const latestJobStyle = JOB_STATUS_STYLE[view.latestJob?.status] || "border-white/10 bg-white/[0.04] text-slate-100"
+  const latestJobStyle = JOB_STATUS_STYLE[view.latestJob?.status] || "border-blue-200 bg-blue-50/20 text-black font-bold"
   const canStartTraining = Boolean(readiness.readyForCustomTraining)
   const currentProfile = view.snapshot?.datasetProfile || null
   const deployedModel = useMemo(
@@ -143,10 +143,10 @@ const TrainingPage = () => {
     <section className="space-y-5">
       <RevealSection className="workspace-hero">
         <p className="workspace-kicker">Phase 3</p>
-        <h2 className="mt-3 text-3xl text-white sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+        <h2 className="mt-3 text-3xl text-black sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
           Train and track tenant-specific custom models.
         </h2>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300/80">
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-black font-bold">
           This page turns the confirmed Phase 2 handoff into a real training lifecycle: queued, running, completed, failed, and deployed.
         </p>
       </RevealSection>
@@ -201,39 +201,39 @@ const TrainingPage = () => {
         />
       ) : null}
 
-      {view.error && <p className="rounded-2xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{view.error}</p>}
-      {view.message && <p className="rounded-2xl border border-emerald-300/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">{view.message}</p>}
+      {view.error && <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{view.error}</p>}
+      {view.message && <p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{view.message}</p>}
 
       <RevealSection className="grid gap-4 xl:grid-cols-[1fr_1fr]">
         <div className="soft-panel">
           <p className="workspace-kicker">Current handoff</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
             Training prerequisites
           </h3>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <div className="workspace-stat">
               <p className="workspace-kicker">Dataset</p>
-              <p className="mt-2 text-sm text-white">{currentProfile?.fileName || "No onboarding dataset yet"}</p>
+              <p className="mt-2 text-sm text-black font-bold">{currentProfile?.fileName || "No onboarding dataset yet"}</p>
             </div>
             <div className="workspace-stat">
               <p className="workspace-kicker">Rows available</p>
-              <p className="mt-2 text-sm text-white">{currentProfile?.rowCount || 0}</p>
+              <p className="mt-2 text-sm text-black font-bold">{currentProfile?.rowCount || 0}</p>
             </div>
             <div className="workspace-stat">
               <p className="workspace-kicker">Target column</p>
-              <p className="mt-2 text-sm text-white">{view.readiness?.confirmedTargetColumn || "-"}</p>
+              <p className="mt-2 text-sm text-black font-bold">{view.readiness?.confirmedTargetColumn || "-"}</p>
             </div>
             <div className="workspace-stat">
               <p className="workspace-kicker">Feature mappings</p>
-              <p className="mt-2 text-sm text-white">{readiness.featureCount || 0}</p>
+              <p className="mt-2 text-sm text-black font-bold">{readiness.featureCount || 0}</p>
             </div>
           </div>
 
-          <div className={`mt-4 rounded-[1.3rem] border px-4 py-4 ${canStartTraining ? "border-emerald-300/30 bg-emerald-500/10 text-emerald-100" : "border-amber-300/30 bg-amber-500/10 text-amber-100"}`}>
-            <p className="text-sm font-medium text-white">
+          <div className={`mt-4 rounded-[1.3rem] border px-4 py-4 ${canStartTraining ? "border-emerald-200 bg-emerald-50 text-black font-bold" : "border-amber-200 bg-amber-50 text-black font-bold"}`}>
+            <p className="text-sm font-bold">
               {canStartTraining ? "This setup is ready for training." : "This setup is not ready yet."}
             </p>
-            <div className="mt-2 space-y-2 text-sm leading-7 opacity-90">
+            <div className="mt-2 space-y-2 text-sm leading-7 text-black font-medium">
               {canStartTraining ? (
                 <p>Start a tenant-specific training job. The backend will run it in the background and keep the status updated here.</p>
               ) : (
@@ -254,46 +254,46 @@ const TrainingPage = () => {
 
         <div className="soft-panel">
           <p className="workspace-kicker">Live status</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
             Latest training job
           </h3>
 
           {view.latestJob ? (
             <div className={`mt-4 rounded-[1.3rem] border px-4 py-4 ${latestJobStyle}`}>
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-sm text-white">Status: {view.latestJob.status}</p>
-                <p className="text-xs uppercase tracking-[0.14em] opacity-80">{formatDate(view.latestJob.createdAt)}</p>
+                <p className="text-sm text-black">Status: {view.latestJob.status}</p>
+                <p className="text-xs uppercase tracking-[0.14em] text-black font-bold">{formatDate(view.latestJob.createdAt)}</p>
               </div>
-              <p className="mt-3 text-sm leading-6 text-slate-100/90">{view.latestJob.summary?.message || "Training job recorded."}</p>
+              <p className="mt-3 text-sm leading-6 text-black font-bold">{view.latestJob.summary?.message || "Training job recorded."}</p>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div className="workspace-stat">
                   <p className="workspace-kicker">Started</p>
-                  <p className="mt-2 text-sm text-white">{formatDate(view.latestJob.execution?.startedAt)}</p>
+                  <p className="mt-2 text-sm text-black font-bold">{formatDate(view.latestJob.execution?.startedAt)}</p>
                 </div>
                 <div className="workspace-stat">
                   <p className="workspace-kicker">Finished</p>
-                  <p className="mt-2 text-sm text-white">{formatDate(view.latestJob.execution?.finishedAt)}</p>
+                  <p className="mt-2 text-sm text-black font-bold">{formatDate(view.latestJob.execution?.finishedAt)}</p>
                 </div>
               </div>
 
               {(view.latestJob.execution?.errorMessage || view.latestJob.execution?.stderr) && (
-                <div className="mt-4 rounded-[1rem] border border-white/10 bg-black/20 px-4 py-4">
+                <div className="mt-4 rounded-[1rem] border border-blue-200 bg-blue-50/50 px-4 py-4">
                   <p className="workspace-kicker">Last error or stderr</p>
-                  <pre className="mt-2 overflow-x-auto whitespace-pre-wrap text-xs leading-6 text-slate-200">
+                  <pre className="mt-2 overflow-x-auto whitespace-pre-wrap text-xs leading-6 text-black font-medium">
                     {view.latestJob.execution?.errorMessage || view.latestJob.execution?.stderr}
                   </pre>
                 </div>
               )}
             </div>
           ) : (
-            <div className="mt-4 rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4 text-sm leading-7 text-slate-300">
+            <div className="mt-4 rounded-[1.3rem] border border-dashed border-blue-200 bg-blue-50/20 px-4 py-4 text-sm leading-7 text-black font-bold">
               No training job has been started yet.
             </div>
           )}
 
-          <div className="mt-4 rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
+          <div className="mt-4 rounded-[1.2rem] border border-blue-200 bg-blue-50 px-4 py-4">
             <p className="workspace-kicker">Deployment note</p>
-            <p className="mt-2 text-sm leading-7 text-slate-300">
+            <p className="mt-2 text-sm leading-7 text-black font-bold">
               A ready model can be marked as deployed here. Once deployed, the workspace uses that custom model for new customer scoring in Upload and Analyze.
             </p>
           </div>
@@ -303,35 +303,35 @@ const TrainingPage = () => {
       <RevealSection className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
         <div className="soft-panel">
           <p className="workspace-kicker">Model registry</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
             Trained model versions
           </h3>
           <div className="mt-4 space-y-3">
             {(view.models || []).length ? (
               view.models.map((model) => {
-                const tone = JOB_STATUS_STYLE[model.status] || "border-white/10 bg-white/[0.04] text-slate-100"
+                const tone = JOB_STATUS_STYLE[model.status] || "border-blue-200 bg-blue-50/20 text-black font-bold"
 
                 return (
                   <div key={model._id} className={`rounded-[1.2rem] border px-4 py-4 ${tone}`}>
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
-                        <p className="text-sm text-white">{model.version}</p>
-                        <p className="mt-1 text-xs uppercase tracking-[0.14em] opacity-80">{model.status}</p>
+                        <p className="text-sm text-black font-bold">{model.version}</p>
+                        <p className="mt-1 text-xs uppercase tracking-[0.14em] text-black font-bold">{model.status}</p>
                       </div>
-                      <div className="text-right text-xs text-slate-200/80">
+                      <div className="text-right text-xs text-black font-bold">
                         <p>{formatDate(model.createdAt)}</p>
                         <p>{model.metrics?.test?.f1 ? `Test F1 ${Number(model.metrics.test.f1).toFixed(3)}` : "Metrics pending"}</p>
                       </div>
                     </div>
                     <div className="mt-3 flex flex-wrap gap-3">
-                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-200">
+                      <span className="rounded-full border border-blue-200 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-black font-bold">
                         Target {model.targetColumn || "-"}
                       </span>
-                      <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-200">
+                      <span className="rounded-full border border-blue-200 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-black font-bold">
                         {model.featureMappings?.length || 0} mapped fields
                       </span>
                       {model.deployment?.isDeployed && (
-                        <span className="rounded-full border border-emerald-300/30 bg-emerald-500/10 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-emerald-100">
+                        <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-black font-bold">
                           Deployed
                         </span>
                       )}
@@ -347,7 +347,7 @@ const TrainingPage = () => {
                 )
               })
             ) : (
-              <div className="rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4 text-sm text-slate-300">
+              <div className="rounded-[1.2rem] border border-dashed border-blue-200 bg-blue-50/20 px-4 py-4 text-sm text-black font-bold text-center">
                 No custom models have been trained yet.
               </div>
             )}
@@ -356,37 +356,37 @@ const TrainingPage = () => {
 
         <div className="soft-panel">
           <p className="workspace-kicker">Job history</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
             Recent training attempts
           </h3>
           <div className="mt-4 space-y-3">
             {(view.jobs || []).length ? (
               view.jobs.slice(0, 6).map((job) => (
-                <div key={job._id} className="rounded-[1.2rem] border border-white/10 bg-white/[0.04] px-4 py-4">
+                <div key={job._id} className="rounded-[1.2rem] border border-blue-200 bg-white px-4 py-4 shadow-sm">
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-sm text-white">{job.trainingContract?.fileName || "Tenant dataset"}</p>
-                    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-200">
+                    <p className="text-sm text-black font-extrabold">{job.trainingContract?.fileName || "Tenant dataset"}</p>
+                    <span className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-black font-bold">
                       {job.status}
                     </span>
                   </div>
-                  <p className="mt-2 text-xs leading-5 text-slate-400">
+                  <p className="mt-2 text-xs leading-5 text-black font-bold">
                     {job.trainingContract?.targetColumn || "-"} • {job.trainingContract?.featureMappings?.length || 0} mapped fields • {formatDate(job.createdAt)}
                   </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">{job.summary?.message || "Training job recorded."}</p>
+                  <p className="mt-2 text-sm leading-6 text-black font-bold">{job.summary?.message || "Training job recorded."}</p>
                 </div>
               ))
             ) : (
-              <div className="rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4 text-sm text-slate-300">
+              <div className="rounded-[1.2rem] border border-dashed border-blue-200 bg-blue-50/20 px-4 py-4 text-sm text-black font-bold text-center">
                 No training history yet.
               </div>
             )}
           </div>
 
           {deployedModel && (
-            <div className="mt-4 rounded-[1.2rem] border border-emerald-300/30 bg-emerald-500/10 px-4 py-4">
+            <div className="mt-4 rounded-[1.2rem] border border-emerald-200 bg-emerald-50 px-4 py-4">
               <p className="workspace-kicker">Current deployed model</p>
-              <p className="mt-2 text-sm text-white">{deployedModel.version}</p>
-              <p className="mt-1 text-xs leading-5 text-emerald-100/80">
+              <p className="mt-2 text-sm text-black font-bold">{deployedModel.version}</p>
+              <p className="mt-1 text-xs leading-5 text-black font-bold">
                 Deployed at {formatDate(deployedModel.deployment?.deployedAt)}
               </p>
               <div className="mt-4 flex flex-wrap gap-3">

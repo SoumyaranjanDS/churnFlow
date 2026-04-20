@@ -18,7 +18,7 @@ const SIZE_MAP = {
 
 const BrandLockup = ({
   size = "md",
-  title = "ChurnFlow",
+  title = "RetainQ",
   subtitle = "Retention intelligence platform",
   className = "",
   titleClassName = "",
@@ -29,14 +29,14 @@ const BrandLockup = ({
 
   return (
     <div className={`flex items-center gap-3 ${className}`.trim()}>
-      <span className={`relative flex items-center justify-center overflow-hidden border border-white/10 bg-white/[0.06] shadow-[0_14px_32px_rgba(8,10,18,0.24)] ${scale.mark}`}>
-        <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(196,181,253,0.35),transparent_45%),radial-gradient(circle_at_70%_80%,rgba(96,165,250,0.22),transparent_42%)]" />
-        <img src="/churnflow-logo.svg" alt="ChurnFlow logo" className="relative z-10 h-[76%] w-[76%]" />
+      <span className={`relative flex items-center justify-center overflow-hidden border border-blue-200 bg-white shadow-premium ${scale.mark}`}>
+        <span className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(37,99,235,0.08),transparent_45%),radial-gradient(circle_at_70%_80%,rgba(14,165,233,0.05),transparent_42%)]" />
+        <img src="/churnflow-logo.svg" alt="RetainQ logo" className="relative z-10 h-[70%] w-[70%]" />
       </span>
       <span className="min-w-0">
-        <span className={`block font-medium uppercase text-white ${scale.title} ${titleClassName}`.trim()}>{title}</span>
+        <span className={`block font-bold uppercase text-black ${scale.title} ${titleClassName}`.trim()}>{title}</span>
         {showSubtitle ? (
-          <span className={`mt-1 block text-white/40 ${scale.subtitle} ${subtitleClassName}`.trim()}>{subtitle}</span>
+          <span className={`mt-0.5 block text-black font-medium ${scale.subtitle} ${subtitleClassName}`.trim()}>{subtitle}</span>
         ) : null}
       </span>
     </div>

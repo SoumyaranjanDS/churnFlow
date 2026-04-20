@@ -1,48 +1,50 @@
 import { motion } from "framer-motion";
 
 const sections = [
-  { label: "Data processed", text: "Account metadata, uploaded customer records for scoring, and operational usage logs." },
-  { label: "Purpose", text: "Service delivery, security hardening, troubleshooting, and product performance improvements." },
-  { label: "Retention", text: "Data is retained only for agreed operational windows, compliance, and legal obligations." },
-  { label: "Security", text: "Role-based access, scoped credentials, and protected network boundaries are enforced in production." }
+  { label: "Data processed", text: "Account metadata, uploaded customer records for scoring, and operational usage logs are processed securely within our production boundaries." },
+  { label: "Purpose", text: "We use your data strictly for service delivery, continuous security hardening, technical troubleshooting, and product performance improvements." },
+  { label: "Retention", text: "Data is retained only for the duration of agreed operational windows, active subscriptions, or strictly as required by legal and compliance obligations." },
+  { label: "Security", text: "We enforce industry-standard security measures including role-based access control, scoped credentials, and strictly protected network boundaries." }
 ];
 
 const PrivacyPage = () => {
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif" }} className="relative overflow-hidden px-4 pb-14 pt-16 sm:px-8 sm:pt-20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_10%_0%,rgba(99,102,241,0.16),transparent_65%)]" />
-
+    <div className="relative min-h-screen bg-blue-50 px-4 pb-32 pt-32 sm:px-8">
       <motion.section
-        className="relative mx-auto max-w-4xl rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8"
-        initial={{ opacity: 0, y: 18 }}
+        className="relative mx-auto max-w-3xl rounded-[2.5rem] border border-blue-200 bg-white p-8 shadow-premium sm:p-12"
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
+        transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
       >
-        <p className="text-[10px] uppercase tracking-[0.14em] text-white/35">Privacy Policy</p>
-        <h1
-          className="mt-3 text-4xl text-[#fafafa] sm:text-5xl"
-          style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
-        >
-          How we handle data.
+        <p className="workspace-kicker">Legal Framework</p>
+        <h1 className="mt-4 text-5xl font-extrabold tracking-tight text-black sm:text-6xl">
+          Privacy Policy
         </h1>
-        <p className="mt-4 max-w-2xl text-sm leading-7 text-white/45">
-          We process only the information required to authenticate users, run churn workflows, and keep the platform reliable.
+        <p className="mt-8 text-lg font-bold leading-8 text-black">
+          We process only the information strictly required to authenticate users, execute churn prediction workflows, and maintain platform reliability.
         </p>
 
-        <div className="mt-8 grid gap-3">
+        <div className="mt-12 space-y-8">
           {sections.map((item, index) => (
             <motion.article
               key={item.label}
-              className="rounded-2xl border border-white/10 bg-white/[0.02] p-4"
+              className="group"
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.35 }}
-              transition={{ duration: 0.32, delay: index * 0.05 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
             >
-              <p className="text-[11px] uppercase tracking-[0.12em] text-white/30">{item.label}</p>
-              <p className="mt-2 text-sm leading-6 text-white/50">{item.text}</p>
+              <p className="text-[11px] font-extrabold uppercase tracking-[0.15em] text-blue-600">{item.label}</p>
+              <p className="mt-3 text-[15px] font-bold leading-7 text-black">{item.text}</p>
+              <div className="mt-6 h-px w-full bg-blue-100 group-last:hidden" />
             </motion.article>
           ))}
+        </div>
+
+        <div className="mt-16 rounded-3xl bg-blue-50 p-8 border border-blue-100">
+          <p className="text-sm font-bold text-black leading-7">
+            Have questions about your data? Reach out to our security team directly at <span className="text-blue-600 underline">security@retainq.com</span>.
+          </p>
         </div>
       </motion.section>
     </div>

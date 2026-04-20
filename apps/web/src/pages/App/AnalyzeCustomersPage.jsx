@@ -15,9 +15,9 @@ const ANALYZE_STORAGE_KEY = "churnflow.phase1.analyze";
 const LATEST_CUSTOMER_ID_KEY = "churnflow.phase1.latestCustomerId";
 
 const riskTone = (riskBand) => {
-  if (riskBand === "High") return "border-red-300/25 bg-red-500/10 text-red-100";
-  if (riskBand === "Medium") return "border-amber-300/25 bg-amber-500/10 text-amber-100";
-  return "border-emerald-300/25 bg-emerald-500/10 text-emerald-100";
+  if (riskBand === "High") return "border-red-200 bg-red-50 text-red-700 font-bold";
+  if (riskBand === "Medium") return "border-amber-200 bg-amber-50 text-amber-700 font-bold";
+  return "border-emerald-200 bg-emerald-50 text-emerald-700 font-bold";
 }
 
 const readStoredAnalyzeState = () => {
@@ -181,10 +181,10 @@ const AnalyzeCustomersPage = () => {
     <section className="space-y-5">
       <RevealSection className="workspace-hero">
         <p className="workspace-kicker">Step 2</p>
-        <h2 className="mt-3 text-3xl text-white sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+        <h2 className="mt-3 text-3xl text-black sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
           {isCustomWorkspace ? "Turn saved custom records into churn decisions." : "Turn telecom records into churn decisions."}
         </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300/80">
+        <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-black">
           {isCustomWorkspace
             ? "This workspace has a deployed custom model. Score one saved customer or run a batch on the saved custom records in this workspace."
             : "Score one customer when you want to inspect a single account, or run a batch to generate the next at-risk queue for the team."}
@@ -210,8 +210,8 @@ const AnalyzeCustomersPage = () => {
           <p className="workspace-kicker">Active model</p>
           <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-lg text-white">{state.activeModel?.version || "Custom model"}</p>
-              <p className="mt-1 text-sm text-slate-400">
+              <p className="text-lg text-black font-bold">{state.activeModel?.version || "Custom model"}</p>
+              <p className="mt-1 text-sm font-bold text-slate-900 italic">
                 Deployed custom model predictions use the confirmed feature contract from Custom Setup and Training.
               </p>
             </div>
@@ -225,10 +225,10 @@ const AnalyzeCustomersPage = () => {
       <RevealSection className="grid gap-4 lg:grid-cols-2">
         <form className="soft-panel space-y-3" onSubmit={handleSingleAnalyze}>
           <p className="workspace-kicker">Single customer</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
             Review one account
           </h3>
-          <p className="text-sm leading-6 text-slate-400">
+          <p className="text-sm font-bold leading-6 text-slate-900">
             {isCustomWorkspace
               ? "Use a saved customer ID from this workspace. The result will use the deployed custom model and explain the risk in plain business language."
               : "Use a saved telecom customer ID from this workspace. The result will explain the risk in plain business language."}
@@ -267,10 +267,10 @@ const AnalyzeCustomersPage = () => {
 
         <form className="soft-panel space-y-3" onSubmit={handleBatchAnalyze}>
           <p className="workspace-kicker">Batch analysis</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
             Generate the next priority queue
           </h3>
-          <p className="text-sm leading-6 text-slate-400">
+          <p className="text-sm font-bold leading-6 text-slate-900">
             {isCustomWorkspace
               ? "This scores the latest saved custom customers in the workspace and groups them into high, medium, and low churn risk."
               : "This scores the latest telecom records in the workspace and groups them into high, medium, and low churn risk."}
@@ -309,14 +309,14 @@ const AnalyzeCustomersPage = () => {
         </form>
       </RevealSection>
 
-      {state.error && <p className="rounded-2xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{state.error}</p>}
+      {state.error && <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{state.error}</p>}
 
       {state.singleResult && (
         <RevealSection className="soft-panel">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <p className="workspace-kicker">Latest single result</p>
-              <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
                 {state.singleResult.customerId}
               </h3>
             </div>
@@ -328,56 +328,56 @@ const AnalyzeCustomersPage = () => {
           <div className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             <div className="workspace-stat">
               <p className="workspace-kicker">Prediction</p>
-              <p className="mt-2 text-xl text-white">{state.singleResult.predictedLabel === "Yes" ? "Likely to churn" : "Looks stable"}</p>
+              <p className="mt-2 text-xl text-black font-bold">{state.singleResult.predictedLabel === "Yes" ? "Likely to churn" : "Looks stable"}</p>
             </div>
             <div className="workspace-stat">
               <p className="workspace-kicker">Probability</p>
-              <p className="mt-2 text-xl text-white">{Number(state.singleResult.churnProbability ?? 0).toFixed(4)}</p>
+              <p className="mt-2 text-xl text-black font-bold">{Number(state.singleResult.churnProbability ?? 0).toFixed(4)}</p>
             </div>
             <div className="workspace-stat">
               <p className="workspace-kicker">Threshold</p>
-              <p className="mt-2 text-xl text-white">{Number(state.singleResult.threshold ?? 0).toFixed(2)}</p>
+              <p className="mt-2 text-xl text-black font-bold">{Number(state.singleResult.threshold ?? 0).toFixed(2)}</p>
             </div>
             <div className="workspace-stat">
               <p className="workspace-kicker">Model</p>
-              <p className="mt-2 break-all text-sm text-white">{state.singleResult.modelVersion || "-"}</p>
+              <p className="mt-2 break-all text-sm text-black font-bold">{state.singleResult.modelVersion || "-"}</p>
             </div>
           </div>
 
-          <div className="mt-5 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5">
+          <div className="mt-5 rounded-[1.5rem] border border-blue-200 bg-blue-50/50 p-5">
             <p className="workspace-kicker">Business summary</p>
-            <p className="mt-3 text-sm leading-7 text-slate-200">
+            <p className="mt-3 text-sm font-bold leading-7 text-black italic">
               {state.singleResult.explanation?.summary || "No summary available for this prediction."}
             </p>
           </div>
 
           <div className="mt-5 grid gap-4 lg:grid-cols-2">
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5">
+            <div className="rounded-[1.5rem] border border-blue-200 bg-blue-50/50 p-5">
               <p className="workspace-kicker">Top churn drivers</p>
               <div className="mt-4 space-y-3">
                 {(state.singleResult.explanation?.topDrivers || []).length ? (
                   state.singleResult.explanation.topDrivers.map((item) => (
-                    <div key={item} className="rounded-[1.1rem] border border-white/10 bg-black/20 px-4 py-3 text-sm text-slate-200">
+                    <div key={item} className="rounded-xl border border-blue-200 bg-white px-4 py-3 text-sm text-black font-extrabold shadow-sm">
                       {item}
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-slate-400">No driver notes available.</p>
+                  <p className="text-sm text-black font-bold">No driver notes available.</p>
                 )}
               </div>
             </div>
 
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5">
+            <div className="rounded-[1.5rem] border border-blue-200 bg-blue-50/50 p-5">
               <p className="workspace-kicker">Recommended next actions</p>
               <div className="mt-4 space-y-3">
                 {(state.singleResult.explanation?.recommendedActions || []).length ? (
                   state.singleResult.explanation.recommendedActions.map((item) => (
-                    <div key={item} className="rounded-[1.1rem] border border-white/10 bg-black/20 px-4 py-3 text-sm text-slate-200">
+                    <div key={item} className="rounded-xl border border-blue-200 bg-white px-4 py-3 text-sm text-black font-extrabold shadow-sm">
                       {item}
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-slate-400">No action suggestions available.</p>
+                  <p className="text-sm text-black font-bold">No action suggestions available.</p>
                 )}
               </div>
             </div>
@@ -402,7 +402,7 @@ const AnalyzeCustomersPage = () => {
           <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className="workspace-kicker">Batch output</p>
-              <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
                 {state.batchResult.totalProcessed} customers scored
               </h3>
             </div>
@@ -414,32 +414,32 @@ const AnalyzeCustomersPage = () => {
           <div className="mt-5 grid gap-3 sm:grid-cols-3">
             <div className="workspace-stat">
               <p className="workspace-kicker">High risk</p>
-              <p className="mt-2 text-2xl text-white">{state.batchResult.summary?.highRiskCount ?? 0}</p>
+              <p className="mt-2 text-2 text-black font-bold">{state.batchResult.summary?.highRiskCount ?? 0}</p>
             </div>
             <div className="workspace-stat">
               <p className="workspace-kicker">Medium risk</p>
-              <p className="mt-2 text-2xl text-white">{state.batchResult.summary?.mediumRiskCount ?? 0}</p>
+              <p className="mt-2 text-2xl text-black font-bold">{state.batchResult.summary?.mediumRiskCount ?? 0}</p>
             </div>
             <div className="workspace-stat">
               <p className="workspace-kicker">Low risk</p>
-              <p className="mt-2 text-2xl text-white">{state.batchResult.summary?.lowRiskCount ?? 0}</p>
+              <p className="mt-2 text-2xl text-black font-bold">{state.batchResult.summary?.lowRiskCount ?? 0}</p>
             </div>
           </div>
 
-          <div className="mt-6 rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5">
+          <div className="mt-6 rounded-[1.5rem] border border-blue-200 bg-blue-50/50 p-5">
             <div>
               <p className="workspace-kicker">Highest priority preview</p>
-              <p className="mt-2 text-sm text-slate-400">Use this preview to decide which customers should get the first outbound retention actions.</p>
+              <p className="mt-2 text-sm font-bold text-black italic">Use this preview to decide which customers should get the first outbound retention actions.</p>
             </div>
 
             <div className="mt-4 space-y-3">
               {batchPreview.length ? (
                 batchPreview.map((item) => (
-                  <div key={item.predictionId} className="rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
+                  <div key={item.predictionId} className="rounded-[1.2rem] border border-blue-200 bg-white px-4 py-4 shadow-sm">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                       <div>
-                        <p className="text-sm text-white">{item.customerId}</p>
-                        <p className="mt-1 text-xs text-slate-400">
+                        <p className="text-sm text-black font-bold">{item.customerId}</p>
+                        <p className="mt-1 text-xs font-bold text-blue-600 italic">
                           {item.predictedLabel === "Yes" ? "Likely to churn" : "Looks stable"} at probability {Number(item.churnProbability ?? 0).toFixed(4)}
                         </p>
                       </div>
@@ -450,7 +450,7 @@ const AnalyzeCustomersPage = () => {
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-slate-400">No preview items available.</p>
+                <p className="text-sm text-slate-900 font-bold">No preview items available.</p>
               )}
             </div>
           </div>
@@ -462,7 +462,7 @@ const AnalyzeCustomersPage = () => {
           <div className="flex items-end justify-between gap-3">
             <div>
               <p className="workspace-kicker">Recent predictions</p>
-              <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
                 Workspace scoring history
               </h3>
             </div>
@@ -481,13 +481,13 @@ const AnalyzeCustomersPage = () => {
                 <button
                   key={item._id}
                   type="button"
-                  className="w-full rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4 text-left transition hover:border-white/20 hover:bg-white/[0.05]"
+                  className="w-full rounded-[1.2rem] border border-blue-200 bg-white px-4 py-4 text-left transition hover:border-blue-300 hover:shadow-premium"
                   onClick={() => usePredictionCustomerId(item.customerId)}
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-sm text-white">{item.customerId}</p>
-                      <p className="mt-1 text-xs text-slate-400">{item.explanation?.summary || "Prediction stored in this workspace."}</p>
+                      <p className="text-sm text-black font-extrabold">{item.customerId}</p>
+                      <p className="mt-1 text-xs font-bold text-slate-900">{item.explanation?.summary || "Prediction stored in this workspace."}</p>
                     </div>
                     <span className={`rounded-full border px-3 py-1 text-[11px] uppercase tracking-[0.14em] ${riskTone(item.riskBand)}`}>
                       {item.riskBand}
@@ -497,13 +497,13 @@ const AnalyzeCustomersPage = () => {
               ))}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-slate-400">No recent predictions yet. Run a single or batch score and they will appear here.</p>
+            <p className="mt-4 text-sm font-bold text-slate-900">No recent predictions yet. Run a single or batch score and they will appear here.</p>
           )}
         </div>
 
         <div className="soft-panel">
           <p className="workspace-kicker">Recent actions</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
             Latest follow-ups
           </h3>
 
@@ -514,15 +514,15 @@ const AnalyzeCustomersPage = () => {
           ) : state.recentActions.length ? (
             <div className="mt-4 space-y-3">
               {state.recentActions.map((item) => (
-                <div key={item._id} className="rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
+                <div key={item._id} className="rounded-3xl border border-blue-200 bg-white px-5 py-4 shadow-sm">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-sm text-white">{item.customerId}</p>
-                      <p className="mt-1 text-xs uppercase tracking-[0.12em] text-slate-400">
+                      <p className="text-[15px] text-black font-extrabold">{item.customerId}</p>
+                      <p className="mt-1 text-[11px] font-bold uppercase tracking-[0.14em] text-blue-600">
                         {item.actionType} | {item.status}
                       </p>
                     </div>
-                    <button type="button" className="text-xs text-slate-300 underline-offset-4 hover:text-white hover:underline" onClick={() => usePredictionCustomerId(item.customerId)}>
+                    <button type="button" className="text-xs text-blue-600 font-extrabold underline underline-offset-4 hover:text-blue-700" onClick={() => usePredictionCustomerId(item.customerId)}>
                       Use this ID
                     </button>
                   </div>
@@ -530,7 +530,7 @@ const AnalyzeCustomersPage = () => {
               ))}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-slate-400">No recent actions yet. Once the team creates follow-ups, they will appear here.</p>
+            <p className="mt-4 text-sm font-bold text-black">No recent actions yet. Once the team creates follow-ups, they will appear here.</p>
           )}
         </div>
       </RevealSection>

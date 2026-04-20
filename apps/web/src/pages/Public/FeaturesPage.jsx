@@ -22,8 +22,8 @@ const features = [
 
 const FeaturesPage = () => {
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif" }} className="relative overflow-hidden px-4 pb-14 pt-16 sm:px-8 sm:pt-20">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(58%_48%_at_20%_0%,rgba(99,102,241,0.14),transparent_65%)]" />
+    <div className="relative overflow-hidden bg-blue-50 px-4 pb-14 pt-16 sm:px-8 sm:pt-20">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(58%_48%_at_20%_0%,rgba(37,99,235,0.05),transparent_65%)]" />
 
       <motion.section
         className="relative mx-auto max-w-6xl"
@@ -31,14 +31,14 @@ const FeaturesPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <p className="text-[10px] uppercase tracking-[0.14em] text-white/35">Platform Features</p>
+        <p className="text-[10px] uppercase tracking-[0.14em] text-blue-600 font-bold">Platform Features</p>
         <h1
-          className="mt-3 max-w-3xl text-4xl text-[#fafafa] sm:text-5xl"
-          style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
+          className="mt-3 max-w-3xl text-4xl text-black sm:text-5xl font-extrabold"
+          style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}
         >
           Built for retention teams that run on speed and clarity.
         </h1>
-        <p className="mt-4 max-w-2xl text-sm leading-7 text-white/45">
+        <p className="mt-4 max-w-2xl text-sm leading-7 text-black font-bold">
           Every module is designed to move from model output to real customer intervention with less friction.
         </p>
       </motion.section>
@@ -47,16 +47,16 @@ const FeaturesPage = () => {
         {features.map((item, index) => (
           <motion.article
             key={item.title}
-            className="rounded-2xl border border-white/10 bg-white/[0.03] p-5"
+            className="rounded-2xl border border-blue-200 bg-white p-5 shadow-sm"
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.35, delay: index * 0.05 }}
           >
-            <h2 className="text-2xl text-[#fafafa]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+            <h2 className="text-2xl text-black font-extrabold" style={{ fontFamily: "'Instrument Serif', Georgia, serif" }}>
               {item.title}
             </h2>
-            <p className="mt-3 text-sm leading-6 text-white/45">{item.detail}</p>
+            <p className="mt-3 text-sm font-bold leading-6 text-black italic">{item.detail}</p>
           </motion.article>
         ))}
       </section>

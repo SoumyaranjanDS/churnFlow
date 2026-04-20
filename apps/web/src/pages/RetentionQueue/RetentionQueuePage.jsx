@@ -54,34 +54,34 @@ const RetentionQueuePage = () => {
   }
 
   if (state.loading) {
-    return <p className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600">Loading actions...</p>;
+    return <p className="rounded-xl border border-blue-200 bg-white px-4 py-3 text-sm font-bold text-black">Loading actions...</p>;
   }
 
   return (
     <section className="space-y-4">
-      <h2 className="text-2xl font-bold tracking-tight text-slate-900">Retention Queue</h2>
+      <h2 className="text-2xl font-bold tracking-tight text-black">Retention Queue</h2>
       {state.error && <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">{state.error}</p>}
 
-      <form className="grid gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:grid-cols-2" onSubmit={onCreateAction}>
-        <h3 className="sm:col-span-2 text-lg font-semibold text-slate-900">Create Action</h3>
+      <form className="grid gap-4 rounded-2xl border border-blue-200 bg-white p-5 shadow-sm sm:grid-cols-2" onSubmit={onCreateAction}>
+        <h3 className="sm:col-span-2 text-lg font-bold text-black">Create Action</h3>
 
-        <label className="block space-y-1 text-sm font-medium text-slate-700">
+        <label className="block space-y-1 text-sm font-medium text-black">
           <span>Customer ID</span>
           <input
             type="text"
             value={form.customerId}
             onChange={(event) => setForm((prev) => ({ ...prev, customerId: event.target.value }))}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none ring-brand-400 transition focus:ring-2"
+            className="w-full rounded-lg border border-blue-200 bg-white px-3 py-2 outline-none ring-blue-400 transition focus:ring-2"
             required
           />
         </label>
 
-        <label className="block space-y-1 text-sm font-medium text-slate-700">
+        <label className="block space-y-1 text-sm font-medium text-black">
           <span>Action Type</span>
           <select
             value={form.actionType}
             onChange={(event) => setForm((prev) => ({ ...prev, actionType: event.target.value }))}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none ring-brand-400 transition focus:ring-2"
+            className="w-full rounded-lg border border-blue-200 bg-white px-3 py-2 outline-none ring-blue-400 transition focus:ring-2"
           >
             {actionTypes.map((type) => (
               <option key={type} value={type}>
@@ -91,24 +91,24 @@ const RetentionQueuePage = () => {
           </select>
         </label>
 
-        <label className="block space-y-1 text-sm font-medium text-slate-700">
+        <label className="block space-y-1 text-sm font-medium text-black">
           <span>Owner</span>
           <input
             type="text"
             value={form.owner}
             onChange={(event) => setForm((prev) => ({ ...prev, owner: event.target.value }))}
             placeholder={user?.name || "Retention agent"}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none ring-brand-400 transition focus:ring-2"
+            className="w-full rounded-lg border border-blue-200 bg-white px-3 py-2 outline-none ring-blue-400 transition focus:ring-2"
           />
         </label>
 
-        <label className="block space-y-1 text-sm font-medium text-slate-700">
+        <label className="block space-y-1 text-sm font-medium text-black">
           <span>Notes</span>
           <input
             type="text"
             value={form.notes}
             onChange={(event) => setForm((prev) => ({ ...prev, notes: event.target.value }))}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 outline-none ring-brand-400 transition focus:ring-2"
+            className="w-full rounded-lg border border-blue-200 bg-white px-3 py-2 outline-none ring-blue-400 transition focus:ring-2"
           />
         </label>
 
@@ -116,7 +116,7 @@ const RetentionQueuePage = () => {
           <button
             type="submit"
             disabled={state.submitting}
-            className="rounded-lg bg-brand-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800 disabled:cursor-not-allowed disabled:opacity-60"
+            className="btn-primary"
           >
             {state.submitting ? "Creating..." : "Create Action"}
           </button>
@@ -124,14 +124,14 @@ const RetentionQueuePage = () => {
       </form>
 
       {!state.items.length && (
-        <p className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600">No actions found.</p>
+        <p className="rounded-xl border border-blue-200 bg-white px-4 py-3 text-sm font-bold text-black italic opacity-60">No actions found.</p>
       )}
 
       {!!state.items.length && (
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="overflow-hidden rounded-2xl border border-blue-200 bg-white shadow-sm">
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm">
-              <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+              <thead className="bg-blue-50 text-left text-[11px] uppercase tracking-[0.2em] text-black font-black">
                 <tr>
                   <th className="px-4 py-3">Customer</th>
                   <th className="px-4 py-3">Type</th>
@@ -139,17 +139,17 @@ const RetentionQueuePage = () => {
                   <th className="px-4 py-3">Owner</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200">
+              <tbody className="divide-y divide-blue-100">
                 {state.items.map((item) => (
-                  <tr key={item._id} className="text-slate-700">
-                    <td className="px-4 py-3 font-medium text-slate-900">{item.customerId}</td>
-                    <td className="px-4 py-3">{item.actionType}</td>
+                  <tr key={item._id} className="text-black font-bold">
+                    <td className="px-4 py-3 font-black text-black">{item.customerId}</td>
+                    <td className="px-4 py-3 text-blue-600 italic">{item.actionType}</td>
                     <td className="px-4 py-3">
                       <select
                         value={item.status}
                         disabled={user?.role === "agent"}
                         onChange={(event) => onStatusChange(item._id, event.target.value)}
-                        className="w-full rounded-lg border border-slate-300 px-2 py-1.5 outline-none ring-brand-400 transition focus:ring-2 disabled:cursor-not-allowed disabled:bg-slate-100"
+                        className="w-full rounded-lg border border-blue-200 px-2 py-1.5 outline-none ring-blue-400 transition focus:ring-2 disabled:cursor-not-allowed disabled:bg-blue-50 text-xs font-bold uppercase tracking-widest"
                       >
                         {statuses.map((status) => (
                           <option key={status} value={status}>
@@ -158,7 +158,7 @@ const RetentionQueuePage = () => {
                         ))}
                       </select>
                     </td>
-                    <td className="px-4 py-3">{item.owner || "-"}</td>
+                    <td className="px-4 py-3 text-black font-medium opacity-80 italic">{item.owner || "-"}</td>
                   </tr>
                 ))}
               </tbody>

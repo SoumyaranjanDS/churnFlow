@@ -611,10 +611,10 @@ const CustomOnboardingPage = () => {
     <section className="space-y-5">
       <RevealSection className="workspace-hero">
         <p className="workspace-kicker">Custom Model Setup</p>
-        <h2 className="mt-3 text-3xl text-white sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+        <h2 className="mt-3 text-3xl text-black sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 900 }}>
           Turn a client dataset into a clean churn-model setup.
         </h2>
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300/80">
+        <p className="mt-3 max-w-3xl text-sm font-bold leading-7 text-black">
           This page works in a simple order: upload a sample, let Gemini guess the column meanings, confirm or correct the guesses, then check whether the data is ready for a custom model.
         </p>
       </RevealSection>
@@ -644,19 +644,19 @@ const CustomOnboardingPage = () => {
       ) : null}
 
       {busyState && (
-        <RevealSection className="soft-panel border-sky-300/20 bg-[linear-gradient(135deg,rgba(56,189,248,0.12),rgba(14,165,233,0.06))]">
+        <RevealSection className="soft-panel border-sky-200 bg-sky-50">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <p className="workspace-kicker">Working on it</p>
-              <p className="mt-2 text-base text-white">{busyMessage}</p>
-              <p className="mt-1 text-sm leading-6 text-slate-300/80">
+              <p className="mt-2 text-base text-black font-extrabold">{busyMessage}</p>
+              <p className="mt-1 text-sm leading-6 text-black font-bold">
                 Keep this tab open. We will update the screen as soon as the current step finishes.
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-sky-300 animate-pulse" />
-              <span className="h-2.5 w-2.5 rounded-full bg-sky-300/70 animate-pulse [animation-delay:180ms]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-sky-300/45 animate-pulse [animation-delay:360ms]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-sky-400 animate-pulse" />
+              <span className="h-2.5 w-2.5 rounded-full bg-sky-400 animate-pulse [animation-delay:180ms]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-sky-400 animate-pulse [animation-delay:360ms]" />
             </div>
           </div>
         </RevealSection>
@@ -666,28 +666,28 @@ const CustomOnboardingPage = () => {
         {stepCards.map((step) => {
           const stepTone =
             step.state === "done"
-              ? "border-emerald-300/30 bg-emerald-500/10"
+              ? "border-emerald-200 bg-emerald-50"
               : step.state === "active"
-                ? "border-sky-300/25 bg-sky-500/10"
-                : "border-white/10 bg-white/[0.035]"
+                ? "border-sky-200 bg-sky-50"
+                : "border-blue-100 bg-white"
 
           return (
             <div key={step.id} className={`rounded-[1.4rem] border px-4 py-4 ${stepTone}`}>
               <div className="flex items-center justify-between gap-3">
-                <span className="text-[10px] uppercase tracking-[0.18em] text-slate-400">{step.id}</span>
-                <span className={`rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] ${
+                <span className="text-[10px] uppercase tracking-[0.18em] text-black font-black">{step.id}</span>
+                <span className={`rounded-full px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] font-black ${
                   step.state === "done"
-                    ? "bg-emerald-400/15 text-emerald-200"
+                    ? "bg-emerald-100 text-emerald-900"
                     : step.state === "active"
-                      ? "bg-sky-400/15 text-sky-200"
-                      : "bg-white/5 text-slate-400"
+                      ? "bg-sky-100 text-sky-900"
+                      : "bg-blue-100 text-black"
                 }`}>
                   {step.state === "done" ? "Done" : step.state === "active" ? "Current" : "Next"}
                 </span>
               </div>
-              <p className="mt-3 text-sm text-white">{step.title}</p>
-              <p className="mt-2 text-xs leading-5 text-slate-400">{step.helper}</p>
-              <p className="mt-3 text-xs leading-5 text-slate-300">{step.detail}</p>
+              <p className="mt-3 text-sm text-black font-black">{step.title}</p>
+              <p className="mt-2 text-xs leading-5 text-black font-bold">{step.helper}</p>
+              <p className="mt-3 text-xs leading-5 text-black font-black italic">{step.detail}</p>
             </div>
           )
         })}
@@ -696,25 +696,25 @@ const CustomOnboardingPage = () => {
       <RevealSection className="grid gap-4 xl:grid-cols-[1.02fr_0.98fr]">
         <form className="soft-panel" onSubmit={upload}>
           <p className="workspace-kicker">Step 1</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 900 }}>
             Upload a small sample file
           </h3>
-          <p className="mt-3 text-sm leading-6 text-slate-400">
+          <p className="mt-3 text-sm font-bold leading-6 text-black">
             Use a CSV or XLSX file with a few representative rows. We only need enough data to understand the columns and the churn label.
           </p>
           <label className="mt-5 block">
             <span className="field-label">Sample dataset</span>
-                <input id="phase2-upload-input" type="file" accept=".csv,.xlsx" className="field-input file:mr-3 file:rounded-full file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-xs file:font-medium file:text-white" onChange={(event) => setFile(event.target.files?.[0] || null)} />
+                <input id="phase2-upload-input" type="file" accept=".csv,.xlsx" className="field-input file:mr-3 file:rounded-full file:border-0 file:bg-blue-600 file:px-4 file:py-2.5 file:text-xs file:font-black file:text-white file:shadow-lg" onChange={(event) => setFile(event.target.files?.[0] || null)} />
           </label>
           <label className="mt-4 block">
             <span className="field-label">Sheet name if needed</span>
             <input value={sheet} onChange={(event) => setSheet(event.target.value)} className="field-input" placeholder="Leave blank unless your workbook has multiple sheets" />
           </label>
           {file && (
-            <div className="mt-4 rounded-[1.15rem] border border-white/10 bg-black/20 px-4 py-4">
+            <div className="mt-4 rounded-[1.15rem] border border-blue-200 bg-blue-50/50 px-4 py-4">
               <p className="workspace-kicker">Selected file</p>
-              <p className="mt-2 text-sm text-white">{file.name}</p>
-              <p className="mt-1 text-xs text-slate-400">
+              <p className="mt-2 text-sm text-black font-black">{file.name}</p>
+              <p className="mt-1 text-xs text-black font-bold">
                 {(file.size / 1024).toFixed(1)} KB • ready for Gemini review
               </p>
             </div>
@@ -727,81 +727,81 @@ const CustomOnboardingPage = () => {
 
         <div className="soft-panel">
           <p className="workspace-kicker">What happens here</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 900 }}>
             One clear step at a time
           </h3>
-          <div className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
+          <div className="mt-4 space-y-4 text-sm font-bold leading-7 text-black">
             <p>1. We inspect the file and Gemini guesses what the important columns mean.</p>
             <p>2. Gemini also guesses the most likely churn column for you.</p>
             <p>3. You only confirm the guesses, correct anything wrong, and answer any missing business questions.</p>
             <p>4. We tell you whether the dataset is ready for a custom model or what still needs fixing.</p>
           </div>
-          <details className="mt-5 rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
-            <summary className="cursor-pointer text-sm text-white">See previous uploads</summary>
+          <details className="mt-5 rounded-[1.2rem] border border-blue-200 bg-blue-50/50 px-4 py-4">
+            <summary className="cursor-pointer text-sm text-black font-bold">See previous uploads</summary>
             <div className="mt-3 space-y-3">
               {(view.history || []).length ? view.history.map((item) => (
-                <button key={item._id} type="button" onClick={() => load(item._id)} className={`w-full rounded-[1rem] border px-3 py-3 text-left transition ${String(item._id) === String(dataset?._id) ? "border-white/20 bg-white/[0.08]" : "border-white/10 bg-white/[0.04] hover:bg-white/[0.06]"}`}>
-                  <p className="text-sm text-white">{item.fileName}</p>
-                  <p className="mt-1 text-xs text-slate-400">{pickLabel(INDUSTRY_LABELS, item.analysis?.suggestedIndustry, prettify(item.analysis?.suggestedIndustry))} • {item.rowCount || 0} rows • {formatDate(item.createdAt)}</p>
+                <button key={item._id} type="button" onClick={() => load(item._id)} className={`w-full rounded-2xl border px-4 py-4 text-left transition ${String(item._id) === String(dataset?._id) ? "border-blue-400 bg-blue-50" : "border-blue-100 bg-white hover:bg-blue-50"}`}>
+                  <p className="text-sm text-black font-black">{item.fileName}</p>
+                  <p className="mt-1 text-xs text-black font-bold">{pickLabel(INDUSTRY_LABELS, item.analysis?.suggestedIndustry, prettify(item.analysis?.suggestedIndustry))} • {item.rowCount || 0} rows • {formatDate(item.createdAt)}</p>
                 </button>
-              )) : <p className="text-sm text-slate-400">No saved uploads yet.</p>}
+              )) : <p className="text-sm text-black font-black">No saved uploads yet.</p>}
             </div>
           </details>
         </div>
       </RevealSection>
 
-      {view.error && <p className="rounded-2xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{view.error}</p>}
-      {view.message && <p className="rounded-2xl border border-emerald-300/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">{view.message}</p>}
+      {view.error && <p className="rounded-2xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-800">{view.error}</p>}
+      {view.message && <p className="rounded-2xl border border-emerald-300/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-800">{view.message}</p>}
 
       {dataset && (
         <>
           <RevealSection className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
             <div className="soft-panel">
               <p className="workspace-kicker">Step 2</p>
-              <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 900 }}>
                 What we found in your file
               </h3>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div className="workspace-stat"><p className="workspace-kicker">Business type</p><p className="mt-2 text-white">{pickLabel(INDUSTRY_LABELS, schema?.suggestedIndustry || dataset?.analysis?.suggestedIndustry, prettify(schema?.suggestedIndustry || dataset?.analysis?.suggestedIndustry))}</p></div>
-                <div className="workspace-stat"><p className="workspace-kicker">Rows checked</p><p className="mt-2 text-white">{dataset?.rowCount || 0}</p></div>
-                <div className="workspace-stat"><p className="workspace-kicker">Gemini guessed churn column</p><p className="mt-2 text-white">{aiSuggestedTargetColumn || "Not sure yet"}</p></div>
-                <div className="workspace-stat"><p className="workspace-kicker">Suggested mappings</p><p className="mt-2 text-white">{orderedMappings.filter((item) => item.targetField).length}</p></div>
+                <div className="workspace-stat"><p className="workspace-kicker">Business type</p><p className="mt-2 text-black font-bold">{pickLabel(INDUSTRY_LABELS, schema?.suggestedIndustry || dataset?.analysis?.suggestedIndustry, prettify(schema?.suggestedIndustry || dataset?.analysis?.suggestedIndustry))}</p></div>
+                <div className="workspace-stat"><p className="workspace-kicker">Rows checked</p><p className="mt-2 text-black font-bold">{dataset?.rowCount || 0}</p></div>
+                <div className="workspace-stat"><p className="workspace-kicker">Gemini guessed churn column</p><p className="mt-2 text-black font-bold">{aiSuggestedTargetColumn || "Not sure yet"}</p></div>
+                <div className="workspace-stat"><p className="workspace-kicker">Suggested mappings</p><p className="mt-2 text-black font-bold">{orderedMappings.filter((item) => item.targetField).length}</p></div>
               </div>
-              <div className={`mt-4 rounded-[1.3rem] border px-4 py-4 ${mainButtonTone}`}>
-                <p className="text-sm font-medium text-white">{status.title}</p>
-                <p className="mt-2 text-sm leading-7 opacity-90">{status.body}</p>
-                <div className="mt-3 space-y-2 text-xs uppercase tracking-[0.14em] opacity-80">
-                  <p>Next</p>
-                  {nextSteps.map((item) => <p key={item} className="normal-case tracking-normal opacity-100">{item}</p>)}
+              <div className={`mt-4 rounded-[1.8rem] border p-6 ${status.tone === "emerald" ? "border-emerald-200 bg-emerald-50 text-black font-bold" : status.tone === "amber" ? "border-amber-200 bg-amber-50 text-black font-bold" : status.tone === "violet" ? "border-violet-200 bg-violet-50 text-black font-bold" : "border-sky-200 bg-sky-50 text-black font-bold"}`}>
+                <p className="text-[17px] font-black text-black">{status.title}</p>
+                <p className="mt-3 text-sm font-bold leading-7 text-black">{status.body}</p>
+                <div className="mt-5 space-y-2 border-t border-black/5 pt-4 text-xs uppercase tracking-[0.2em] text-black font-black">
+                  <p className="mb-2 italic opacity-60">Next Step</p>
+                  {nextSteps.map((item) => <p key={item} className="normal-case tracking-normal text-black font-black">→ {item}</p>)}
                 </div>
               </div>
             </div>
 
             <div className="soft-panel">
               <p className="workspace-kicker">Plain-language summary</p>
-              <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 900 }}>
                 What the AI already guessed
               </h3>
-              <div className="mt-4 rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4 text-sm leading-7 text-slate-200">
+              <div className="mt-4 rounded-[1.8rem] border border-blue-200 bg-blue-50 p-6 text-sm font-bold leading-7 text-black italic">
                 {ai.executiveSummary || "We could not generate a business summary yet. Upload a file again if the AI layer was unavailable."}
               </div>
-              <div className="mt-4 rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4">
+              <div className="mt-4 rounded-[1.8rem] border border-blue-200 bg-blue-50 p-6">
                 <p className="workspace-kicker">You only need to confirm these guesses</p>
-                <div className="mt-3 space-y-2 text-sm leading-6 text-slate-200">
-                  <p><span className="text-slate-400">Guessed churn column:</span> {aiSuggestedTargetColumn || "No clear guess yet"}</p>
-                  <p><span className="text-slate-400">Guessed mapped columns:</span> {mappedRows.length}</p>
-                  <p><span className="text-slate-400">High-confidence guesses:</span> {highConfidenceMappedRows.length}</p>
-                  <p><span className="text-slate-400">Questions left:</span> {answeredQuestions}/{questions.length}</p>
+                <div className="mt-4 space-y-3 text-sm font-bold leading-6 text-black">
+                  <p>Guessed churn column: <span className="text-blue-600 font-black">{aiSuggestedTargetColumn || "No clear guess yet"}</span></p>
+                  <p>Guessed mapped columns: <span className="text-blue-600 font-black">{mappedRows.length}</span></p>
+                  <p>High-confidence guesses: <span className="text-blue-600 font-black">{highConfidenceMappedRows.length}</span></p>
+                  <p>Questions left: <span className="text-blue-600 font-black">{answeredQuestions}/{questions.length}</span></p>
                 </div>
               </div>
               {(ai.missingFieldExplanations || []).length > 0 && (
-                <div className="mt-4 rounded-[1.3rem] border border-white/10 bg-black/20 px-4 py-4">
-                  <p className="workspace-kicker">Fields that would make the model stronger later</p>
-                  <div className="mt-3 space-y-3">
+                <div className="mt-4 rounded-[1.8rem] border border-blue-200 bg-white p-6">
+                  <p className="workspace-kicker text-blue-600">Fields to strengthen the model</p>
+                  <div className="mt-4 space-y-4">
                     {ai.missingFieldExplanations.slice(0, 4).map((item) => (
                       <div key={`${item.field}-${item.reason}`}>
-                        <p className="text-sm text-white">{item.field}</p>
-                        <p className="mt-1 text-xs leading-6 text-slate-400">{item.reason}</p>
+                        <p className="text-sm text-black font-black italic">{item.field}</p>
+                        <p className="mt-1 text-xs font-bold leading-6 text-black">{item.reason}</p>
                       </div>
                     ))}
                   </div>
@@ -815,10 +815,10 @@ const CustomOnboardingPage = () => {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="workspace-kicker">Step 3</p>
-              <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 900 }}>
                 Confirm Gemini&apos;s setup
               </h3>
-              <p className="mt-3 text-sm leading-6 text-slate-400">
+              <p className="mt-3 text-sm font-bold leading-6 text-black">
                     You are not mapping every column manually. Gemini already guessed which dataset columns matter, what they likely mean, and which one looks like the churn outcome. In most cases, you can accept that setup and only fix the few uncertain columns.
                   </p>
                 </div>
@@ -843,8 +843,8 @@ const CustomOnboardingPage = () => {
                     <option value="">Select the churn column</option>
                     {targets.map((value) => <option key={value} value={value}>{value}</option>)}
                   </select>
-                  <p className="mt-2 text-xs leading-5 text-slate-400">
-                    Gemini guessed: <span className="text-slate-200">{aiSuggestedTargetColumn || "No clear guess yet"}</span>
+                  <p className="mt-2 text-xs font-bold leading-5 text-black">
+                    Gemini guessed: <span className="text-blue-600 font-black italic">{aiSuggestedTargetColumn || "No clear guess yet"}</span>
                   </p>
                 </label>
               </div>
@@ -857,60 +857,60 @@ const CustomOnboardingPage = () => {
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
                 <div className="workspace-stat">
                   <p className="workspace-kicker">Churn guess</p>
-                  <p className="mt-2 text-sm text-white">{aiSuggestedTargetColumn || "Choose it manually"}</p>
+                  <p className="mt-2 text-sm text-black font-bold">{aiSuggestedTargetColumn || "Choose it manually"}</p>
                 </div>
                 <div className="workspace-stat">
                   <p className="workspace-kicker">Questions answered</p>
-                  <p className="mt-2 text-sm text-white">{answeredQuestions}/{questions.length}</p>
+                  <p className="mt-2 text-sm text-black font-bold">{answeredQuestions}/{questions.length}</p>
                 </div>
                 <div className="workspace-stat">
                   <p className="workspace-kicker">Mapped columns</p>
-                  <p className="mt-2 text-sm text-white">{mappedRows.length}</p>
+                  <p className="mt-2 text-sm text-black font-bold">{mappedRows.length}</p>
                 </div>
               </div>
 
-              <div className="mt-5 rounded-[1.3rem] border border-white/10 bg-black/20 p-4">
+              <div className="mt-5 rounded-[2rem] border border-blue-200 bg-blue-50 p-6">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="workspace-kicker">Gemini mapping summary</p>
-                    <p className="mt-2 text-sm text-slate-300">These are Gemini&apos;s guesses for your dataset columns. We keep the internal model fields behind the scenes, so you mostly just need to confirm whether the guesses are correct.</p>
+                    <p className="mt-2 text-sm font-bold text-black italic">These are Gemini&apos;s guesses for your dataset columns. We keep the internal model fields behind the scenes, so you mostly just need to confirm whether the guesses are correct.</p>
                   </div>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-300">{mappedRows.length} mapped</span>
+                  <span className="rounded-full border border-blue-200 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-black font-black">{mappedRows.length} mapped</span>
                 </div>
                 <div className="mt-4 space-y-3">
                   {mappedRows.length ? mappedRows.slice(0, 8).map((row) => {
                     const suggestion = suggestionLookup.get(row.sourceColumn)
                     return (
-                      <div key={row.sourceColumn} className="rounded-[1rem] border border-white/10 bg-white/[0.04] px-4 py-4">
+                      <div key={row.sourceColumn} className="rounded-2xl border border-blue-200 bg-white px-5 py-5 shadow-sm">
                         <div className="flex flex-wrap items-center gap-2">
-                          <p className="text-sm text-white">{row.sourceColumn}</p>
-                          <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-300">
+                          <p className="text-sm text-black font-black">{row.sourceColumn}</p>
+                          <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-blue-600 font-black">
                             {suggestion?.source === "ai" ? "Gemini guess" : "Mapped"}
                           </span>
                           {suggestion?.confidence ? (
-                            <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-400">
+                            <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-black font-black">
                               {suggestion.confidence}
                             </span>
                           ) : null}
                         </div>
-                        <p className="mt-2 text-xs leading-5 text-slate-400">
-                          Meaning: <span className="text-slate-200">{pickLabel(TARGET_LABELS, row.targetField, row.targetField)}</span>
+                        <p className="mt-3 text-xs font-bold leading-5 text-black">
+                          Meaning: <span className="text-blue-600 font-black italic">{pickLabel(TARGET_LABELS, row.targetField, row.targetField)}</span>
                           {suggestion?.reason ? ` - ${suggestion.reason}` : ""}
                         </p>
                       </div>
                     )
                   }) : (
-                    <p className="rounded-[1rem] border border-white/10 bg-white/[0.04] px-4 py-4 text-sm text-slate-400">
+                    <p className="rounded-2xl border border-blue-200 bg-white px-5 py-5 text-sm font-bold text-black italic">
                       Gemini could not map enough columns yet. Use the advanced corrections below.
                     </p>
                   )}
                 </div>
 
-                <details className="mt-4 rounded-[1rem] border border-white/10 bg-white/[0.03] px-4 py-4">
-                  <summary className="cursor-pointer text-sm text-white">
+                <details className="mt-5 rounded-2xl border border-blue-200 bg-white px-5 py-5">
+                  <summary className="cursor-pointer text-sm font-black text-black uppercase tracking-widest">
                     Open advanced corrections {reviewRows.length ? `(${reviewRows.length} columns may need review)` : ""}
                   </summary>
-                  <p className="mt-3 text-sm leading-6 text-slate-400">
+                  <p className="mt-4 text-sm font-bold leading-6 text-black italic">
                     Only change these if Gemini guessed something incorrectly or missed an important business column.
                   </p>
                   <div className="mt-4 max-h-[420px] space-y-3 overflow-y-auto pr-1">
@@ -918,22 +918,22 @@ const CustomOnboardingPage = () => {
                       const suggestion = suggestionLookup.get(row.sourceColumn)
 
                       return (
-                        <div key={row.sourceColumn} className="rounded-[1rem] border border-white/10 bg-white/[0.04] px-4 py-4">
+                        <div key={row.sourceColumn} className="rounded-xl border border-blue-100 bg-blue-50/20 px-5 py-5">
                           <div className="flex flex-wrap items-center gap-2">
-                            <p className="text-sm text-white">{row.sourceColumn}</p>
+                            <p className="text-sm text-black font-black">{row.sourceColumn}</p>
                             {suggestion ? (
-                              <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[10px] uppercase tracking-[0.14em] text-slate-300">
+                              <span className="rounded-full border border-blue-100 bg-white px-3 py-1 text-[10px] uppercase tracking-[0.14em] text-blue-600 font-black">
                                 {suggestion.source === "ai" ? "Gemini guess" : "Rule guess"}
                               </span>
                             ) : null}
                           </div>
                           {suggestion ? (
-                            <p className="mt-2 text-xs leading-5 text-slate-400">
-                              Suggested meaning: <span className="text-slate-200">{pickLabel(TARGET_LABELS, suggestion.targetField, suggestion.targetField)}</span>
+                            <p className="mt-3 text-xs font-bold leading-5 text-black">
+                              Suggested meaning: <span className="text-blue-600 font-black italic">{pickLabel(TARGET_LABELS, suggestion.targetField, suggestion.targetField)}</span>
                               {suggestion.reason ? ` - ${suggestion.reason}` : ""}
                             </p>
                           ) : (
-                            <p className="mt-2 text-xs leading-5 text-slate-500">
+                            <p className="mt-3 text-xs font-bold leading-5 text-black italic opacity-60">
                               No automatic guess yet. Choose the meaning manually if this column matters.
                             </p>
                           )}
@@ -950,26 +950,26 @@ const CustomOnboardingPage = () => {
 
             <div className="soft-panel">
               <p className="workspace-kicker">Only answer what is still missing</p>
-              <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 900 }}>
                 Business questions that still matter
               </h3>
-              <p className="mt-3 text-sm leading-6 text-slate-400">
+              <p className="mt-3 text-sm font-bold leading-6 text-black">
                 These are only here to fill the remaining gaps. If the file already makes the business meaning clear, this section stays short.
               </p>
               <div className="mt-4 space-y-3">
                 {questions.length ? questions.map((question) => (
-                  <label key={question} className="block rounded-[1.2rem] border border-white/10 bg-white/[0.04] px-4 py-4">
-                    <span className="text-sm text-white">{question}</span>
-                    <textarea rows="3" className="field-input mt-3 resize-none" value={editor.followUpAnswers[question] || ""} onChange={(event) => setEditor((prev) => ({ ...prev, followUpAnswers: { ...prev.followUpAnswers, [question]: event.target.value } }))} placeholder="Type the business answer here" />
+                  <label key={question} className="block rounded-[1.2rem] border border-blue-200 bg-white px-4 py-4">
+                    <span className="text-sm text-black font-bold">{question}</span>
+                    <textarea rows="3" className="field-input mt-3 resize-none font-bold" value={editor.followUpAnswers[question] || ""} onChange={(event) => setEditor((prev) => ({ ...prev, followUpAnswers: { ...prev.followUpAnswers, [question]: event.target.value } }))} placeholder="Type the business answer here" />
                   </label>
-                )) : <p className="rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4 text-sm text-slate-400">No follow-up questions were needed for this file.</p>}
+                )) : <p className="rounded-2xl border border-blue-200 bg-blue-50 p-6 text-sm font-bold text-black italic">No follow-up questions were needed for this file.</p>}
               </div>
 
               {(ai.normalizationSuggestions || []).length > 0 && (
-                <div className="mt-4 rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
-                  <p className="workspace-kicker">Data cleanup suggestions</p>
-                  <div className="mt-3 space-y-2 text-sm leading-6 text-slate-200">
-                    {ai.normalizationSuggestions.map((item) => <p key={item}>{item}</p>)}
+                <div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 p-6">
+                  <p className="workspace-kicker text-blue-600">Cleanup suggestions</p>
+                  <div className="mt-4 space-y-3 text-sm font-bold leading-7 text-black italic">
+                    {ai.normalizationSuggestions.map((item) => <p key={item}>• {item}</p>)}
                   </div>
                 </div>
               )}
@@ -981,30 +981,30 @@ const CustomOnboardingPage = () => {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="workspace-kicker">Step 4</p>
-                  <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+                  <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 900 }}>
                     Readiness result
                   </h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-400">
+                  <p className="mt-3 text-sm font-bold leading-6 text-black">
                     Once the setup is saved, this section tells you clearly whether the dataset is ready or what still needs to be fixed.
                   </p>
                 </div>
                 <button type="button" className="btn-secondary" disabled={view.checking || !confirmed} onClick={recheckReadiness}>{view.checking ? "Checking..." : "Check readiness again"}</button>
               </div>
 
-              <div className={`mt-4 rounded-[1.3rem] border px-4 py-4 ${mainButtonTone}`}>
-                <p className="text-sm font-medium text-white">{status.title}</p>
-                <p className="mt-2 text-sm leading-7 opacity-90">{status.body}</p>
+              <div className={`mt-4 rounded-[1.8rem] border p-10 ${mainButtonTone} shadow-premium`}>
+                <p className="text-[17px] font-black text-white">{status.title}</p>
+                <p className="mt-4 text-sm font-bold leading-7 text-white/90">{status.body}</p>
               </div>
 
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div className="workspace-stat"><p className="workspace-kicker">Ready for custom model</p><p className="mt-2 text-white">{readiness.readyForCustomTraining ? "Yes" : "No"}</p></div>
-                <div className="workspace-stat"><p className="workspace-kicker">Ready for telecom starter path</p><p className="mt-2 text-white">{readiness.readyForTelecomPrediction ? "Yes" : "No"}</p></div>
+                <div className="workspace-stat"><p className="workspace-kicker">Ready for custom model</p><p className="mt-2 text-black font-bold">{readiness.readyForCustomTraining ? "Yes" : "No"}</p></div>
+                <div className="workspace-stat"><p className="workspace-kicker">Ready for telecom starter path</p><p className="mt-2 text-black font-bold">{readiness.readyForTelecomPrediction ? "Yes" : "No"}</p></div>
               </div>
 
-              <div className="mt-4 rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
+              <div className="mt-4 rounded-[1.8rem] border border-blue-200 bg-blue-50 p-6">
                 <p className="workspace-kicker">How to fix this</p>
-                <div className="mt-3 space-y-2 text-sm leading-6 text-slate-200">
-                  {blockerFixes.length ? blockerFixes.map((item) => <p key={item}>{item}</p>) : <p className="text-emerald-200">No blockers found. The setup is ready for the next phase.</p>}
+                <div className="mt-4 space-y-3 text-sm font-bold leading-7 text-black italic">
+                  {blockerFixes.length ? blockerFixes.map((item) => <p key={item}>→ {item}</p>) : <p className="text-emerald-800 font-black">No blockers found. The setup is ready for the next phase.</p>}
                 </div>
               </div>
 
@@ -1017,39 +1017,39 @@ const CustomOnboardingPage = () => {
                 </div>
               )}
 
-              {view.handoffError && <div className="mt-4 rounded-[1.2rem] border border-amber-300/30 bg-amber-500/10 px-4 py-4 text-sm text-amber-100">{view.handoffError}</div>}
+              {view.handoffError && <div className="mt-4 rounded-[1.2rem] border border-amber-300/30 bg-amber-500/10 px-4 py-4 text-sm text-amber-900">{view.handoffError}</div>}
             </div>
 
             <div className="soft-panel">
               <p className="workspace-kicker">What happens next</p>
-              <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 900 }}>
                 Next action for your team
               </h3>
-              <div className="mt-4 rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4 text-sm leading-7 text-slate-200">
-                <div className="space-y-2">{nextSteps.map((item) => <p key={item}>{item}</p>)}</div>
+              <div className="mt-4 rounded-[1.2rem] border border-blue-200 bg-blue-50/50 px-4 py-4 text-sm leading-7 text-black font-medium">
+                <div className="space-y-2">{nextSteps.map((item) => <p key={item} className="font-bold">{item}</p>)}</div>
               </div>
               {preview && (
-                <div className="mt-4 rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
-                  <p className="workspace-kicker">Training handoff preview</p>
-                  <div className="mt-3 space-y-3 text-sm text-slate-200">
-                    <p><span className="text-slate-400">Target column:</span> {preview.targetColumn || "-"}</p>
-                    <p><span className="text-slate-400">Rows available:</span> {preview.rowCount || dataset?.rowCount || 0}</p>
-                    <p className="text-slate-400">Feature mappings</p>
-                    <div className="space-y-2">
+                <div className="mt-4 rounded-[2rem] border border-blue-200 bg-blue-50 p-6">
+                  <p className="workspace-kicker text-blue-600">Training handoff preview</p>
+                  <div className="mt-4 space-y-4 text-[13px] font-bold text-black italic">
+                    <p>Target column: <span className="text-black font-black not-italic">{preview.targetColumn || "-"}</span></p>
+                    <p>Rows available: <span className="text-black font-black not-italic">{preview.rowCount || dataset?.rowCount || 0}</span></p>
+                    <p className="text-black font-black uppercase tracking-widest pt-2">Feature mappings</p>
+                    <div className="grid gap-3 sm:grid-cols-2">
                       {(preview.featureMappings || []).length ? preview.featureMappings.map((item) => (
-                        <div key={`${item.sourceColumn}-${item.targetField}`} className="rounded-[1rem] border border-white/10 bg-white/[0.04] px-3 py-3">
-                          <p className="text-white">{item.sourceColumn}</p>
-                          <p className="mt-1 text-xs uppercase tracking-[0.14em] text-slate-400">{pickLabel(TARGET_LABELS, item.targetField, item.targetField)}</p>
+                        <div key={`${item.sourceColumn}-${item.targetField}`} className="rounded-xl border border-blue-100 bg-white p-4 shadow-sm">
+                          <p className="text-black font-black">{item.sourceColumn}</p>
+                          <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-blue-600 font-black">{pickLabel(TARGET_LABELS, item.targetField, item.targetField)}</p>
                         </div>
-                      )) : <p className="text-slate-400">No confirmed mappings yet.</p>}
+                      )) : <p className="text-black font-black">No confirmed mappings yet.</p>}
                     </div>
                   </div>
                 </div>
               )}
 
-              <details className="mt-4 rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
-                <summary className="cursor-pointer whitespace-nowrap text-sm text-white">See raw file preview</summary>
-                {dataset?.sampleRows?.length ? <div className="mt-3 overflow-x-auto text-xs leading-6 text-slate-200"><pre>{JSON.stringify(dataset.sampleRows, null, 2)}</pre></div> : <p className="mt-3 text-sm text-slate-400">No sample rows available.</p>}
+              <details className="mt-4 rounded-[2rem] border border-blue-200 bg-blue-50 p-6">
+                <summary className="cursor-pointer whitespace-nowrap text-sm font-black text-black uppercase tracking-widest">See raw file preview</summary>
+                {dataset?.sampleRows?.length ? <div className="mt-4 overflow-x-auto text-xs leading-7 text-black font-bold italic"><pre className="bg-white/50 p-4 rounded-xl">{JSON.stringify(dataset.sampleRows, null, 2)}</pre></div> : <p className="mt-4 text-sm text-black font-black">No sample rows available.</p>}
               </details>
             </div>
           </RevealSection>

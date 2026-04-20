@@ -19,60 +19,51 @@ const CheckoutPage = () => {
   const cadence = billing === "yearly" ? "/year" : "/month";
 
   return (
-    <div className="relative overflow-hidden px-6 py-12 sm:px-8">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(circle_at_top,rgba(192,132,252,0.2),transparent_60%)]" />
-
-      <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[0.86fr_1.14fr]">
+    <div className="relative min-h-screen bg-blue-50 px-6 pb-32 pt-32 sm:px-8">
+      <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+        {/* Plan Summary */}
         <motion.section
-          className="overflow-hidden rounded-[2.4rem] border border-white/10 px-6 py-8"
-          style={{
-            background:
-              "radial-gradient(circle at 20% 10%, rgba(192,132,252,0.18), transparent 30%), linear-gradient(180deg, rgba(17,18,28,0.98), rgba(11,12,18,0.98))"
-          }}
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.38, ease: "easeOut" }}
+          className="rounded-[2.5rem] border border-blue-200 bg-white p-8 shadow-premium sm:p-10"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: [0.215, 0.61, 0.355, 1] }}
         >
-          <p className="text-[10px] uppercase tracking-[0.16em] text-white/35">Checkout</p>
-          <h1
-            className="mt-4 text-4xl text-white sm:text-5xl"
-            style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
-          >
-            Finish setting up your plan.
+          <p className="workspace-kicker">Review Selection</p>
+          <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-black sm:text-5xl">
+            Selected Plan.
           </h1>
-          <p className="mt-4 max-w-md text-sm leading-7 text-white/52">
-            Review your selected plan, then continue to account setup. Billing is now connected to a plan-aware checkout flow, so the chosen plan and cadence stay attached.
+          <p className="mt-6 text-[15px] font-bold leading-7 text-black">
+            Review your chosen operating model for RetainQ. You can scale or adjust your seat count after joining.
           </p>
 
-          <div className="mt-8 rounded-[1.8rem] border border-white/10 bg-white/[0.04] p-5">
+          <div className="mt-10 rounded-[2rem] border border-blue-100 bg-blue-50 p-6 sm:p-8">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
-                <p className="text-[10px] uppercase tracking-[0.12em] text-white/32">{plan.detail}</p>
-                <h2
-                  className="mt-2 text-3xl text-white"
-                  style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
-                >
+                <p className="text-[11px] font-extrabold uppercase tracking-[0.12em] text-blue-600">{plan.detail}</p>
+                <h2 className="mt-2 text-3xl font-bold text-black">
                   {plan.name}
                 </h2>
               </div>
-              <span className="rounded-full border border-white/12 bg-white/[0.05] px-3 py-1 text-[10px] uppercase tracking-[0.12em] text-white/70">
+              <span className="rounded-full bg-blue-50 border border-blue-200 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-blue-700">
                 {billing}
               </span>
             </div>
 
-            <div className="mt-5 flex items-end gap-2">
-              <p className="text-5xl text-white">{displayPrice}</p>
-              <span className="pb-2 text-sm text-white/42">{cadence}</span>
+            <div className="mt-8 flex items-end gap-2">
+              <p className="text-6xl font-extrabold tracking-tight text-black">{displayPrice}</p>
+              <span className="pb-2 text-lg font-bold text-blue-600">{cadence}</span>
             </div>
 
             {billing === "yearly" && (
-              <p className="mt-2 text-sm text-fuchsia-200/75">Effective monthly equivalent: {plan.yearlyMonthlyEquivalent}</p>
+              <p className="mt-4 text-sm font-bold text-blue-800">Effective monthly: {plan.yearlyMonthlyEquivalent}</p>
             )}
 
-            <ul className="mt-6 space-y-3">
+            <ul className="mt-10 space-y-4">
               {plan.points.map((point) => (
-                <li key={point} className="flex items-start gap-2.5 text-sm leading-6 text-white/58">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-fuchsia-300/80" />
+                <li key={point} className="flex items-start gap-3 text-sm font-bold leading-6 text-black">
+                  <svg className="mt-1 h-4 w-4 shrink-0 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
                   <span>{point}</span>
                 </li>
               ))}
@@ -80,58 +71,59 @@ const CheckoutPage = () => {
           </div>
         </motion.section>
 
+        {/* Next Steps */}
         <motion.section
-          className="rounded-[2.4rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-6 sm:p-8"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.42, delay: 0.08, ease: "easeOut" }}
+          className="flex flex-col gap-6"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.215, 0.61, 0.355, 1] }}
         >
-          <div className="grid gap-5 sm:grid-cols-2">
-            <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.03] p-5">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-white/32">Next step</p>
-              <h3 className="mt-3 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                Continue to account setup
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="rounded-[2.5rem] border border-blue-200 bg-white p-8 shadow-premium transition-all hover:shadow-xl">
+              <p className="workspace-kicker">Account Setup</p>
+              <h3 className="mt-4 text-2xl font-extrabold text-black">
+                Continue to setup
               </h3>
-              <p className="mt-3 text-sm leading-6 text-white/48">
-                Create your account and keep this plan selection attached to your onboarding flow.
+              <p className="mt-4 text-[13px] font-bold leading-6 text-black">
+                Create your team account and keep this plan selection attached to your onboarding flow.
               </p>
               <Link
                 to={`/?auth=signup&plan=${plan.id}&billing=${billing}`}
-                className="mt-5 inline-flex rounded-full bg-[#fafafa] px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#09090b] transition hover:bg-[#ebe7ff]"
+                className="btn-primary mt-8 w-full py-4 text-sm font-bold shadow-blue-200"
               >
-                Continue
+                Continue Setup
               </Link>
             </div>
 
-            <div className="rounded-[1.6rem] border border-white/10 bg-white/[0.03] p-5">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-white/32">Need guidance?</p>
-              <h3 className="mt-3 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                Talk to sales
+            <div className="rounded-[2.5rem] border border-blue-200 bg-white p-8 shadow-premium transition-all hover:shadow-xl">
+              <p className="workspace-kicker">Need Guidance?</p>
+              <h3 className="mt-4 text-2xl font-extrabold text-black">
+                Talk to Sales
               </h3>
-              <p className="mt-3 text-sm leading-6 text-white/48">
-                Best if you want help choosing the right rollout model or need a custom engagement path.
+              <p className="mt-4 text-[13px] font-bold leading-6 text-black">
+                Best if you need a custom enterprise rollout model or high-volume engagement path.
               </p>
               <Link
                 to="/#contact"
-                className="mt-5 inline-flex rounded-full border border-white/14 px-5 py-2.5 text-[11px] uppercase tracking-[0.12em] text-white/78 transition hover:bg-white/[0.06] hover:text-white"
+                className="btn-secondary mt-8 w-full py-4 text-sm font-bold"
               >
-                Contact team
+                Contact Team
               </Link>
             </div>
           </div>
 
-          <div className="mt-5 grid gap-4 sm:grid-cols-3">
-            <div className="workspace-stat">
-              <p className="workspace-kicker">Plan attached</p>
-              <p className="mt-2 text-xl text-white">{plan.name}</p>
+          <div className="mt-auto grid gap-4 rounded-[2.5rem] bg-white border border-blue-200 p-8 text-black shadow-premium sm:grid-cols-3">
+            <div className="space-y-1">
+              <p className="text-[10px] font-extrabold uppercase tracking-widest text-blue-600">Selection</p>
+              <p className="text-xl font-bold">{plan.name}</p>
             </div>
-            <div className="workspace-stat">
-              <p className="workspace-kicker">Billing cycle</p>
-              <p className="mt-2 text-xl capitalize text-white">{billing}</p>
+            <div className="space-y-1">
+              <p className="text-[10px] font-extrabold uppercase tracking-widest text-blue-600">Billing</p>
+              <p className="text-xl font-bold capitalize">{billing}</p>
             </div>
-            <div className="workspace-stat">
-              <p className="workspace-kicker">Onboarding</p>
-              <p className="mt-2 text-xl text-white">Immediate</p>
+            <div className="space-y-1">
+              <p className="text-[10px] font-extrabold uppercase tracking-widest text-blue-600">Onboarding</p>
+              <p className="text-xl font-bold">Immediate</p>
             </div>
           </div>
         </motion.section>

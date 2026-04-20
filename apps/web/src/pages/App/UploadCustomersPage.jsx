@@ -407,10 +407,10 @@ const UploadCustomersPage = () => {
     <section className="space-y-5">
       <RevealSection className="workspace-hero">
         <p className="workspace-kicker">Step 1</p>
-        <h2 className="mt-3 text-3xl text-white sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+        <h2 className="mt-3 text-3xl text-black sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
           {isCustomWorkspace ? "Add records for your deployed custom model." : "Bring customer data into the workspace."}
         </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300/80">
+        <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-black">
           {isCustomWorkspace
             ? "This workspace now has an active custom model. Save customers with the confirmed business fields below, then move to analysis."
             : "Phase 1 stays telecom-ready. Import a workbook or add one telecom customer manually with the six required fields."}
@@ -421,7 +421,7 @@ const UploadCustomersPage = () => {
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <p className="workspace-kicker">{isCustomWorkspace ? "Active feature contract" : "Prediction-ready schema"}</p>
-            <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+            <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
               {isCustomWorkspace ? "These are the fields your deployed model expects." : "These are the required telecom inputs."}
             </h3>
           </div>
@@ -440,9 +440,9 @@ const UploadCustomersPage = () => {
 
         <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {requiredFields.map((field) => (
-            <div key={field.label} className="rounded-[1.45rem] border border-white/10 bg-white/[0.04] p-4">
+            <div key={field.label} className="rounded-[1.45rem] border border-blue-200 bg-white p-4 shadow-sm">
               <p className="workspace-kicker">{field.label}</p>
-              <p className="mt-2 text-sm leading-6 text-slate-300">{field.hint}</p>
+              <p className="mt-2 text-sm font-bold leading-6 text-black italic opacity-80">{field.hint}</p>
             </div>
           ))}
         </div>
@@ -483,7 +483,7 @@ const UploadCustomersPage = () => {
               <input
                 type="file"
                 accept=".xlsx"
-                className="field-input file:mr-3 file:rounded-full file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-xs file:font-medium file:text-white"
+                className="field-input file:mr-3 file:rounded-full file:border-0 file:bg-blue-600 file:px-3 file:py-2 file:text-xs file:font-bold file:text-black"
                 onChange={(event) => setUploadForm((prev) => ({ ...prev, file: event.target.files?.[0] || null }))}
                 required
               />
@@ -508,10 +508,10 @@ const UploadCustomersPage = () => {
         <RevealSection>
           <form className="soft-panel space-y-3" onSubmit={handleCustomUpload}>
             <p className="workspace-kicker">Custom bulk upload</p>
-            <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+            <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
               Upload many custom customers at once
             </h3>
-            <p className="text-sm leading-6 text-slate-400">
+            <p className="text-sm font-bold leading-6 text-black italic">
               Use the deployed model template or a file with matching column names. Each row becomes a saved workspace customer that can be scored right away.
             </p>
             <label>
@@ -519,7 +519,7 @@ const UploadCustomersPage = () => {
               <input
                 type="file"
                 accept=".csv,.xlsx"
-                className="field-input file:mr-3 file:rounded-full file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-xs file:font-medium file:text-white"
+                className="field-input file:mr-3 file:rounded-full file:border-0 file:bg-blue-600 file:px-3 file:py-2 file:text-xs file:font-bold file:text-black"
                 onChange={(event) => setCustomUploadForm((prev) => ({ ...prev, file: event.target.files?.[0] || null }))}
                 required
               />
@@ -550,7 +550,7 @@ const UploadCustomersPage = () => {
           <form className="soft-panel grid gap-3 md:grid-cols-2 xl:grid-cols-3" onSubmit={handleTelecomCreate}>
             <div className="md:col-span-2 xl:col-span-3">
               <p className="workspace-kicker">Manual entry</p>
-              <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
                 Add one telecom customer now
               </h3>
             </div>
@@ -601,10 +601,10 @@ const UploadCustomersPage = () => {
           <form className="soft-panel grid gap-3 md:grid-cols-2 xl:grid-cols-3" onSubmit={handleCustomCreate}>
             <div className="md:col-span-2 xl:col-span-3">
               <p className="workspace-kicker">Manual entry</p>
-              <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
                 Add one custom-model customer now
               </h3>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+              <p className="mt-2 max-w-2xl text-sm font-bold leading-6 text-black italic">
                 These visible inputs come directly from the dataset contract used to train the deployed model.
               </p>
             </div>
@@ -646,11 +646,11 @@ const UploadCustomersPage = () => {
       </RevealSection>
 
       <RevealSection className="table-shell">
-        <div className="border-b border-white/10 px-5 py-4">
+        <div className="border-b border-blue-200 px-5 py-4">
           <div className="flex items-end justify-between gap-3">
             <div>
               <p className="workspace-kicker">Saved in workspace</p>
-              <h3 className="text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
                 Recent customers
               </h3>
             </div>
@@ -662,16 +662,16 @@ const UploadCustomersPage = () => {
 
         {state.loadingCustomers ? (
           <div className="px-5 py-4">
-            <PanelSkeleton rows={3} className="!border-0 !bg-transparent !p-0 !shadow-none" />
+            <PanelSkeleton rows={3} className="border-0! bg-transparent! p-0! shadow-none!" />
           </div>
         ) : state.recentCustomers.length ? (
           <div className="grid gap-3 p-4">
             {state.recentCustomers.map((customer) => (
-              <div key={customer._id} className="rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
+              <div key={customer._id} className="rounded-[1.2rem] border border-blue-200 bg-blue-50/50 px-4 py-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-sm text-white">{customer.customerId}</p>
-                    <p className="mt-1 text-xs text-slate-400">
+                    <p className="text-sm text-black font-bold">{customer.customerId}</p>
+                    <p className="mt-1 text-xs font-bold text-blue-600 italic">
                       {isCustomWorkspace ? "Saved for the deployed custom model." : `Tenure ${customer.subscription?.tenureMonths ?? "-"} | Charges ${customer.billing?.monthlyCharges ?? "-"}`}
                     </p>
                   </div>
@@ -683,7 +683,7 @@ const UploadCustomersPage = () => {
             ))}
           </div>
         ) : (
-          <p className="px-5 py-6 text-center text-sm text-slate-400">
+          <p className="px-5 py-6 text-center text-sm text-black font-black italic opacity-60">
             {isCustomWorkspace
               ? "No custom customers saved yet. Add one with the deployed feature contract and it will appear here."
               : "No customers saved yet. Add one manually or import a workbook and they will appear here."}
@@ -691,14 +691,14 @@ const UploadCustomersPage = () => {
         )}
       </RevealSection>
 
-      {state.error && <p className="rounded-2xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{state.error}</p>}
+      {state.error && <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{state.error}</p>}
 
       {state.message && (
-        <div className="rounded-[1.45rem] border border-emerald-300/30 bg-emerald-500/10 px-4 py-4 text-sm text-emerald-100">
+        <div className="rounded-[1.45rem] border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm text-emerald-800">
           <p>{state.message}</p>
           {state.createdCustomerId && (
-            <p className="mt-2 text-emerald-100/80">
-              Next step: open the analysis page. The customer ID <span className="font-medium text-white">{state.createdCustomerId}</span> will be prefilled automatically.
+            <p className="mt-2 text-emerald-800">
+              Next step: open the analysis page. The customer ID <span className="font-bold text-black">{state.createdCustomerId}</span> will be prefilled automatically.
             </p>
           )}
         </div>

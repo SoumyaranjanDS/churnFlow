@@ -8,9 +8,9 @@ const QUEUE_STORAGE_KEY = "churnflow.phase1.queue";
 const LATEST_CUSTOMER_ID_KEY = "churnflow.phase1.latestCustomerId";
 
 const riskBadgeClass = (riskBand) => {
-  if (riskBand === "High") return "bg-red-500/15 text-red-200 border border-red-300/20";
-  if (riskBand === "Medium") return "bg-amber-500/15 text-amber-200 border border-amber-300/20";
-  return "bg-emerald-500/15 text-emerald-200 border border-emerald-300/20";
+  if (riskBand === "High") return "bg-red-50 text-red-700 border-red-200 font-black";
+  if (riskBand === "Medium") return "bg-amber-50 text-amber-700 border-amber-200 font-black";
+  return "bg-emerald-50 text-emerald-700 border-emerald-200 font-black";
 }
 
 const readStoredQueueState = () => {
@@ -160,10 +160,10 @@ const AtRiskCustomersPage = () => {
     <section className="space-y-5">
       <RevealSection className="workspace-hero">
         <p className="workspace-kicker">Step 3</p>
-        <h2 className="mt-3 text-3xl text-white sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+        <h2 className="mt-3 text-3xl text-black sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
           Risk queue and handoff.
         </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300/80">
+        <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-black">
           Review the latest scored customers, narrow the list with filters, and hand risky accounts straight into follow-up actions.
         </p>
       </RevealSection>
@@ -209,19 +209,19 @@ const AtRiskCustomersPage = () => {
         </form>
       </RevealSection>
 
-      {state.error && <p className="rounded-2xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{state.error}</p>}
-      {state.actionMessage && <p className="rounded-2xl border border-emerald-300/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">{state.actionMessage}</p>}
+      {state.error && <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{state.error}</p>}
+      {state.actionMessage && <p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{state.actionMessage}</p>}
 
       <RevealSection className="grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
         {state.loading ? (
           <TableSkeleton rows={4} columns={4} className="!border-0 !bg-transparent !shadow-none" />
         ) : (
           <div className="table-shell">
-            <div className="border-b border-white/10 px-5 py-4">
+            <div className="border-b border-blue-200 px-5 py-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <p className="workspace-kicker">Database-backed queue</p>
-                  <h3 className="text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+                  <h3 className="text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
                     Latest scored customers
                   </h3>
                 </div>
@@ -238,22 +238,22 @@ const AtRiskCustomersPage = () => {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="workspace-kicker">Customer</p>
-                        <p className="mt-2 text-lg text-white">{item.customerId}</p>
+                        <p className="mt-2 text-lg text-black font-bold">{item.customerId}</p>
                       </div>
                       <span className={`rounded-full px-3 py-1 text-xs ${riskBadgeClass(item.riskBand)}`}>{item.riskBand}</span>
                     </div>
                     <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                       <div>
                         <p className="workspace-kicker">Probability</p>
-                        <p className="mt-1 text-slate-200">{Number(item.churnProbability ?? 0).toFixed(4)}</p>
+                        <p className="mt-1 text-black font-extrabold">{Number(item.churnProbability ?? 0).toFixed(4)}</p>
                       </div>
                       <div>
                         <p className="workspace-kicker">Prediction</p>
-                        <p className="mt-1 text-slate-200">{item.decision?.predictedLabel || "-"}</p>
+                        <p className="mt-1 text-black font-extrabold">{item.decision?.predictedLabel || "-"}</p>
                       </div>
                     </div>
                     {item.explanation?.summary && (
-                      <p className="mt-3 text-sm leading-6 text-slate-300">{item.explanation.summary}</p>
+                      <p className="mt-3 text-sm font-bold leading-6 text-black italic">{item.explanation.summary}</p>
                     )}
                     <div className="mt-4 flex gap-2">
                       <button type="button" className="btn-secondary flex-1" onClick={() => useCustomer(item.customerId)}>
@@ -266,13 +266,13 @@ const AtRiskCustomersPage = () => {
                   </article>
                 ))
               ) : (
-                <p className="px-2 py-6 text-center text-sm text-slate-400">No scored customers found.</p>
+                <p className="px-2 py-6 text-center text-sm text-black font-black italic opacity-60">No scored customers found.</p>
               )}
             </div>
 
             <div className="hidden overflow-x-auto md:block">
               <table className="min-w-full text-sm">
-                <thead className="bg-white/5 text-left text-[11px] uppercase tracking-[0.14em] text-slate-400">
+                <thead className="bg-blue-50 text-left text-[11px] uppercase tracking-[0.2em] text-black font-black">
                   <tr>
                     <th className="px-4 py-3">Customer</th>
                     <th className="px-4 py-3">Risk</th>
@@ -282,17 +282,17 @@ const AtRiskCustomersPage = () => {
                     <th className="px-4 py-3">Handoff</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/10">
+                <tbody className="divide-y divide-blue-100">
                   {state.items.length ? (
                     state.items.map((item) => (
-                      <tr key={item._id}>
-                        <td className="px-4 py-3 font-medium text-white">{item.customerId}</td>
+                      <tr key={item._id} className="hover:bg-blue-50/50 transition-colors">
+                        <td className="px-4 py-3 font-bold text-black">{item.customerId}</td>
                         <td className="px-4 py-3">
-                          <span className={`rounded-full px-3 py-1 text-xs ${riskBadgeClass(item.riskBand)}`}>{item.riskBand}</span>
+                          <span className={`rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.14em] ${riskBadgeClass(item.riskBand)}`}>{item.riskBand}</span>
                         </td>
-                        <td className="px-4 py-3 text-slate-300">{Number(item.churnProbability ?? 0).toFixed(4)}</td>
-                        <td className="px-4 py-3 text-slate-300">{item.decision?.predictedLabel || "-"}</td>
-                        <td className="px-4 py-3 text-slate-400">{item.explanation?.summary || "-"}</td>
+                        <td className="px-4 py-3 text-black font-medium">{Number(item.churnProbability ?? 0).toFixed(4)}</td>
+                        <td className="px-4 py-3 text-black font-medium">{item.decision?.predictedLabel || "-"}</td>
+                        <td className="px-4 py-3 text-black">{item.explanation?.summary || "-"}</td>
                         <td className="px-4 py-3">
                           <div className="flex gap-2">
                             <button type="button" className="btn-secondary !py-1.5" onClick={() => useCustomer(item.customerId)}>
@@ -307,7 +307,7 @@ const AtRiskCustomersPage = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={6} className="px-4 py-6 text-center text-sm text-slate-400">No scored customers found.</td>
+                      <td colSpan={6} className="px-4 py-6 text-center text-sm text-black font-black italic opacity-60">No scored customers found.</td>
                     </tr>
                   )}
                 </tbody>
@@ -318,7 +318,7 @@ const AtRiskCustomersPage = () => {
 
         <div className="soft-panel">
           <p className="workspace-kicker">Recent follow-up actions</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
             Last created actions
           </h3>
 
@@ -329,15 +329,15 @@ const AtRiskCustomersPage = () => {
           ) : state.recentActions.length ? (
             <div className="mt-4 space-y-3">
               {state.recentActions.map((item) => (
-                <div key={item._id} className="rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
+                <div key={item._id} className="rounded-[1.2rem] border border-blue-200 bg-blue-50/50 px-4 py-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-sm text-white">{item.customerId}</p>
-                      <p className="mt-1 text-xs uppercase tracking-[0.12em] text-slate-400">
+                      <p className="text-sm text-black font-bold">{item.customerId}</p>
+                      <p className="mt-1 text-[10px] font-black uppercase tracking-[0.18em] text-blue-600">
                         {item.actionType} | {item.status}
                       </p>
                     </div>
-                    <Link to={`/app/actions?customerId=${encodeURIComponent(item.customerId)}`} className="text-xs text-slate-300 underline-offset-4 hover:text-white hover:underline">
+                    <Link to={`/app/actions?customerId=${encodeURIComponent(item.customerId)}`} className="text-xs text-blue-600 font-bold underline underline-offset-4 hover:text-black hover:no-underline">
                       Open follow-up
                     </Link>
                   </div>
@@ -345,12 +345,12 @@ const AtRiskCustomersPage = () => {
               ))}
             </div>
           ) : (
-            <p className="mt-4 text-sm text-slate-400">No actions yet. Create one from this queue and it will appear here.</p>
+            <p className="mt-4 text-sm text-black font-black italic opacity-60">No actions yet. Create one from this queue and it will appear here.</p>
           )}
 
-          <div className="mt-5 rounded-[1.2rem] border border-white/10 bg-white/[0.04] p-4">
+          <div className="mt-5 rounded-[1.2rem] border border-blue-200 bg-blue-50/50 p-4">
             <p className="workspace-kicker">Quick path</p>
-            <p className="mt-2 text-sm leading-6 text-slate-300">
+            <p className="mt-2 text-sm font-bold leading-6 text-black italic">
               If you already know which customer needs follow-up, jump straight into the follow-up tab with the current customer ID carried over.
             </p>
             <Link to={filters.search ? `/app/actions?customerId=${encodeURIComponent(filters.search)}` : "/app/actions"} className="btn-secondary mt-4">
@@ -361,7 +361,7 @@ const AtRiskCustomersPage = () => {
       </RevealSection>
 
       {!!state.pagination && (
-        <RevealSection className="flex flex-col gap-3 rounded-[1.4rem] border border-white/12 bg-white/[0.04] px-4 py-3 text-xs text-slate-300 sm:flex-row sm:items-center sm:justify-between">
+        <RevealSection className="flex flex-col gap-3 rounded-[2rem] border border-blue-200 bg-white px-5 py-4 text-xs text-black font-black sm:flex-row sm:items-center sm:justify-between shadow-premium">
           <p>Page {state.pagination.page} of {state.pagination.totalPages || 1}</p>
           <div className="flex gap-2">
             <button

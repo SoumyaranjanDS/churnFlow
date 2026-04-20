@@ -1,6 +1,6 @@
-# Churn Platform
+# RetainQ
 
-Telecom-focused churn prediction platform built as a MERN + FastAPI monorepo.
+Telecom-focused churn prediction platform built as a MERN + FastAPI monorepo, renamed to RetainQ.
 
 Deployment guide:
 - [DEPLOY.md](C:/Users/soumy/OneDrive/Desktop/churnProject/churn-platform/DEPLOY.md)

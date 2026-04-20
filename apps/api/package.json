@@ -1,5 +1,5 @@
-﻿{
-  "name": "churn-api",
+{
+  "name": "retain-api",
   "version": "0.4.0",
   "private": true,
   "scripts": {

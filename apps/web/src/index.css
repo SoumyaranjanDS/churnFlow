@@ -1,11 +1,13 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=Sora:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Manrope", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Sora", "Manrope", "Segoe UI", sans-serif;
+  --font-sans: "Inter", "Manrope", "Segoe UI", sans-serif;
+  --font-display: "Outfit", "Segoe UI", sans-serif;
+  --font-accent: "Instrument Serif", Georgia, serif;
 
-  --shadow-soft: 0 20px 55px -30px rgba(10, 8, 26, 0.7);
+  --shadow-premium: 0 10px 40px -12px rgba(15, 23, 42, 0.12);
+  --shadow-button: 0 4px 14px 0 rgba(37, 99, 235, 0.25);
 }
 
 @layer base {
@@ -14,23 +16,18 @@
   }
 
   body {
-    @apply min-h-screen bg-[#05060a] text-slate-100 antialiased;
+    @apply min-h-screen bg-blue-50 text-black antialiased;
     font-size: 14px;
-    letter-spacing: 0.01em;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: var(--font-display);
     letter-spacing: -0.01em;
   }
 
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    @apply tracking-tight font-bold text-black;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -41,67 +38,61 @@
 
 @layer components {
   .card {
-    @apply rounded-3xl border border-white/12 bg-white/[0.03] p-5 shadow-soft;
+    @apply rounded-[2rem] border border-blue-200 bg-white p-6 shadow-premium;
   }
 
   .workspace-kicker {
-    @apply text-[10px] uppercase tracking-[0.16em] text-slate-400;
+    @apply text-[10px] font-bold uppercase tracking-[0.16em] text-blue-600;
   }
 
   .field-label {
-    @apply mb-1 block text-[11px] font-medium uppercase tracking-[0.12em] text-slate-400;
+    @apply mb-1.5 block text-[11px] font-bold uppercase tracking-[0.12em] text-black;
   }
 
   .field-input {
-    @apply w-full rounded-[1.15rem] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-fuchsia-300/35 focus:bg-white/[0.08];
+    @apply w-full rounded-2xl border border-blue-200 bg-white px-4 py-3 text-sm text-black outline-none transition placeholder:text-blue-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10;
   }
 
   select.field-input {
-    color-scheme: dark;
-    background-color: #11131a;
-    color: #f8fafc;
-  }
-
-  select.field-input option,
-  select.field-input optgroup {
-    background-color: #11131a;
-    color: #f8fafc;
+    color-scheme: light;
+    background-color: white;
+    color: black;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full border border-fuchsia-300/20 bg-[linear-gradient(135deg,rgba(236,72,153,0.28),rgba(99,102,241,0.28))] px-4 py-2.5 text-xs font-medium uppercase tracking-[0.12em] text-white shadow-[0_12px_40px_-18px_rgba(217,70,239,0.65)] transition hover:border-fuchsia-200/30 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60;
+    @apply inline-flex items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-[12px] font-bold uppercase tracking-wider text-white shadow-button transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-blue-500/30 disabled:cursor-not-allowed disabled:opacity-60;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-white/14 bg-white/[0.045] px-4 py-2.5 text-xs font-medium uppercase tracking-[0.12em] text-slate-200 transition hover:bg-white/[0.08];
+    @apply inline-flex items-center justify-center rounded-full border border-blue-200 bg-white px-6 py-3 text-[12px] font-bold uppercase tracking-wider text-black transition-all duration-300 hover:bg-blue-50 hover:border-blue-300;
   }
 
   .soft-panel {
-    @apply rounded-[1.8rem] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] p-5 shadow-soft backdrop-blur-xl sm:p-6;
+    @apply rounded-[2.5rem] border border-blue-200 bg-white/80 p-6 shadow-premium backdrop-blur-xl sm:p-8;
   }
 
   .workspace-hero {
-    @apply relative overflow-hidden rounded-[2rem] border border-white/12 p-6 shadow-soft sm:p-7;
-    background:
-      radial-gradient(circle at 12% 0%, rgba(192, 132, 252, 0.18), transparent 32%),
-      radial-gradient(circle at 100% 0%, rgba(96, 165, 250, 0.12), transparent 30%),
-      linear-gradient(180deg, rgba(18, 21, 31, 0.98), rgba(11, 14, 22, 0.96));
+    @apply relative overflow-hidden rounded-[2.5rem] border border-blue-200 p-8 shadow-premium sm:p-10;
+    background: 
+      radial-gradient(circle at 100% 0%, rgba(37, 99, 235, 0.08), transparent 40%),
+      radial-gradient(circle at 0% 100%, rgba(14, 165, 233, 0.08), transparent 40%),
+      white;
   }
 
   .workspace-stat {
-    @apply rounded-[1.4rem] border border-white/10 bg-white/[0.04] px-4 py-4;
+    @apply rounded-3xl border border-blue-200/80 bg-white px-5 py-5 transition-shadow hover:shadow-premium;
   }
 
   .table-shell {
-    @apply overflow-hidden rounded-[1.8rem] border border-white/12 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] shadow-soft;
+    @apply overflow-hidden rounded-[2rem] border border-blue-200 bg-white shadow-premium;
   }
 
   .mobile-data-card {
-    @apply rounded-[1.5rem] border border-white/10 bg-white/[0.035] p-4;
+    @apply rounded-2xl border border-blue-200 bg-white p-4 shadow-sm;
   }
 
   .skeleton {
-    @apply relative overflow-hidden rounded-xl bg-white/[0.08];
+    @apply relative overflow-hidden rounded-2xl bg-blue-100/50;
   }
 
   .skeleton::after {
@@ -109,28 +100,8 @@
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
-    animation: skeleton-shimmer 1.35s ease-in-out infinite;
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
-  }
-
-  .reveal-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .float-soft {
-    animation: float-soft 9s ease-in-out infinite;
-  }
-
-  .float-soft-delayed {
-    animation: float-soft 11s ease-in-out infinite;
-    animation-delay: 1.2s;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
   }
 
   .hide-scrollbar {
@@ -140,18 +111,6 @@
 
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
-  }
-}
-
-@keyframes float-soft {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -12px, 0);
-  }
-  100% {
-    transform: translate3d(0, 0, 0);
   }
 }
 

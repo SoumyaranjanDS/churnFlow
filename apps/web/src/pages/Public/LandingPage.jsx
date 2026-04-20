@@ -1,1011 +1,374 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { pricingPlans } from "../../content/pricing";
 import { useAuth } from "../../context/AuthContext";
-import { submitContactMessage } from "../../services/churnApi";
-
-const heroChips = ["99.9% precision", "0.5s scoring", "Action-ready workflow"];
 
 const heroMetrics = [
+  { label: "Precision", value: "99.9%", detail: "Model accuracy" },
+  { label: "Scoring", value: "0.5s", detail: "Realtime latency" },
+  { label: "Impact", value: "10x", detail: "Retention speed" }
+];
+
+const features = [
   {
-    label: "Churn Risk Score",
-    value: "94.2",
-    delta: "3.1% this week",
-    trend: "down",
-    bars: [40, 55, 45, 70, 90, 65, 100]
+    title: "Operating Surface",
+    text: "Review risk, assign follow-ups, and track success from one focused dashboard designed for daily execution.",
+    accent: "bg-blue-600"
   },
   {
-    label: "At-Risk Accounts",
-    value: "128",
-    delta: "12 resolved today",
-    trend: "up",
-    bars: [100, 80, 75, 60, 85, 90, 70]
+    title: "Retention Logic",
+    text: "Convert scores into action plans. Use built-in playbooks or customize follow-ups based on risk bands.",
+    accent: "bg-blue-500"
   },
   {
-    label: "Retention Rate",
-    value: "97.8%",
-    delta: "+2.1% vs last mo.",
-    trend: "up",
-    bars: [60, 65, 75, 70, 85, 95, 100]
+    title: "ML Traceability",
+    text: "Understand every score. Gemini-powered signals explain why a customer is at risk in plain business language.",
+    accent: "bg-blue-400"
   }
 ];
 
-const featureSteps = [
-  {
-    index: "01",
-    title: "Score every account",
-    detail: "Run realtime or batch churn predictions with threshold control and model traceability."
-  },
-  {
-    index: "02",
-    title: "Surface the right queue",
-    detail: "Prioritize high-risk customers instantly instead of digging through static spreadsheets."
-  },
-  {
-    index: "03",
-    title: "Launch retention action",
-    detail: "Convert model output into calls, offers, escalations, and measurable owner-based workflows."
-  }
+const pillars = [
+  "Operational clarity over technical complexity",
+  "Model-backed decisions with complete human control",
+  "Enterprise-grade security and production-minded design",
 ];
 
-const featureSignals = [
-  {
-    title: "Control Tower",
-    text: "One operating surface for model scores, risk bands, owners, and daily action tracking."
-  },
-  {
-    title: "Fast Ops Loop",
-    text: "Upload, analyze, act, and record outcomes without bouncing between tools or teams."
-  },
-  {
-    title: "Enterprise Ready",
-    text: "Built to support high-volume scoring, team ownership, and measurable retention execution without adding operational chaos."
-  }
+const cases = [
+  { company: "Enterprise Telco X", lift: "+9.4%", summary: "Prioritized high-risk month-to-month contracts and reduced cycle time for proactive outreach." },
+  { company: "Growth SaaS Platform", lift: "+7.1%", summary: "Linked churn risk directly to onboarding plateaus and reduced early stage cancellations." },
+  { company: "B2B Logistics Global", lift: "+11.8%", summary: "Mapped overall account health to renewal workflows to prevent high-value drop-off." },
 ];
 
-const whyUsReasons = [
-  {
-    title: "Built for operators, not just analysts",
-    stat: "10x faster",
-    detail: "The product is structured around the daily decisions success and ops teams actually need to make."
-  },
-  {
-    title: "Model output becomes action immediately",
-    stat: "1 workflow",
-    detail: "Prediction, prioritization, ownership, and outcomes stay in one connected system instead of scattered tools."
-  },
-  {
-    title: "Production thinking from day one",
-    stat: "Day 1 ready",
-    detail: "You are not demoing a notebook. You are building a platform with clear workflows, permissions, persistence, and service boundaries."
-  }
+const integrations = [
+  { name: "CSV / Excel Imports", detail: "Fast, reliable file ingestion for teams without direct engineering data pipelines." },
+  { name: "Native REST APIs", detail: "Programmatic hooks for customer ingest, advanced scoring, and action orchestration." },
+  { name: "Inference Engine", detail: "Dedicated FastAPI service layer for model lifecycle and prediction metadata." },
+  { name: "Entity Synchronization", detail: "High-performance persistence layer for users, predictions, and operational logging." },
 ];
 
-const testimonials = [
-  {
-    quote:
-      "We moved from weekly spreadsheet review to daily retention action. The team finally knew who to call first.",
-    name: "Maya Chen",
-    role: "VP Customer Success",
-    company: "Northstar Subscriptions"
-  },
-  {
-    quote: "The risk queue became our morning operating ritual in less than a week.",
-    name: "Jordan Price",
-    role: "Revenue Operations Lead",
-    company: "Avenloop"
-  },
-  {
-    quote: "What changed was not only the score. It was the speed of execution after the score.",
-    name: "Sofia Martin",
-    role: "Retention Manager",
-    company: "Waveform Cloud"
-  }
+const plans = [
+  { name: "Starter", price: "$39", cadence: "/mo", detail: "Small teams", points: ["10k customers/mo", "Single workspace", "Email support"] },
+  { name: "Growth", price: "$129", cadence: "/mo", detail: "Scaling retention teams", points: ["100k customers/mo", "Batch scoring API", "Role-based access"], featured: true },
+  { name: "Scale", price: "Custom", cadence: "", detail: "Enterprise deployment", points: ["Unlimited volume", "Custom infra", "Priority SLA"] }
 ];
 
-const faqItems = [
+const faqs = [
   {
-    question: "Is this only for telecom churn use cases?",
-    answer: "No. The current model baseline starts with telecom churn patterns, but the platform structure works for any recurring-revenue business."
+    q: "Can we use RetainQ beyond telco datasets?",
+    a: "Yes. While our starting templates are telco-optimized, the underlying architecture is designed to support any subscription-based or transactional business model with custom feature mapping.",
   },
   {
-    question: "Can non-technical teams actually use it every day?",
-    answer: "Yes. The workflow is designed for operations and customer success teams to upload data, review the queue, and launch actions quickly."
+    q: "Is the AI service separated from administrative logic?",
+    a: "Yes. Our FastAPI-based induction system handles LLM and predictive inference independently, while the Node.js core manages authentication, entity relationships, and operational governance.",
   },
   {
-    question: "Can we fit this into our current workflow?",
-    answer: "Yes. The product is designed to plug into an existing business workflow so you can keep scoring, decisions, and actions in one usable operating loop."
+    q: "Can non-technical teams operate the platform?",
+    a: "That is our primary goal. RetainQ's experience is built around clear operational steps: import, analyze, prioritize, and action—making advanced ML accessible to every success leader.",
   },
   {
-    question: "What happens after predictions are generated?",
-    answer: "High-risk customers flow into the action queue, owners can create interventions, and final outcomes can be recorded back into the system."
+    q: "How do we move to production environment safely?",
+    a: "We provide environment-specific configurations, strict secrets management, health checks, and role-based access control (RBAC) to ensure your data stays protected at scale.",
   },
-  {
-    question: "Can we retrain the model with our own business data later?",
-    answer: "Yes. The current setup is modular, so feature engineering, training, evaluation, and deployment can be adapted to your own dataset and retention signals."
-  },
-  {
-    question: "Is this ready for a production-style portfolio project?",
-    answer: "Yes. The product already covers scoring, ownership, outcomes, and a usable interface, so it can be presented and tested like a real retention platform."
-  },
-  {
-    question: "Can leadership teams see value without learning model details?",
-    answer: "Yes. The experience is built to translate model output into simple risk views, revenue impact, and next-step action plans that non-technical stakeholders can read quickly."
-  },
-  {
-    question: "Do pricing plans support growing customer volume over time?",
-    answer: "Yes. You can start with a smaller operating setup, then move into batch automation, expanded workspaces, and more custom deployment options as your retention program grows."
-  }
 ];
-
-const resourceNotes = [
-  {
-    title: "Churn Readiness Checklist",
-    type: "Guide",
-    detail: "Everything your team should validate before the first production scoring cycle.",
-    tilt: "rotate-[-1.5deg]"
-  },
-  {
-    title: "Retention Playbook Templates",
-    type: "Template",
-    detail: "Ready-to-use intervention patterns for high, medium, and low risk segments.",
-    tilt: "rotate-[1.2deg]"
-  },
-  {
-    title: "Model Review Rhythm",
-    type: "Ops Note",
-    detail: "A lightweight weekly review routine for thresholds, outcomes, and decision quality.",
-    tilt: "rotate-[-0.8deg]"
-  }
-];
-
-const pricingSignals = [
-  { label: "Setup time", value: "2 weeks" },
-  { label: "Decision speed", value: "10x faster" },
-  { label: "Launch support", value: "Hands-on" }
-];
-
-const contactTiles = [
-  {
-    title: "Launch readiness",
-    detail: "Implementation support for data mapping, role setup, and first scoring run."
-  },
-  {
-    title: "Best interventions",
-    detail: "Turn risk bands into concrete offers, outreach playbooks, and owner workflows."
-  },
-  {
-    title: "Live scoring",
-    detail: "Push fresh customer inputs into a live scoring flow and route the output into your action queue."
-  },
-  {
-    title: "Executive proof",
-    detail: "Show retention impact through cleaner score review, outcomes, and recovery stories."
-  }
-];
-
-const stagger = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08
-    }
-  }
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 18 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } }
-};
-
-const ArrowUpIcon = () => {
-  return (
-    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-      <path d="M5 8V2M2 5l3-3 3 3" stroke="#34d399" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-const ArrowDownIcon = () => {
-  return (
-    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-      <path d="M5 2v6M2 5l3 3 3-3" stroke="#f87171" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-const ArrowRightIcon = () => {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-      <path d="M2 7h10M8 3l4 4-4 4" stroke="#09090b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 const LandingPage = () => {
   const { isAuthenticated } = useAuth();
-  const [billingCycle, setBillingCycle] = useState("monthly");
-  const [openFaqIndex, setOpenFaqIndex] = useState(0);
-  const [contactForm, setContactForm] = useState({ name: "", email: "", company: "", message: "" });
-  const [contactState, setContactState] = useState({ loading: false, error: "", success: "" });
-
-  const handleContactSubmit = async (event) => {
-    event.preventDefault();
-    setContactState({ loading: true, error: "", success: "" });
-
-    try {
-      const response = await submitContactMessage({
-        name: contactForm.name.trim(),
-        email: contactForm.email.trim(),
-        company: contactForm.company.trim(),
-        message: contactForm.message.trim()
-      });
-
-      setContactForm({ name: "", email: "", company: "", message: "" });
-      setContactState({
-        loading: false,
-        error: "",
-        success: response?.message || "Message sent successfully."
-      });
-    } catch (error) {
-      setContactState({ loading: false, error: error.message, success: "" });
-    }
-  }
-
-  const getPlanHref = (plan) => {
-    if (isAuthenticated) return "/app/dashboard";
-    return `/checkout?plan=${plan.id}&billing=${billingCycle}`;
-  }
+  const { scrollY } = useScroll();
+  const y1 = useTransform(scrollY, [0, 500], [0, 100]);
 
   return (
-    <div style={{ fontFamily: "'DM Sans', sans-serif" }} className="relative min-h-screen overflow-hidden bg-[#09090b] text-[#fafafa]">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-60"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E\")",
-          backgroundSize: "200px"
-        }}
-      />
+    <div className="bg-blue-50 selection:bg-blue-200 selection:text-black">
+      {/* Hero Section */}
+      <section id="hero" className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 pt-20 text-center sm:px-8">
+        <motion.div 
+          className="absolute inset-0 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
+        >
+          <div className="absolute left-1/2 top-1/4 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-blue-100/50 blur-[120px]" />
+        </motion.div>
 
-      <motion.div
-        className="pointer-events-none absolute left-1/2 -translate-x-1/2"
-        style={{
-          top: "-160px",
-          width: "760px",
-          height: "540px",
-          background: "radial-gradient(ellipse at center, rgba(99,102,241,0.18) 0%, transparent 70%)"
-        }}
-        animate={{ opacity: [0.55, 0.9, 0.55] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
+        <div className="relative z-10 mx-auto max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.215, 0.61, 0.355, 1] }}
+          >
+            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] text-blue-600 shadow-sm ring-1 ring-blue-100">
+              <span className="h-1.5 w-1.5 rounded-full bg-blue-600 animate-pulse" />
+              RetainQ for B2B Teams
+            </span>
+            <h1 className="mt-8 text-5xl font-extrabold tracking-tight text-black sm:text-7xl lg:text-8xl">
+              Retention, <span className="text-blue-600 italic font-accent font-normal underline underline-offset-[12px] decoration-blue-100/80">simplified</span>.
+            </h1>
+            <p className="mx-auto mt-8 max-w-xl text-[17px] font-bold leading-8 text-black sm:text-lg">
+              Transform churn prediction into a daily operating advantage. One workspace to score, prioritize, and act on at-risk customers.
+            </p>
 
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
-          backgroundSize: "64px 64px"
-        }}
-      />
-
-      <section id="hero" className="relative z-10 mx-auto max-w-6xl px-6 pb-18 pt-20 sm:pt-28">
-        <motion.div className="grid gap-10 xl:grid-cols-[0.92fr_1.08fr]" variants={stagger} initial="hidden" animate="visible">
-          <div>
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5">
-              <motion.span
-                className="h-1.5 w-1.5 rounded-full bg-indigo-500"
-                style={{ boxShadow: "0 0 8px #6366f1" }}
-                animate={{ opacity: [1, 0.35, 1] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              />
-              <span className="text-[10px] font-normal uppercase tracking-[0.1em] text-white/40">B2B Retention Platform</span>
-            </motion.div>
-
-            <motion.h1
-              variants={fadeUp}
-              className="mt-7 max-w-2xl text-balance leading-[1.04] tracking-[-0.02em] text-[#fafafa]"
-              style={{
-                fontFamily: "'Instrument Serif', Georgia, serif",
-                fontSize: "clamp(42px, 6vw, 72px)",
-                fontWeight: 400
-              }}
-            >
-              Predict churn and turn it into a daily operating advantage.
-            </motion.h1>
-
-            <motion.p variants={fadeUp} className="mt-5 max-w-md text-[15px] font-light leading-[1.75] text-white/42">
-              One website. One workflow. One retention command center for scoring, prioritizing, and acting on at-risk customers.
-            </motion.p>
-
-            <motion.div variants={fadeUp} className="mt-9 flex flex-wrap items-center gap-3">
-              <Link
-                to={isAuthenticated ? "/app/dashboard" : "/signup"}
-                className="group inline-flex items-center gap-2 rounded-full bg-[#fafafa] px-6 py-3 text-[13px] font-medium text-[#09090b] transition-all duration-200 hover:-translate-y-px hover:bg-[#e4e4e7]"
-              >
-                {isAuthenticated ? "Open Dashboard" : "Start Free"}
-                <span className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                  <ArrowRightIcon />
-                </span>
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+              <Link to={isAuthenticated ? "/app/dashboard" : "/signup"} className="btn-primary px-8 py-4 text-base shadow-blue-200">
+                {isAuthenticated ? "Open workspace" : "Get Started Free"}
               </Link>
-
-              <a
-                href="/#contact"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-transparent px-6 py-3 text-[13px] font-normal text-white/50 transition-all duration-200 hover:border-white/25 hover:bg-white/[0.04] hover:text-white/80"
-              >
-                Contact Sales
+              <a href="#features" className="btn-secondary px-8 py-4 text-base">
+                View features
               </a>
-            </motion.div>
-
-            <motion.div variants={fadeUp} className="mt-7 flex flex-wrap items-center gap-2">
-              {heroChips.map((item, index) => (
-                <div key={item} className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.07] px-3 py-1 text-[10px] uppercase tracking-[0.08em] text-white/30">
-                    <span className="h-1 w-1 rounded-full bg-indigo-500/70" />
-                    {item}
-                  </span>
-                  {index < heroChips.length - 1 && <span className="h-3.5 w-px bg-white/[0.07]" />}
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          <motion.div variants={fadeUp} className="relative">
-            <div className="absolute -left-6 top-8 hidden h-28 w-28 rounded-full bg-cyan-500/10 blur-3xl lg:block" />
-            <div className="absolute -right-8 bottom-0 hidden h-32 w-32 rounded-full bg-indigo-500/10 blur-3xl lg:block" />
-
-            <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(160deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))]">
-              <div className="flex items-center justify-between border-b border-white/[0.06] px-5 py-4">
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.12em] text-white/25">Live Dashboard Preview</p>
-                  <p className="mt-1 text-[13px] text-white/55">Signal board for this morning's churn queue</p>
-                </div>
-                <span className="rounded-full border border-emerald-400/20 bg-emerald-500/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.12em] text-emerald-300">
-                  Live
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 divide-y divide-white/[0.05] sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-                {heroMetrics.map((metric, index) => (
-                  <motion.div
-                    key={metric.label}
-                    className="p-5 sm:p-6"
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.4 }}
-                    transition={{ duration: 0.4, delay: index * 0.08 }}
-                  >
-                    <p className="text-[10px] uppercase tracking-[0.12em] text-white/25">{metric.label}</p>
-                    <p
-                      className="mt-2.5 text-[#fafafa]"
-                      style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: "34px", fontWeight: 400 }}
-                    >
-                      {metric.value}
-                    </p>
-                    <p className={`mt-1.5 flex items-center gap-1 text-[11px] ${metric.trend === "up" ? "text-emerald-400" : "text-red-400"}`}>
-                      {metric.trend === "up" ? <ArrowUpIcon /> : <ArrowDownIcon />}
-                      {metric.delta}
-                    </p>
-
-                    <div className="mt-4 flex h-9 items-end gap-[3px]">
-                      {metric.bars.map((barHeight, barIndex) => (
-                        <motion.div
-                          key={`${metric.label}-${barIndex}`}
-                          className="flex-1 rounded-t-sm"
-                          style={{ background: barHeight >= 90 ? "#6366f1" : "rgba(99,102,241,0.28)" }}
-                          initial={{ height: 0 }}
-                          whileInView={{ height: `${barHeight}%` }}
-                          viewport={{ once: true, amount: 0.2 }}
-                          transition={{ duration: 0.45, delay: 0.12 + barIndex * 0.03 }}
-                        />
-                      ))}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
             </div>
           </motion.div>
-        </motion.div>
-      </section>
 
-      <section id="features" className="relative z-10 mx-auto max-w-6xl px-6 py-16">
-        <motion.div
-          className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]"
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.45 }}
-        >
-          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03]">
-            <div className="border-b border-white/[0.06] px-6 py-5">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-white/30">Feature System</p>
-              <h2
-                className="mt-3 max-w-xl text-4xl text-[#fafafa]"
-                style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
-              >
-                A flow that moves from signal to action without losing momentum.
-              </h2>
-            </div>
-
-            <div className="grid gap-0 md:grid-cols-3">
-              {featureSteps.map((step, index) => (
-                <motion.article
-                  key={step.title}
-                  className="relative border-t border-white/[0.06] px-6 py-6 md:border-l md:first:border-l-0 md:border-t-0"
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.4 }}
-                  transition={{ duration: 0.35, delay: index * 0.06 }}
-                >
-                  <span className="text-[10px] uppercase tracking-[0.14em] text-white/25">{step.index}</span>
-                  <h3 className="mt-3 text-2xl text-[#fafafa]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                    {step.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-white/45">{step.detail}</p>
-                </motion.article>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid gap-3">
-            {featureSignals.map((item, index) => (
-              <motion.article
-                key={item.title}
-                className="relative overflow-hidden rounded-[1.7rem] border border-white/10 bg-[linear-gradient(140deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] px-5 py-5"
-                initial={{ opacity: 0, x: 14 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.35, delay: index * 0.05 }}
-              >
-                <div className="absolute inset-y-0 left-0 w-px bg-[linear-gradient(180deg,transparent,rgba(99,102,241,0.5),transparent)]" />
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/25">Layer {String(index + 1).padStart(2, "0")}</p>
-                <h3 className="mt-2 text-2xl text-[#fafafa]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-white/45">{item.text}</p>
-              </motion.article>
+          <motion.div 
+            className="mt-20 grid grid-cols-3 gap-8 border-t border-blue-200 pt-16"
+            style={{ y: y1 }}
+          >
+            {heroMetrics.map((item, index) => (
+              <div key={item.label}>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-black">{item.label}</p>
+                <p className="mt-2 text-3xl font-bold text-black sm:text-4xl">{item.value}</p>
+                <p className="mt-1 text-xs font-bold text-blue-700">{item.detail}</p>
+              </div>
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
 
-      <section id="why-us" className="relative z-10 mx-auto max-w-6xl px-6 py-16">
-        <motion.div
-          className="grid gap-8 xl:grid-cols-[0.82fr_1.18fr]"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.42 }}
-        >
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.14em] text-white/30">Why Us</p>
-            <h2
-              className="mt-3 max-w-xl text-4xl text-[#fafafa]"
-              style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
-            >
-              More than a model score. A retention operating system with intent.
-            </h2>
-            <p className="mt-4 max-w-md text-sm leading-7 text-white/45">
-              The difference is not just prediction accuracy. It is how quickly your team can turn signal into action without losing clarity.
-            </p>
-          </div>
+      {/* Feature Grid */}
+      <section id="features" className="relative z-10 mx-auto max-w-7xl px-6 py-32 sm:px-8">
+        <div className="mb-20 text-center">
+          <p className="workspace-kicker">Capabilities</p>
+          <h2 className="mt-4 text-4xl font-bold text-black sm:text-5xl">Built for operations.</h2>
+        </div>
 
-          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] px-6 py-6">
-            <div className="absolute bottom-0 left-9 top-0 w-px bg-[linear-gradient(180deg,transparent,rgba(99,102,241,0.45),transparent)]" />
-            <div className="space-y-6">
-              {whyUsReasons.map((item, index) => (
-                <motion.article
-                  key={item.title}
-                  className="relative pl-10"
-                  initial={{ opacity: 0, x: 14 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, amount: 0.35 }}
-                  transition={{ duration: 0.34, delay: index * 0.06 }}
-                >
-                  <span className="absolute left-0 top-1.5 h-3 w-3 rounded-full border border-indigo-300/30 bg-indigo-500/40 shadow-[0_0_12px_rgba(99,102,241,0.35)]" />
-                  <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="text-2xl text-[#fafafa]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                      {item.title}
-                    </h3>
-                    <span className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[10px] uppercase tracking-[0.12em] text-white/35">
-                      {item.stat}
-                    </span>
-                  </div>
-                  <p className="mt-3 max-w-xl text-sm leading-6 text-white/45">{item.detail}</p>
-                </motion.article>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
-      <section id="testimonials" className="relative z-10 mx-auto max-w-6xl px-6 py-16">
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.4 }}
-        >
-          <p className="text-[10px] uppercase tracking-[0.14em] text-white/30">Proof</p>
-          <h2
-            className="mt-3 max-w-2xl text-4xl text-[#fafafa]"
-            style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
-          >
-            Teams do not just get a model. They get a better retention rhythm.
-          </h2>
-        </motion.div>
-
-        <div className="grid gap-6 xl:grid-cols-[1.08fr_0.92fr]">
-          <motion.article
-            className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] px-6 py-7"
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.42 }}
-          >
-            <div className="absolute right-6 top-5 text-[74px] leading-none text-white/[0.06]">"</div>
-            <p className="max-w-2xl text-[28px] leading-[1.35] text-[#fafafa]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-              {testimonials[0].quote}
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <div className="h-11 w-11 rounded-full bg-[linear-gradient(135deg,rgba(255,255,255,0.18),rgba(255,255,255,0.02))]" />
-              <div>
-                <p className="text-sm text-white/75">{testimonials[0].name}</p>
-                <p className="text-xs uppercase tracking-[0.12em] text-white/30">
-                  {testimonials[0].role} | {testimonials[0].company}
-                </p>
-              </div>
-            </div>
-          </motion.article>
-
-          <div className="grid gap-4">
+        <div className="grid gap-6 md:grid-cols-3">
+          {features.map((feature, index) => (
             <motion.div
-              className="grid grid-cols-2 gap-3"
-              initial={{ opacity: 0, y: 14 }}
+              key={feature.title}
+              className="group rounded-[2.5rem] bg-white p-10 border border-blue-100 transition-all duration-500 hover:shadow-premium hover:-translate-y-2 hover:border-blue-200"
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.03] px-4 py-5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/25">Recovered revenue</p>
-                <p className="mt-2 text-3xl text-[#fafafa]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                  $1.2M
-                </p>
-              </div>
-              <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.03] px-4 py-5">
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/25">Decision time</p>
-                <p className="mt-2 text-3xl text-[#fafafa]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                  10x
-                </p>
-              </div>
+              <div className={`h-12 w-12 rounded-2xl ${feature.accent} shadow-lg shadow-blue-100`} />
+              <h3 className="mt-8 text-2xl font-bold text-black">{feature.title}</h3>
+              <p className="mt-4 text-[15px] font-bold leading-7 text-black">
+                {feature.text}
+              </p>
             </motion.div>
+          ))}
+        </div>
+      </section>
 
-            {testimonials.slice(1).map((item, index) => (
-              <motion.article
-                key={item.name}
-                className={`rounded-[1.6rem] border border-white/10 bg-white/[0.03] px-5 py-5 ${index === 0 ? "rotate-[-1.1deg]" : "rotate-[1deg]"}`}
-                initial={{ opacity: 0, x: 14 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.35, delay: index * 0.05 }}
+      {/* Philosophy Section (About) */}
+      <section id="why-us" className="relative z-10 mx-auto max-w-7xl px-6 py-32 sm:px-8">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="workspace-kicker">Our Philosophy</p>
+            <h2 className="mt-4 text-4xl font-extrabold tracking-tight text-black sm:text-6xl">
+              Designed for practical <span className="text-blue-600 italic font-accent font-normal">retention</span> work.
+            </h2>
+            <p className="mt-8 text-lg font-bold leading-8 text-black">
+              RetainQ combines a high-performance operating surface with dedicated AI inference services, allowing Customer Success teams to move quickly without compromising on technical rigor.
+            </p>
+          </motion.div>
+
+          <div className="space-y-4">
+            {pillars.map((item, index) => (
+              <motion.div 
+                key={item}
+                className="flex items-start gap-4 p-6 rounded-[2rem] bg-white border border-blue-200 shadow-sm"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <p className="text-sm leading-7 text-white/52">{item.quote}</p>
-                <div className="mt-4">
-                  <p className="text-sm text-white/78">{item.name}</p>
-                  <p className="text-[10px] uppercase tracking-[0.12em] text-white/28">
-                    {item.role} | {item.company}
-                  </p>
-                </div>
-              </motion.article>
+                <div className="mt-1 h-2 w-2 shrink-0 rounded-full bg-blue-600 shadow-[0_0_10px_rgba(37,99,235,0.4)]" />
+                <span className="text-[15px] font-bold text-black">{item}</span>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="resources" className="relative z-10 mx-auto max-w-6xl px-6 py-16">
-        <motion.div
-          className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.4 }}
-        >
-          <div>
-            <p className="text-[10px] uppercase tracking-[0.14em] text-white/30">Resources</p>
-            <h2
-              className="mt-3 max-w-2xl text-4xl text-[#fafafa]"
-              style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
+      {/* Success Stories (Case Studies) */}
+      <section id="testimonials" className="relative z-10 mx-auto max-w-7xl px-6 py-32 sm:px-8 text-center">
+        <p className="workspace-kicker">Success Stories</p>
+        <h2 className="mt-4 text-4xl font-extrabold text-black sm:text-6xl">Outcomes proven in practice.</h2>
+        
+        <div className="mt-16 grid gap-6 md:grid-cols-3">
+          {cases.map((item, index) => (
+            <motion.article 
+              key={item.company} 
+              className="group rounded-[2.5rem] border border-blue-200 bg-white p-8 text-left shadow-premium transition-all hover:-translate-y-2 hover:shadow-xl"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              Playbooks and field notes that look alive, not forgotten.
-            </h2>
-          </div>
-          <Link to="/resources" className="text-[11px] uppercase tracking-[0.12em] text-white/45 transition hover:text-white/75">
-            Open full library
-          </Link>
-        </motion.div>
-
-        <div className="grid gap-4 lg:grid-cols-3">
-          {resourceNotes.map((item, index) => (
-            <motion.article
-              key={item.title}
-              className={`relative overflow-hidden rounded-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] px-5 py-6 ${item.tilt}`}
-              initial={{ opacity: 0, y: 18, rotate: index === 1 ? 1.2 : -0.8 }}
-              whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.42, delay: index * 0.06 }}
-            >
-              <div className="absolute right-5 top-5 h-12 w-12 rounded-full border border-white/10 bg-white/[0.04]" />
-              <p className="text-[10px] uppercase tracking-[0.12em] text-white/30">{item.type}</p>
-              <h3 className="mt-3 max-w-[15rem] text-2xl text-[#fafafa]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                {item.title}
-              </h3>
-              <p className="mt-4 text-sm leading-6 text-white/45">{item.detail}</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-widest text-blue-600">{item.company}</p>
+              <p className="mt-4 text-4xl font-extrabold text-black">{item.lift}</p>
+              <div className="mt-6 h-px w-full bg-blue-100" />
+              <p className="mt-6 text-[14px] font-bold leading-7 text-black">{item.summary}</p>
             </motion.article>
           ))}
         </div>
       </section>
 
-      <section id="faq" className="relative z-10 mx-auto max-w-6xl px-6 py-8">
-        <motion.div
-          className="overflow-hidden rounded-[2.5rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.02))] px-6 py-8 sm:px-8 sm:py-10"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.4 }}
-        >
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-[10px] uppercase tracking-[0.14em] text-white/30">Frequently Asked Questions</p>
-            <h2
-              className="mt-4 text-4xl text-[#fafafa] sm:text-[44px]"
-              style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
+      {/* Connectivity (Integrations) */}
+      <section id="resources" className="relative z-10 mx-auto max-w-7xl px-6 py-32 sm:px-8">
+        <div className="text-center mb-16">
+          <p className="workspace-kicker">Connectivity</p>
+          <h2 className="mt-4 text-4xl font-extrabold text-black sm:text-6xl">Connect to your stack.</h2>
+        </div>
+        
+        <div className="grid gap-6 md:grid-cols-2">
+          {integrations.map((item, index) => (
+            <motion.article 
+              key={item.name} 
+              className="rounded-[2.5rem] border border-blue-200 bg-white p-10 shadow-premium transition-all hover:bg-white/80"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
             >
-              Clear answers before your team commits.
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/45">
-              These are the questions teams usually ask when they are moving from a good ML demo toward a real retention product.
-            </p>
-          </div>
-
-          <div className="mx-auto mt-10 max-w-4xl space-y-3">
-            {faqItems.map((item, index) => (
-              <motion.article
-                key={item.question}
-                className="overflow-hidden rounded-[1.45rem] border border-white/10 bg-white/[0.03] px-5"
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.42, delay: index * 0.04 }}
-              >
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between gap-4 py-4 text-left"
-                  onClick={() => setOpenFaqIndex((prev) => (prev === index ? -1 : index))}
-                >
-                  <span className={`text-[14px] leading-6 transition-colors duration-300 sm:text-[15px] ${openFaqIndex === index ? "text-white" : "text-white/76"}`}>
-                    {item.question}
-                  </span>
-                  <motion.span
-                    className="relative block h-4 w-4 shrink-0 text-white/35"
-                    animate={openFaqIndex === index ? { rotate: 45 } : { rotate: 0 }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                  >
-                    <span className="absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-current" />
-                    <span className="absolute left-1/2 top-1/2 h-4 w-px -translate-x-1/2 -translate-y-1/2 rounded-full bg-current" />
-                  </motion.span>
-                </button>
-
-                <AnimatePresence initial={false}>
-                  {openFaqIndex === index && (
-                    <motion.div
-                      key={item.question}
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.48, ease: "easeInOut" }}
-                      className="overflow-hidden"
-                    >
-                      <motion.p
-                        initial={{ y: -8 }}
-                        animate={{ y: 0 }}
-                        exit={{ y: -8 }}
-                        transition={{ duration: 0.42, ease: "easeOut" }}
-                        className="max-w-3xl pb-5 text-sm leading-7 text-white/45"
-                      >
-                        {item.answer}
-                      </motion.p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.article>
-            ))}
-          </div>
-        </motion.div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-100 mb-8">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              </div>
+              <h2 className="text-2xl font-extrabold text-black">{item.name}</h2>
+              <p className="mt-4 text-[15px] font-bold leading-7 text-black">{item.detail}</p>
+            </motion.article>
+          ))}
+        </div>
       </section>
 
-      <section id="contact" className="relative z-10 mx-auto max-w-6xl px-6 pb-20 pt-8">
-        <motion.div
-          className="grid gap-4 lg:grid-cols-[1.04fr_0.96fr]"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.22 }}
-          transition={{ duration: 0.42 }}
-        >
-          <div
-            className="relative overflow-hidden rounded-[2.4rem] border border-white/10 px-6 py-8 sm:px-8"
-            style={{
-              background:
-                "radial-gradient(circle at 30% 50%, rgba(179, 82, 255, 0.28), transparent 38%), linear-gradient(180deg, rgba(31,18,44,0.98), rgba(16,13,24,0.98))"
-            }}
-          >
-            <div className="pointer-events-none absolute -left-10 top-8 h-40 w-40 rounded-full bg-fuchsia-500/25 blur-3xl" />
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-1/2 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_55%)]" />
+      {/* Pricing Section */}
+      <section id="pricing" className="relative z-10 mx-auto max-w-7xl px-6 py-32 sm:px-8">
+        <div className="text-center mb-16">
+          <p className="workspace-kicker">Pricing</p>
+          <h2 className="mt-4 text-4xl font-extrabold text-black sm:text-6xl">Plans for every stage.</h2>
+        </div>
 
-            <div className="relative z-10 max-w-lg">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-white/35">Contact</p>
-              <h2
-                className="mt-4 text-balance text-4xl text-white sm:text-5xl"
-                style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
-              >
-                Upgrade your retention workflow with a cleaner operating system.
-              </h2>
-              <p className="mt-4 max-w-md text-sm leading-7 text-white/58">
-                For teams that want more than a one-off score, ChurnFlow helps structure a full operating loop around prediction, prioritization, and action.
-              </p>
+        <div className="grid gap-8 lg:grid-cols-3">
+          {plans.map((plan, index) => (
+            <motion.article 
+              key={plan.name} 
+              className={[
+                "relative rounded-[2.5rem] border p-8 shadow-premium transition-all hover:-translate-y-2",
+                plan.featured ? "border-blue-300 bg-white shadow-xl scale-105 z-10" : "border-blue-200 bg-white"
+              ].join(" ")}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              {plan.featured && (
+                <span className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-blue-600 px-4 py-1 text-[10px] font-bold uppercase tracking-widest text-white">
+                  Most Popular
+                </span>
+              )}
+              <p className="text-[10px] font-extrabold uppercase tracking-widest text-slate-900">{plan.detail}</p>
+              <h2 className="mt-3 text-3xl font-extrabold text-black">{plan.name}</h2>
+              <div className="mt-6 flex items-baseline gap-1">
+                <p className="text-5xl font-extrabold tracking-tight text-black">{plan.price}</p>
+                <p className="text-sm font-bold text-blue-600">{plan.cadence}</p>
+              </div>
+              
+              <ul className="mt-10 space-y-4">
+                {plan.points.map((point) => (
+                  <li key={point} className="flex items-center gap-3 text-[13px] font-bold text-black">
+                    <svg className="h-4 w-4 shrink-0 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3"><path d="M5 13l4 4L19 7" /></svg>
+                    {point}
+                  </li>
+                ))}
+              </ul>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-10">
                 <Link
-                  to={isAuthenticated ? "/app/dashboard" : "/signup"}
-                  className="inline-flex items-center justify-center rounded-full bg-[#fafafa] px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#09090b] transition hover:bg-[#ebe7ff]"
+                  to="/signup"
+                  className={[
+                    "flex w-full items-center justify-center rounded-full py-4 text-xs font-extrabold uppercase tracking-widest transition-all",
+                    plan.featured 
+                      ? "bg-blue-600 text-white shadow-lg shadow-blue-200 hover:bg-blue-700" 
+                      : "border border-blue-200 bg-white text-black hover:bg-blue-50"
+                  ].join(" ")}
                 >
-                  {isAuthenticated ? "Open App" : "Start Free"}
+                  Choose {plan.name}
                 </Link>
-                <a
-                  href="mailto:sales@churnflow.ai"
-                  className="inline-flex items-center justify-center rounded-full border border-white/15 px-5 py-2.5 text-[11px] uppercase tracking-[0.12em] text-white/80 transition hover:bg-white/[0.06] hover:text-white"
-                >
-                  Contact Sales
-                </a>
               </div>
-
-              <div className="mt-8 grid gap-3 sm:grid-cols-3">
-                <div className="rounded-[1.2rem] border border-white/10 bg-black/15 px-4 py-4">
-                  <p className="text-[10px] uppercase tracking-[0.12em] text-white/32">Response time</p>
-                  <p className="mt-2 text-lg text-white">under 24 hrs</p>
-                </div>
-                <div className="rounded-[1.2rem] border border-white/10 bg-black/15 px-4 py-4">
-                  <p className="text-[10px] uppercase tracking-[0.12em] text-white/32">Use cases</p>
-                  <p className="mt-2 text-lg text-white">SaaS, telecom</p>
-                </div>
-                <div className="rounded-[1.2rem] border border-white/10 bg-black/15 px-4 py-4">
-                  <p className="text-[10px] uppercase tracking-[0.12em] text-white/32">Email</p>
-                  <p className="mt-2 text-lg text-white">sales@churnflow.ai</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <form
-            onSubmit={handleContactSubmit}
-            className="rounded-[2.2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.025))] px-5 py-6 sm:px-6"
-          >
-            <div className="mb-5">
-              <p className="text-[10px] uppercase tracking-[0.14em] text-white/28">Book a conversation</p>
-              <h3 className="mt-3 text-3xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                Tell us what your team needs.
-              </h3>
-              <p className="mt-3 max-w-md text-sm leading-7 text-white/45">
-                Share the use case, team size, or rollout goal. We will help shape the best starting point for your churn workflow.
-              </p>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              <label>
-                <span className="field-label">Name</span>
-                <input
-                  className="field-input"
-                  value={contactForm.name}
-                  onChange={(event) => setContactForm((prev) => ({ ...prev, name: event.target.value }))}
-                  required
-                />
-              </label>
-              <label>
-                <span className="field-label">Email</span>
-                <input
-                  type="email"
-                  className="field-input"
-                  value={contactForm.email}
-                  onChange={(event) => setContactForm((prev) => ({ ...prev, email: event.target.value }))}
-                  required
-                />
-              </label>
-            </div>
-
-            <label className="mt-3 block">
-              <span className="field-label">Company</span>
-              <input
-                className="field-input"
-                value={contactForm.company}
-                onChange={(event) => setContactForm((prev) => ({ ...prev, company: event.target.value }))}
-              />
-            </label>
-
-            <label className="mt-3 block">
-              <span className="field-label">Message</span>
-              <textarea
-                rows={6}
-                className="field-input resize-none"
-                value={contactForm.message}
-                onChange={(event) => setContactForm((prev) => ({ ...prev, message: event.target.value }))}
-                required
-              />
-            </label>
-
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-              <button
-                type="submit"
-                disabled={contactState.loading}
-                className="inline-flex items-center justify-center rounded-full bg-[#fafafa] px-5 py-2.5 text-[11px] font-medium uppercase tracking-[0.12em] text-[#09090b] transition hover:bg-[#ebe7ff] disabled:opacity-60"
-              >
-                {contactState.loading ? "Sending..." : "Send Message"}
-              </button>
-              <p className="text-xs text-white/35">Usually replies within one business day.</p>
-            </div>
-
-            {contactState.success && <p className="mt-4 text-sm text-emerald-300">{contactState.success}</p>}
-            {contactState.error && <p className="mt-4 text-sm text-red-300">{contactState.error}</p>}
-          </form>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-2 xl:grid-cols-4">
-            {contactTiles.map((item, index) => (
-              <motion.article
-                key={item.title}
-                className="rounded-[1.7rem] border border-white/10 bg-white/[0.04] px-5 py-5"
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.34, delay: index * 0.05 }}
-              >
-                <div className="mb-4 h-9 w-9 rounded-full border border-fuchsia-300/25 bg-fuchsia-400/10" />
-                <h3 className="text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                  {item.title}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-white/48">{item.detail}</p>
-              </motion.article>
-            ))}
-          </div>
-        </motion.div>
+            </motion.article>
+          ))}
+        </div>
       </section>
 
-      <section id="pricing" className="relative z-10 mx-auto max-w-6xl px-6 pb-8 pt-16">
-        <motion.div
-          className="relative overflow-hidden rounded-[2.8rem] border border-white/10 px-6 py-10 sm:px-8 sm:py-12"
-          style={{
-            background:
-              "radial-gradient(circle at 50% 0%, rgba(129, 82, 255, 0.28), transparent 34%), linear-gradient(180deg, rgba(35,18,54,0.96) 0%, rgba(14,11,24,0.98) 100%)"
-          }}
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.22 }}
-          transition={{ duration: 0.45 }}
-        >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_60%)]" />
-          <div className="pointer-events-none absolute left-1/2 top-12 h-56 w-56 -translate-x-1/2 rounded-full bg-fuchsia-500/20 blur-3xl" />
+      {/* FAQ Section */}
+      <section id="faq" className="relative z-10 mx-auto max-w-4xl px-6 py-32 sm:px-8">
+        <div className="text-center mb-16">
+          <p className="workspace-kicker">Knowledge Base</p>
+          <h2 className="mt-4 text-4xl font-extrabold text-black sm:text-6xl">FAQ.</h2>
+        </div>
 
-          <div className="relative z-10 mx-auto max-w-3xl text-center">
-            <p className="text-[10px] uppercase tracking-[0.16em] text-white/45">Pricing</p>
-            <h2
-              className="mt-4 text-balance text-4xl text-[#fafafa] sm:text-5xl"
-              style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}
+        <div className="space-y-4">
+          {faqs.map((item, index) => (
+            <motion.details 
+              key={item.q} 
+              className="group rounded-3xl border border-blue-200 bg-white p-6 shadow-sm transition-all hover:shadow-md open:shadow-premium"
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
             >
-              Choose the plan that fits your retention operating rhythm.
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/55 sm:text-[15px]">
-              Start lean, then scale into larger scoring volumes, deeper automation, and more hands-on support as the team grows.
-            </p>
+              <summary className="flex cursor-pointer list-none items-center justify-between text-base font-bold text-black">
+                <span>{item.q}</span>
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600 transition-transform group-open:rotate-180">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M6 9l6 6 6-6"/></svg>
+                </span>
+              </summary>
+              <div className="mt-6 border-t border-blue-50 pt-4">
+                <p className="text-[14px] font-bold leading-7 text-black/80">{item.a}</p>
+              </div>
+            </motion.details>
+          ))}
+        </div>
+      </section>
 
-            <div className="mt-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] p-1">
-              <button
-                type="button"
-                onClick={() => setBillingCycle("monthly")}
-                className={`rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.12em] transition ${
-                  billingCycle === "monthly" ? "bg-white/[0.1] text-white" : "text-white/45 hover:text-white/75"
-                }`}
-              >
-                Monthly
-              </button>
-              <button
-                type="button"
-                onClick={() => setBillingCycle("yearly")}
-                className={`rounded-full px-4 py-1.5 text-[11px] uppercase tracking-[0.12em] transition ${
-                  billingCycle === "yearly" ? "bg-white/[0.1] text-white" : "text-white/45 hover:text-white/75"
-                }`}
-              >
-                Yearly
-              </button>
-            </div>
-            <p className="mt-3 text-[11px] uppercase tracking-[0.12em] text-fuchsia-200/70">
-              {billingCycle === "yearly" ? "Annual billing active | save around 20%" : "Switch to yearly to lower effective spend"}
-            </p>
+      {/* Quote / Highlight */}
+      <section className="bg-black px-6 py-40 sm:px-8 relative z-10">
+        <div className="mx-auto max-w-4xl text-center">
+          <motion.p 
+            className="text-3xl font-bold leading-[1.4] text-white sm:text-5xl"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            "We moved from weekly spreadsheet reviews to <span className="text-blue-400 italic font-accent font-normal underline underline-offset-8 decoration-blue-500">daily retention action</span>. The team finally knew exactly who to call first."
+          </motion.p>
+          <p className="mt-10 text-sm font-bold uppercase tracking-widest text-blue-400">
+            VP Customer Success, Waveform Cloud
+          </p>
+        </div>
+      </section>
+
+      {/* CTA Footer */}
+      <section id="contact" className="px-6 py-32 sm:px-8 relative z-10">
+        <div className="mx-auto max-w-5xl rounded-[3rem] bg-white border-2 border-black px-10 py-20 text-center shadow-premium">
+          <h2 className="text-4xl font-bold sm:text-6xl text-black">Ready for better retention?</h2>
+          <p className="mx-auto mt-6 max-w-xl text-lg font-bold text-black">
+            Ship your first scoring cycle in minutes, not months. Join the teams turning churn into growth.
+          </p>
+          <div className="mt-12">
+            <Link to="/signup" className="rounded-full bg-blue-600 px-10 py-4 text-base font-bold text-white transition-transform hover:scale-105 inline-block">
+              Start Free Trial
+            </Link>
           </div>
-
-          <div className="relative z-10 mt-10 grid gap-4 lg:grid-cols-3">
-            {pricingPlans.map((plan, index) => (
-              <motion.article
-                key={plan.name}
-                className={`relative overflow-hidden rounded-[2rem] border px-5 py-6 sm:px-6 ${
-                  plan.featured
-                    ? "border-fuchsia-300/25 bg-[linear-gradient(180deg,rgba(187,112,255,0.22),rgba(255,255,255,0.06))] shadow-[0_20px_80px_rgba(129,82,255,0.18)]"
-                    : "border-white/10 bg-white/[0.04]"
-                }`}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.38, delay: index * 0.06 }}
-              >
-                {plan.featured && (
-                  <div className="absolute right-4 top-4 rounded-full border border-white/15 bg-white/[0.08] px-2.5 py-1 text-[10px] uppercase tracking-[0.12em] text-white/85">
-                    Most Popular
-                  </div>
-                )}
-
-                <p className="text-[10px] uppercase tracking-[0.14em] text-white/45">{plan.detail}</p>
-                <h3 className="mt-3 text-3xl text-[#fafafa]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                  {plan.name}
-                </h3>
-                <div className="mt-4 flex items-end gap-1.5">
-                  <p className="text-4xl text-white sm:text-5xl">{billingCycle === "monthly" ? plan.monthlyPrice : plan.yearlyPrice}</p>
-                  <span className="pb-1 text-sm text-white/45">{billingCycle === "monthly" ? "/month" : "/year"}</span>
-                </div>
-                <p className="mt-2 text-xs text-white/42">
-                  {billingCycle === "monthly" ? "Flexible monthly access for growing teams." : "Lower effective cost with annual planning."}
-                </p>
-
-                <ul className="mt-6 space-y-3">
-                  {plan.points.map((point) => (
-                    <li key={point} className="flex items-start gap-2.5 text-sm leading-6 text-white/62">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-fuchsia-300/80" />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  to={getPlanHref(plan)}
-                  className={`mt-7 inline-flex w-full items-center justify-center rounded-full px-4 py-2.5 text-[11px] uppercase tracking-[0.12em] transition ${
-                    plan.featured
-                      ? "bg-[#fafafa] font-medium text-[#09090b] hover:bg-[#ebe7ff]"
-                      : "border border-white/12 text-white/80 hover:bg-white/[0.06] hover:text-white"
-                  }`}
-                >
-                  {plan.cta}
-                </Link>
-              </motion.article>
-            ))}
-          </div>
-
-          <div className="relative z-10 mt-6 grid gap-3 sm:grid-cols-3">
-            {pricingSignals.map((item, index) => (
-              <motion.div
-                key={item.label}
-                className="rounded-[1.3rem] border border-white/10 bg-black/15 px-4 py-4 text-left"
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.4 }}
-                transition={{ duration: 0.32, delay: index * 0.05 }}
-              >
-                <p className="text-[10px] uppercase tracking-[0.12em] text-white/32">{item.label}</p>
-                <p className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
-                  {item.value}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+        </div>
       </section>
     </div>
   );
-}
+};
 
 export default LandingPage;

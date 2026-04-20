@@ -138,10 +138,10 @@ const ActionCenterPage = () => {
     <section className="space-y-5">
       <RevealSection className="workspace-hero">
         <p className="workspace-kicker">Step 4</p>
-        <h2 className="mt-3 text-3xl text-white sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+        <h2 className="mt-3 text-3xl text-black sm:text-[2.2rem]" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
           Follow-up action center.
         </h2>
-        <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-300/80">
+        <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-black">
           Turn risky accounts into owned interventions, then monitor how those interventions move through the queue.
         </p>
       </RevealSection>
@@ -150,10 +150,10 @@ const ActionCenterPage = () => {
         <form className="soft-panel grid gap-3 md:grid-cols-2" onSubmit={onCreateAction}>
           <div className="md:col-span-2">
             <p className="workspace-kicker">Create</p>
-            <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+            <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
               Create action
             </h3>
-            <p className="mt-2 text-sm leading-6 text-slate-400">
+            <p className="mt-2 text-sm font-bold leading-6 text-black italic">
               If this customer already has a recent churn prediction, the platform links that prediction automatically. The selected customer ID is remembered across tabs.
             </p>
           </div>
@@ -199,13 +199,13 @@ const ActionCenterPage = () => {
 
         <div className="soft-panel">
           <p className="workspace-kicker">Database-backed references</p>
-          <h3 className="mt-2 text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+          <h3 className="mt-2 text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
             Customers ready for follow-up
           </h3>
 
           {state.loadingSources ? (
             <div className="mt-4">
-              <PanelSkeleton rows={4} className="!border-0 !bg-transparent !p-0 !shadow-none" />
+              <PanelSkeleton rows={4} className="border-0! !bg-transparent !p-0 !shadow-none" />
             </div>
           ) : (
             <div className="mt-4 grid gap-4">
@@ -214,22 +214,22 @@ const ActionCenterPage = () => {
                 <div className="mt-3 space-y-3">
                   {state.recentCustomers.length ? (
                     state.recentCustomers.map((item) => (
-                      <div key={item._id} className="rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
+                      <div key={item._id} className="rounded-[1.2rem] border border-blue-200 bg-blue-50/50 px-4 py-4">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <p className="text-sm text-white">{item.customerId}</p>
-                            <p className="mt-1 text-xs text-slate-400">
+                            <p className="text-sm text-black font-bold">{item.customerId}</p>
+                            <p className="mt-1 text-xs font-bold text-blue-600 italic">
                               {item.billing?.contract || "-"} | {item.subscription?.tenureMonths ?? "-"} months
                             </p>
                           </div>
-                          <button type="button" className="text-xs text-slate-300 underline-offset-4 hover:text-white hover:underline" onClick={() => useCustomer(item.customerId)}>
+                          <button type="button" className="text-xs text-blue-600 font-bold underline underline-offset-4 hover:text-black hover:no-underline" onClick={() => useCustomer(item.customerId)}>
                             Use this ID
                           </button>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <p className="text-sm text-slate-400">No customers yet.</p>
+                    <p className="text-sm text-black font-bold italic opacity-60">No customers yet.</p>
                   )}
                 </div>
               </div>
@@ -239,20 +239,20 @@ const ActionCenterPage = () => {
                 <div className="mt-3 space-y-3">
                   {state.recentPredictions.length ? (
                     state.recentPredictions.map((item) => (
-                      <div key={item._id} className="rounded-[1.2rem] border border-white/10 bg-black/20 px-4 py-4">
+                      <div key={item._id} className="rounded-[1.2rem] border border-blue-200 bg-blue-50/50 px-4 py-4">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <p className="text-sm text-white">{item.customerId}</p>
-                            <p className="mt-1 text-xs text-slate-400">{item.riskBand} risk | {Number(item.churnProbability ?? 0).toFixed(4)}</p>
+                            <p className="text-sm text-black font-bold">{item.customerId}</p>
+                            <p className="mt-1 text-xs font-bold text-blue-600 italic">{item.riskBand} risk | {Number(item.churnProbability ?? 0).toFixed(4)}</p>
                           </div>
-                          <button type="button" className="text-xs text-slate-300 underline-offset-4 hover:text-white hover:underline" onClick={() => useCustomer(item.customerId)}>
+                          <button type="button" className="text-xs text-blue-600 font-bold underline underline-offset-4 hover:text-black hover:no-underline" onClick={() => useCustomer(item.customerId)}>
                             Use this ID
                           </button>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <p className="text-sm text-slate-400">No scored customers yet.</p>
+                    <p className="text-sm text-black font-bold italic opacity-60">No scored customers yet.</p>
                   )}
                 </div>
               </div>
@@ -261,14 +261,14 @@ const ActionCenterPage = () => {
         </div>
       </RevealSection>
 
-      {state.error && <p className="rounded-2xl border border-red-300/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">{state.error}</p>}
+      {state.error && <p className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{state.error}</p>}
 
       <RevealSection className="table-shell">
         <div className="border-b border-white/10 px-5 py-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="workspace-kicker">Follow-up database</p>
-              <h3 className="text-2xl text-white" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 400 }}>
+              <h3 className="text-2xl text-black" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontWeight: 800 }}>
                 Action queue
               </h3>
             </div>
@@ -290,20 +290,20 @@ const ActionCenterPage = () => {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="workspace-kicker">Customer</p>
-                        <p className="mt-2 text-lg text-white">{item.customerId}</p>
+                        <p className="mt-2 text-lg text-black font-bold">{item.customerId}</p>
                       </div>
-                      <span className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-xs uppercase tracking-[0.12em] text-slate-200">
+                      <span className="rounded-full border border-blue-200 bg-blue-100 px-3 py-1 text-xs uppercase tracking-[0.14em] text-black font-black">
                         {item.actionType}
                       </span>
                     </div>
                     <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                       <div>
                         <p className="workspace-kicker">Owner</p>
-                        <p className="mt-1 text-slate-200">{item.owner || "-"}</p>
+                        <p className="mt-1 text-black font-bold">{item.owner || "-"}</p>
                       </div>
                       <div>
                         <p className="workspace-kicker">Status</p>
-                        <p className="mt-1 text-slate-200">{item.status}</p>
+                        <p className="mt-1 text-blue-600 font-black uppercase tracking-widest">{item.status}</p>
                       </div>
                     </div>
                     <button type="button" className="btn-secondary mt-4 w-full" onClick={() => useCustomer(item.customerId)}>
@@ -326,16 +326,16 @@ const ActionCenterPage = () => {
                   </article>
                 ))
               ) : (
-                <div className="mobile-data-card text-center">
+                <div className="mobile-data-card text-center bg-blue-50/30 border border-dashed border-blue-200">
                   <p className="workspace-kicker">No actions yet</p>
-                  <p className="mt-2 text-sm text-slate-300">Create the first intervention to start tracking follow-ups here.</p>
+                  <p className="mt-2 text-sm text-black font-bold italic">Create the first intervention to start tracking follow-ups here.</p>
                 </div>
               )}
             </div>
 
             <div className="hidden overflow-x-auto md:block">
               <table className="min-w-full text-sm">
-                <thead className="bg-white/5 text-left text-[11px] uppercase tracking-[0.14em] text-slate-400">
+                <thead className="bg-blue-50 text-left text-[11px] uppercase tracking-[0.2em] text-black font-black">
                   <tr>
                     <th className="px-4 py-3">Customer</th>
                     <th className="px-4 py-3">Type</th>
@@ -347,10 +347,10 @@ const ActionCenterPage = () => {
                 <tbody className="divide-y divide-white/10">
                   {state.items.length ? (
                     state.items.map((item) => (
-                      <tr key={item._id}>
-                        <td className="px-4 py-3 font-medium text-white">{item.customerId}</td>
-                        <td className="px-4 py-3 text-slate-300">{item.actionType}</td>
-                        <td className="px-4 py-3 text-slate-300">{item.owner || "-"}</td>
+                      <tr key={item._id} className="hover:bg-blue-50 transition-colors">
+                        <td className="px-4 py-3 font-bold text-black">{item.customerId}</td>
+                        <td className="px-4 py-3 text-black font-bold">{item.actionType}</td>
+                        <td className="px-4 py-3 text-black font-medium italic opacity-80">{item.owner || "-"}</td>
                         <td className="px-4 py-3">
                           <select
                             className="field-input max-w-[180px] py-1.5"
@@ -372,7 +372,7 @@ const ActionCenterPage = () => {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={5} className="px-4 py-6 text-center text-sm text-slate-400">No actions yet.</td>
+                      <td colSpan={5} className="px-4 py-6 text-center text-sm text-black font-black italic opacity-60">No actions yet.</td>
                     </tr>
                   )}
                 </tbody>
